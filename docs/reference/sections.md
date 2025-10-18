@@ -493,5 +493,5 @@ Target: End of Phase 16
 ---
 
 **Last updated by**: Claude Code
-**Version**: pyccda v0.1.0-alpha
+**Version**: ccdakit v0.1.0-alpha
 **Date**: 2025-10-18

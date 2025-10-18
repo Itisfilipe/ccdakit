@@ -770,7 +770,6 @@ from enum import Enum
 
 class CDAVersion(Enum):
     """Supported C-CDA versions."""
-    R1_1 = "1.1"
     R2_0 = "2.0"
     R2_1 = "2.1"
     R3_0 = "3.0"

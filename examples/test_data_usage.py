@@ -5,9 +5,9 @@ realistic test data for C-CDA documents. The generator can create individual
 data elements or complete patient records with all clinical sections.
 
 To run this example, first install the test-data optional dependency:
-    pip install 'pyccda[test-data]'
+    pip install 'ccdakit[test-data]'
     # or
-    uv pip install 'pyccda[test-data]'
+    uv pip install 'ccdakit[test-data]'
 """
 
 from ccdakit.utils.test_data import TestDataGenerator

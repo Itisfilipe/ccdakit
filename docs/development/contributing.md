@@ -4,7 +4,7 @@ We welcome contributions! This guide will help you get started.
 
 ## Code of Conduct
 
-Please read our [Code of Conduct](../about/code-of-conduct.md) before contributing.
+Please read our [Code of Conduct](../../CODE_OF_CONDUCT.md) before contributing.
 
 ## Getting Started
 

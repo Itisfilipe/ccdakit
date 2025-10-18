@@ -34,7 +34,7 @@ Every C-CDA section follows this pattern:
 
 ## All 29 C-CDA Sections
 
-pyccda implements all 29 sections defined in C-CDA Release 2.1. Sections are organized into three categories based on their clinical purpose and usage patterns.
+ccdakit implements all 29 sections defined in C-CDA Release 2.1. Sections are organized into three categories based on their clinical purpose and usage patterns.
 
 ---
 
@@ -445,7 +445,7 @@ Sections documenting events over time:
 
 1. **Identify required sections** for your document type
 2. **Prepare your data** according to protocol requirements
-3. **Create section instances** using pyccda builders
+3. **Create section instances** using ccdakit builders
 4. **Add sections to document** in recommended order
 5. **Validate output** against C-CDA specifications
 

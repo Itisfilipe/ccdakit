@@ -1,4 +1,4 @@
-"""Utility modules for pyccda."""
+"""Utility modules for ccdakit."""
 
 from ccdakit.utils.builders import (
     SimpleAllergyBuilder,

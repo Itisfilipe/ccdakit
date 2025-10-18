@@ -520,7 +520,7 @@ def example_5_version_comparison():
 
 if __name__ == "__main__":
     print("\n" + "=" * 70)
-    print("pyccda DocumentFactory Examples")
+    print("ccdakit DocumentFactory Examples")
     print("=" * 70)
     print("\nThis example demonstrates how to use the DocumentFactory to create")
     print("common C-CDA document types with appropriate template IDs and codes.")

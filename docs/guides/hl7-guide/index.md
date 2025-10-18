@@ -1,13 +1,13 @@
 # HL7/C-CDA Implementation Guide
 
-Welcome to the pyccda HL7/C-CDA Implementation Guide - a practical companion for building compliant clinical documents.
+Welcome to the ccdakit HL7/C-CDA Implementation Guide - a practical companion for building compliant clinical documents.
 
 !!! warning "Important Disclaimer"
-    **This guide is NOT an official HL7 publication.** This is a community-created educational resource developed with extensive AI assistance to help developers understand and implement C-CDA standards using the pyccda library. This guide complements but does not replace official HL7 specifications. Always consult [official HL7 documentation](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492) for authoritative guidance and regulatory compliance.
+    **This guide is NOT an official HL7 publication.** This is a community-created educational resource developed with extensive AI assistance to help developers understand and implement C-CDA standards using the ccdakit library. This guide complements but does not replace official HL7 specifications. Always consult [official HL7 documentation](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492) for authoritative guidance and regulatory compliance.
 
 ## Purpose
 
-This guide bridges the gap between official HL7 C-CDA specifications and real-world implementation. While the official specifications define what must be done, this guide shows you how to do it using pyccda.
+This guide bridges the gap between official HL7 C-CDA specifications and real-world implementation. While the official specifications define what must be done, this guide shows you how to do it using ccdakit.
 
 The guide provides:
 - **Conceptual foundations** - Understanding HL7 CDA structure and principles
@@ -105,7 +105,7 @@ Before diving into C-CDA implementation:
 - Healthcare privacy regulations (HIPAA)
 
 **Required Reading:**
-- [pyccda Quickstart Guide](../../getting-started/quickstart.md)
+- [ccdakit Quickstart Guide](../../getting-started/quickstart.md)
 - [Basic Concepts](../../getting-started/concepts.md)
 - [Working with Sections](../sections.md)
 
@@ -113,7 +113,7 @@ Before diving into C-CDA implementation:
 
 This guide covers:
 - **C-CDA Release 2.1** (primary focus)
-- **C-CDA Release 1.1** (legacy support)
+- **C-CDA Release 2.0** (backward compatibility)
 
 Document types supported:
 - Continuity of Care Document (CCD)
@@ -147,8 +147,8 @@ Always consult official specifications for:
 - [User Guides](../overview.md) - Practical guides and tutorials
 
 **Community:**
-- [GitHub Issues](https://github.com/your-org/pyccda/issues) - Bug reports and feature requests
-- [Discussions](https://github.com/your-org/pyccda/discussions) - Questions and community support
+- [GitHub Issues](https://github.com/your-org/ccdakit/issues) - Bug reports and feature requests
+- [Discussions](https://github.com/your-org/ccdakit/discussions) - Questions and community support
 
 **Validation:**
 - Use the [NIST C-CDA Validator](https://sitenv.org/ccda-validator) to verify generated documents
@@ -163,7 +163,7 @@ Always consult official specifications for:
 
 ---
 
-**Ready to get started?** Jump to the [Sections Overview](sections/index.md) to explore the 29 clinical sections available in pyccda.
+**Ready to get started?** Jump to the [Sections Overview](sections/index.md) to explore the 29 clinical sections available in ccdakit.
 
 ---
 

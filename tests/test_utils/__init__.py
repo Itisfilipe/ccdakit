@@ -1,1 +1,1 @@
-"""Tests for pyccda.utils module."""
+"""Tests for ccdakit.utils module."""

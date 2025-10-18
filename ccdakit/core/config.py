@@ -1,4 +1,4 @@
-"""Configuration system for pyccda."""
+"""Configuration system for ccdakit."""
 
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, Optional
@@ -79,7 +79,7 @@ def get_config() -> CDAConfig:
         RuntimeError: If not configured
     """
     if _config is None:
-        raise RuntimeError("pyccda not configured. Call configure() before generating documents.")
+        raise RuntimeError("ccdakit not configured. Call configure() before generating documents.")
     return _config
 
 

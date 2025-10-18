@@ -324,7 +324,7 @@ def example_modify_template_data():
 def main():
     """Run all template usage examples."""
     print("\n" + "=" * 70)
-    print("pyccda Template Usage Examples")
+    print("ccdakit Template Usage Examples")
     print("=" * 70)
     print("\nThese examples demonstrate how to use pre-configured")
     print("templates to quickly generate C-CDA documents.")

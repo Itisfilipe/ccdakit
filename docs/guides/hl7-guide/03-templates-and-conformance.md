@@ -173,7 +173,7 @@ Early C-CDA versions didn't have explicit template versioning:
 <templateId root="2.16.840.1.113883.10.20.22.4.7"/>
 ```
 
-**Problem**: No way to distinguish R1.1 from R2.0 templates
+**Problem**: No way to distinguish between different template versions
 
 #### R2.1 and Later: Extension Attribute
 

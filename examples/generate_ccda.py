@@ -2,7 +2,7 @@
 """
 Example: Generate a Complete C-CDA Document
 
-This example demonstrates how to use pyccda to generate a complete,
+This example demonstrates how to use ccdakit to generate a complete,
 ONC-compliant C-CDA R2.1 document with patient demographics, problems, and medications.
 """
 
@@ -520,7 +520,7 @@ def generate_ccda_with_sections():
 
 if __name__ == "__main__":
     print("\n" + "=" * 70)
-    print("pyccda Example: Complete C-CDA Document Generation")
+    print("ccdakit Example: Complete C-CDA Document Generation")
     print("=" * 70)
 
     # Generate basic document (header only)

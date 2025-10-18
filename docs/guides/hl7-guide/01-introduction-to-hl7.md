@@ -171,17 +171,6 @@ This regulatory requirement drove widespread implementation, making C-CDA the pr
 
 **Challenge**: First version, implementation variations emerged
 
-### Release 1.1 (2012)
-
-**Purpose**: Refinements and clarifications based on early implementation
-
-**Key changes**:
-- Additional templates
-- Clarified conformance requirements
-- Better alignment with Meaningful Use Stage 2
-
-**Adoption**: Most widely implemented version for several years
-
 ### Release 2.0 (2014)
 
 **Purpose**: Major update for Meaningful Use Stage 2
@@ -192,7 +181,7 @@ This regulatory requirement drove widespread implementation, making C-CDA the pr
 - Improved support for unstructured documents
 - Additional section and entry templates
 
-**Challenge**: Significant changes from R1.1, required substantial implementation effort
+**Challenge**: Significant changes from earlier versions, required substantial implementation effort
 
 ### Release 2.1 (2015)
 
@@ -222,11 +211,6 @@ The HL7 C-CDA Companion Guide provides:
 ### Template Version Identifiers
 
 Each C-CDA version introduced new template version identifiers. A document might need to declare which version it conforms to:
-
-**R1.1 document**:
-```xml
-<templateId root="2.16.840.1.113883.10.20.22.1.2"/>
-```
 
 **R2.1 document**:
 ```xml

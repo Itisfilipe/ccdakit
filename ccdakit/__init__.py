@@ -1,5 +1,5 @@
 """
-pyccda: Python library for generating HL7 C-CDA clinical documents.
+ccdakit: Python library for generating HL7 C-CDA clinical documents.
 
 This library provides a type-safe, protocol-oriented approach to generating
 C-CDA (Consolidated Clinical Document Architecture) documents for healthcare

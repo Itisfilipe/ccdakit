@@ -20,7 +20,7 @@ try:
 except ImportError as e:
     raise ImportError(
         "The 'faker' library is required for test data generation. "
-        "Install it with: pip install 'pyccda[test-data]' or 'pip install faker>=20.0.0'"
+        "Install it with: pip install 'ccdakit[test-data]' or 'pip install faker>=20.0.0'"
     ) from e
 
 

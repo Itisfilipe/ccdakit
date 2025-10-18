@@ -370,7 +370,7 @@ def example_5_read_and_modify():
 def main():
     """Run all examples."""
     print("\n" + "=" * 70)
-    print("pyccda: JSON/Dict to C-CDA Conversion Examples")
+    print("ccdakit: JSON/Dict to C-CDA Conversion Examples")
     print("=" * 70)
     print("\nThis example demonstrates various ways to convert JSON/dict data")
     print("into valid C-CDA R2.1 XML documents using DictToCCDAConverter.")

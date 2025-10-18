@@ -1,7 +1,7 @@
 """Converters for transforming dictionary/JSON data into C-CDA documents.
 
 This module provides utilities to convert dictionary and JSON data structures
-into properly formatted C-CDA documents using the pyccda builders.
+into properly formatted C-CDA documents using the ccdakit builders.
 """
 
 import json
@@ -25,7 +25,7 @@ from ccdakit.core.base import CDAVersion
 class DictToCCDAConverter:
     """Convert dictionary/JSON data to C-CDA documents.
 
-    This converter supports a flexible JSON/dict format that maps to pyccda's
+    This converter supports a flexible JSON/dict format that maps to ccdakit's
     protocol-based builders. The expected format includes patient demographics,
     author information, custodian organization, and clinical sections.
 

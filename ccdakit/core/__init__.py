@@ -1,4 +1,4 @@
-"""Core infrastructure for pyccda."""
+"""Core infrastructure for ccdakit."""
 
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.core.config import CDAConfig, OrganizationInfo, configure, get_config, reset_config

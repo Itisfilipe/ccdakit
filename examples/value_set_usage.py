@@ -1,5 +1,5 @@
 """
-Example demonstrating value set usage in pyccda.
+Example demonstrating value set usage in ccdakit.
 
 This example shows how to:
 1. Look up valid codes in value sets
@@ -315,7 +315,7 @@ def example_loading_external_value_sets():
     print("=" * 60)
 
     # Try to load bundled value set files
-    value_sets_dir = Path(__file__).parent.parent / "pyccda" / "utils" / "value_sets"
+    value_sets_dir = Path(__file__).parent.parent / "ccdakit" / "utils" / "value_sets"
 
     if value_sets_dir.exists():
         json_files = list(value_sets_dir.glob("*.json"))

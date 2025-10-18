@@ -771,7 +771,7 @@ def generate_ccda_with_builders():
 
 if __name__ == "__main__":
     print("\n" + "=" * 80)
-    print("pyccda Example: Fluent Builder API Usage")
+    print("ccdakit Example: Fluent Builder API Usage")
     print("=" * 80)
     print("\nThis example demonstrates how to use the simplified fluent builder API")
     print("to create C-CDA data models with less code and better readability.")

@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for pyccda tests."""
+"""Shared pytest fixtures for ccdakit tests."""
 
 import pytest
 
