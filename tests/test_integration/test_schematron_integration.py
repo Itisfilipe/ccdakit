@@ -16,7 +16,6 @@ Tests include:
 """
 
 from datetime import date, datetime
-from pathlib import Path
 
 import pytest
 from lxml import etree
@@ -25,20 +24,17 @@ from ccdakit.builders.document import ClinicalDocument
 from ccdakit.builders.sections.allergies import AllergiesSection
 from ccdakit.builders.sections.medications import MedicationsSection
 from ccdakit.builders.sections.problems import ProblemsSection
-from ccdakit.builders.sections.vital_signs import VitalSignsSection
 from ccdakit.core.base import CDAVersion
 from ccdakit.core.validation import ValidationLevel
 from ccdakit.validators.schematron import SchematronValidator
 
 # Import mock data from existing integration tests
 from .test_full_document import (
-    MockAddress,
     MockAuthor,
     MockMedication,
     MockOrganization,
     MockPatient,
     MockProblem,
-    MockTelecom,
 )
 
 
@@ -626,7 +622,9 @@ class TestMalformedXML:
         # Should have XML syntax error
         assert not result.is_valid
         assert len(result.errors) >= 1
-        assert any("syntax" in e.message.lower() or "xml" in e.message.lower() for e in result.errors)
+        assert any(
+            "syntax" in e.message.lower() or "xml" in e.message.lower() for e in result.errors
+        )
 
     def test_empty_document_returns_error(self, schematron_validator):
         """Test that empty document returns validation error."""
@@ -935,7 +933,7 @@ class TestEndToEndIntegration:
         assert isinstance(result, object)
 
         # Log validation summary
-        print(f"\nValidation Summary:")
+        print("\nValidation Summary:")
         print(f"  Valid: {result.is_valid}")
         print(f"  Errors: {len(result.errors)}")
         print(f"  Warnings: {len(result.warnings)}")

@@ -43,13 +43,11 @@ from ccdakit.validators.schematron import SchematronValidator
 
 # Import mock data from existing integration tests
 from .test_full_document import (
-    MockAddress,
     MockAuthor,
     MockMedication,
     MockOrganization,
     MockPatient,
     MockProblem,
-    MockTelecom,
 )
 
 
@@ -2091,7 +2089,7 @@ class TestMultipleSectionsSchematron:
         assert isinstance(result.errors, list)
 
         # Log validation summary
-        print(f"\n=== All 9 Core Sections Validation Summary ===")
+        print("\n=== All 9 Core Sections Validation Summary ===")
         print(f"Valid: {result.is_valid}")
         print(f"Errors: {len(result.errors)}")
         print(f"Warnings: {len(result.warnings)}")

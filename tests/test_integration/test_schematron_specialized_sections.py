@@ -828,9 +828,7 @@ class TestAdvanceDirectivesSectionValidation:
         self, schematron_validator, valid_patient, valid_author, valid_custodian
     ):
         """Test Advance Directives section with no information."""
-        section = AdvanceDirectivesSection(
-            directives=[], null_flavor="NI", version=CDAVersion.R2_1
-        )
+        section = AdvanceDirectivesSection(directives=[], null_flavor="NI", version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -910,9 +908,7 @@ class TestMedicalEquipmentSectionValidation:
             ),
         ]
 
-        section = MedicalEquipmentSection(
-            equipment_list=equipment_list, version=CDAVersion.R2_1
-        )
+        section = MedicalEquipmentSection(equipment_list=equipment_list, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -941,9 +937,7 @@ class TestMedicalEquipmentSectionValidation:
             )
         ]
 
-        section = MedicalEquipmentSection(
-            equipment_list=equipment_list, version=CDAVersion.R2_1
-        )
+        section = MedicalEquipmentSection(equipment_list=equipment_list, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -975,9 +969,7 @@ class TestMedicalEquipmentSectionValidation:
             )
         ]
 
-        section = MedicalEquipmentSection(
-            equipment_list=equipment_list, version=CDAVersion.R2_1
-        )
+        section = MedicalEquipmentSection(equipment_list=equipment_list, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1026,9 +1018,7 @@ class TestAdmissionMedicationsSectionValidation:
             ),
         ]
 
-        section = AdmissionMedicationsSection(
-            medications=medications, version=CDAVersion.R2_1
-        )
+        section = AdmissionMedicationsSection(medications=medications, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1083,9 +1073,7 @@ class TestAdmissionMedicationsSectionValidation:
             )
         ]
 
-        section = AdmissionMedicationsSection(
-            medications=medications, version=CDAVersion.R2_1
-        )
+        section = AdmissionMedicationsSection(medications=medications, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1135,9 +1123,7 @@ class TestDischargeMedicationsSectionValidation:
             ),
         ]
 
-        section = DischargeMedicationsSection(
-            medications=medications, version=CDAVersion.R2_1
-        )
+        section = DischargeMedicationsSection(medications=medications, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1192,9 +1178,7 @@ class TestDischargeMedicationsSectionValidation:
             )
         ]
 
-        section = DischargeMedicationsSection(
-            medications=medications, version=CDAVersion.R2_1
-        )
+        section = DischargeMedicationsSection(medications=medications, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1476,9 +1460,7 @@ class TestNutritionSectionValidation:
     ):
         """Test Nutrition section with minimal data."""
         nutritional_statuses = [
-            MockNutritionalStatus(
-                status="No concerns", date=datetime(2023, 10, 1), assessments=[]
-            )
+            MockNutritionalStatus(status="No concerns", date=datetime(2023, 10, 1), assessments=[])
         ]
 
         section = NutritionSection(
@@ -1506,9 +1488,7 @@ class TestNutritionSectionValidation:
         assessments = [
             MockNutritionalAssessment(assessment_type="BMI", value="18.2 kg/m2"),
             MockNutritionalAssessment(assessment_type="Weight", value="55 kg"),
-            MockNutritionalAssessment(
-                assessment_type="Dietary Intake", value="Reduced appetite"
-            ),
+            MockNutritionalAssessment(assessment_type="Dietary Intake", value="Reduced appetite"),
         ]
 
         nutritional_statuses = [
@@ -1572,9 +1552,7 @@ class TestReasonForVisitSectionValidation:
         self, schematron_validator, valid_patient, valid_author, valid_custodian
     ):
         """Test Reason for Visit section with minimal data."""
-        section = ReasonForVisitSection(
-            reason_text="Follow-up", version=CDAVersion.R2_1
-        )
+        section = ReasonForVisitSection(reason_text="Follow-up", version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1789,9 +1767,7 @@ class TestInterventionsSectionValidation:
             ),
         ]
 
-        section = InterventionsSection(
-            interventions=interventions, version=CDAVersion.R2_1
-        )
+        section = InterventionsSection(interventions=interventions, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1858,9 +1834,7 @@ class TestMultipleSpecializedSectionsValidation:
 
         payers_section = PayersSection(
             payers=[
-                MockPayer(
-                    payer_name="Medicare", insurance_type="Medicare", member_id="MED001"
-                )
+                MockPayer(payer_name="Medicare", insurance_type="Medicare", member_id="MED001")
             ],
             version=CDAVersion.R2_1,
         )
@@ -1880,9 +1854,7 @@ class TestMultipleSpecializedSectionsValidation:
         )
 
         interventions_section = InterventionsSection(
-            interventions=[
-                MockIntervention(description="Patient education", status="completed")
-            ],
+            interventions=[MockIntervention(description="Patient education", status="completed")],
             version=CDAVersion.R2_1,
         )
 
@@ -1916,7 +1888,7 @@ class TestMultipleSpecializedSectionsValidation:
         assert hasattr(result, "warnings")
 
         # Log validation summary
-        print(f"\nValidation Summary for All Specialized Sections:")
+        print("\nValidation Summary for All Specialized Sections:")
         print(f"  Valid: {result.is_valid}")
         print(f"  Errors: {len(result.errors)}")
         print(f"  Warnings: {len(result.warnings)}")
@@ -1933,17 +1905,13 @@ class TestMultipleSpecializedSectionsValidation:
         sections = [
             PlanOfTreatmentSection(version=CDAVersion.R2_1),  # Empty
             AdvanceDirectivesSection(
-                directives=[
-                    MockAdvanceDirective(directive_type="DNR", directive_value="Active")
-                ],
+                directives=[MockAdvanceDirective(directive_type="DNR", directive_value="Active")],
                 version=CDAVersion.R2_1,
             ),  # Populated
             MedicalEquipmentSection(
                 equipment_list=[], version=CDAVersion.R2_1
             ),  # Empty list would fail, skip
-            ReasonForVisitSection(
-                reason_text="Check-up", version=CDAVersion.R2_1
-            ),  # Populated
+            ReasonForVisitSection(reason_text="Check-up", version=CDAVersion.R2_1),  # Populated
         ]
 
         doc = ClinicalDocument(

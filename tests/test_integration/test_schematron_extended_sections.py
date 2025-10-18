@@ -774,9 +774,7 @@ class TestFamilyHistorySectionSchematron:
             observations=observations,
         )
 
-        section = FamilyHistorySection(
-            family_members=[family_member], version=CDAVersion.R2_1
-        )
+        section = FamilyHistorySection(family_members=[family_member], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -804,9 +802,7 @@ class TestFamilyHistorySectionSchematron:
             observations=[],
         )
 
-        section = FamilyHistorySection(
-            family_members=[family_member], version=CDAVersion.R2_1
-        )
+        section = FamilyHistorySection(family_members=[family_member], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -851,9 +847,7 @@ class TestFamilyHistorySectionSchematron:
             ),
         ]
 
-        section = FamilyHistorySection(
-            family_members=family_members, version=CDAVersion.R2_1
-        )
+        section = FamilyHistorySection(family_members=family_members, version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -923,9 +917,7 @@ class TestFunctionalStatusSectionSchematron:
             observations=observations,
         )
 
-        section = FunctionalStatusSection(
-            organizers=[organizer], version=CDAVersion.R2_1
-        )
+        section = FunctionalStatusSection(organizers=[organizer], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -949,13 +941,9 @@ class TestFunctionalStatusSectionSchematron:
             type="Mobility", code="129006008", value="Independent", value_code="371153006"
         )
 
-        organizer = MockFunctionalStatusOrganizer(
-            category="Mobility", observations=[observation]
-        )
+        organizer = MockFunctionalStatusOrganizer(category="Mobility", observations=[observation])
 
-        section = FunctionalStatusSection(
-            organizers=[organizer], version=CDAVersion.R2_1
-        )
+        section = FunctionalStatusSection(organizers=[organizer], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -979,7 +967,10 @@ class TestFunctionalStatusSectionSchematron:
                 category="Mobility",
                 observations=[
                     MockFunctionalStatusObservation(
-                        type="Walking", code="129006008", value="Independent", value_code="371153006"
+                        type="Walking",
+                        code="129006008",
+                        value="Independent",
+                        value_code="371153006",
                     )
                 ],
             ),
@@ -987,7 +978,10 @@ class TestFunctionalStatusSectionSchematron:
                 category="Self-Care",
                 observations=[
                     MockFunctionalStatusObservation(
-                        type="Feeding", code="289167005", value="Independent", value_code="371153006"
+                        type="Feeding",
+                        code="289167005",
+                        value="Independent",
+                        value_code="371153006",
                     )
                 ],
             ),
@@ -1064,9 +1058,7 @@ class TestMentalStatusSectionSchematron:
             effective_time_low=datetime(2023, 10, 15, 10, 0),
         )
 
-        section = MentalStatusSection(
-            organizers=[organizer], version=CDAVersion.R2_1
-        )
+        section = MentalStatusSection(organizers=[organizer], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1153,9 +1145,7 @@ class TestMentalStatusSectionSchematron:
         self, schematron_validator, valid_patient, valid_author, valid_custodian
     ):
         """Test document with empty mental status section."""
-        section = MentalStatusSection(
-            observations=[], organizers=[], version=CDAVersion.R2_1
-        )
+        section = MentalStatusSection(observations=[], organizers=[], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1259,12 +1249,8 @@ class TestGoalsSectionSchematron:
         """Test document with multiple goals in different statuses."""
         goals = [
             MockGoal(description="Goal 1", status="active", start_date=date(2023, 1, 1)),
-            MockGoal(
-                description="Goal 2", status="completed", start_date=date(2022, 1, 1)
-            ),
-            MockGoal(
-                description="Goal 3", status="cancelled", start_date=date(2023, 6, 1)
-            ),
+            MockGoal(description="Goal 2", status="completed", start_date=date(2022, 1, 1)),
+            MockGoal(description="Goal 3", status="cancelled", start_date=date(2023, 6, 1)),
         ]
 
         section = GoalsSection(goals=goals, version=CDAVersion.R2_1)
@@ -1337,9 +1323,7 @@ class TestHealthConcernsSectionSchematron:
             author_is_patient=False,
         )
 
-        section = HealthConcernsSection(
-            health_concerns=[concern], version=CDAVersion.R2_1
-        )
+        section = HealthConcernsSection(health_concerns=[concern], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1367,9 +1351,7 @@ class TestHealthConcernsSectionSchematron:
             author_is_patient=True,
         )
 
-        section = HealthConcernsSection(
-            health_concerns=[concern], version=CDAVersion.R2_1
-        )
+        section = HealthConcernsSection(health_concerns=[concern], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1799,9 +1781,7 @@ class TestPhysicalExamSectionSchematron:
             location_code="66480008",
         )
 
-        section = PhysicalExamSection(
-            wound_observations=[wound], version=CDAVersion.R2_1
-        )
+        section = PhysicalExamSection(wound_observations=[wound], version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1910,9 +1890,7 @@ class TestAssessmentAndPlanSectionSchematron:
 
         assert isinstance(result, object)
 
-    def test_plan_only(
-        self, schematron_validator, valid_patient, valid_author, valid_custodian
-    ):
+    def test_plan_only(self, schematron_validator, valid_patient, valid_author, valid_custodian):
         """Test assessment and plan section with only plan items."""
         items = [
             MockAssessmentAndPlanItem(
@@ -1990,7 +1968,10 @@ class TestMultipleExtendedSections:
                         category="Mobility",
                         observations=[
                             MockFunctionalStatusObservation(
-                                type="Walking", code="129006008", value="Independent", value_code="371153006"
+                                type="Walking",
+                                code="129006008",
+                                value="Independent",
+                                value_code="371153006",
                             )
                         ],
                     )
@@ -2043,14 +2024,10 @@ class TestMultipleExtendedSections:
                 ],
                 version=CDAVersion.R2_1,
             ),
-            PhysicalExamSection(
-                wound_observations=[], version=CDAVersion.R2_1
-            ),
+            PhysicalExamSection(wound_observations=[], version=CDAVersion.R2_1),
             AssessmentAndPlanSection(
                 items=[
-                    MockAssessmentAndPlanItem(
-                        text="Patient doing well", item_type="assessment"
-                    )
+                    MockAssessmentAndPlanItem(text="Patient doing well", item_type="assessment")
                 ],
                 version=CDAVersion.R2_1,
             ),
@@ -2073,7 +2050,7 @@ class TestMultipleExtendedSections:
         assert isinstance(result.errors, list)
 
         # Log summary
-        print(f"\nAll Extended Sections Validation Summary:")
+        print("\nAll Extended Sections Validation Summary:")
         print(f"  Valid: {result.is_valid}")
         print(f"  Errors: {len(result.errors)}")
         print(f"  Warnings: {len(result.warnings)}")
