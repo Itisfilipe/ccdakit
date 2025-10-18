@@ -570,4 +570,4 @@ To add a new code system:
 ---
 
 **Maintained by**: ccdakit Development Team
-**Questions?**: See [CONTRIBUTING.md](./CONTRIBUTING.md)
+**Questions?**: See [CONTRIBUTING.md](../../CONTRIBUTING.md)
