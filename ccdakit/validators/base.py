@@ -61,11 +61,16 @@ class BaseValidator(ABC):
             return etree.parse(str(document)).getroot()
 
         if isinstance(document, str):
-            # Try as file path first
+            # Check if it looks like XML (starts with < or whitespace then <)
+            stripped = document.lstrip()
+            if stripped.startswith("<"):
+                # Parse as XML string
+                return etree.fromstring(document.encode("utf-8"))
+            # Otherwise try as file path
             path = Path(document)
             if path.exists():
                 return etree.parse(str(path)).getroot()
-            # Otherwise parse as XML string
+            # If not found, try parsing as XML anyway (might be malformed)
             return etree.fromstring(document.encode("utf-8"))
 
         if isinstance(document, bytes):
