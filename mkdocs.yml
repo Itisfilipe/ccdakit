@@ -87,6 +87,10 @@ nav:
     - Configuration: guides/configuration.md
     - Validation: guides/validation.md
     - Code Systems & Value Sets: guides/terminologies.md
+  - Reference:
+    - Code Systems: reference/code-systems.md
+    - Sections Reference: reference/sections.md
+    - UV Guide: development/uv-guide.md
   - HL7/C-CDA Guide:
     - Introduction: guides/hl7-guide/index.md
     - Foundation:

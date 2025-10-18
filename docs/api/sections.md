@@ -119,4 +119,4 @@ All clinical section builders.
 
 ## HealthStatusEvaluationsSection
 
-::: ccdakit.builders.sections.health_status_evaluations.HealthStatusEvaluationsSection
+::: ccdakit.builders.sections.health_status_evaluations.HealthStatusEvaluationsAndOutcomesSection
