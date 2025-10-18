@@ -1,182 +1,118 @@
 # ccdakit
 
-> Python library for generating HL7 C-CDA clinical documents
+**Python Library for HL7 C-CDA Clinical Document Generation**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Tests](https://img.shields.io/badge/tests-1%2C903-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+[![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+
+ccdakit is a Python library for programmatic generation of HL7 C-CDA (Consolidated Clinical Document Architecture) documents. Built with type safety, protocol-oriented design, and multi-version support for healthcare interoperability.
+
+```python
+from ccdakit import ClinicalDocument, ProblemsSection, CDAVersion
+
+doc = ClinicalDocument(
+    patient=patient_data,
+    sections=[ProblemsSection(problems=problems_list)],
+    version=CDAVersion.R2_1
+)
+
+xml = doc.to_string()  # Standards-compliant C-CDA R2.1 XML
+```
 
 ---
 
-## ⚠️ Important Disclaimers
+## Why ccdakit?
 
-**This is an independent, community-driven project and is NOT an official HL7 product.**
+Existing approaches to C-CDA generation have significant limitations:
 
-- This library is not affiliated with, endorsed by, or officially recognized by HL7 International
-- This project was developed extensively with AI assistance (Claude Code)
-- While we strive for accuracy and standards compliance, this software should be thoroughly tested and validated before production use
-- Always consult official HL7 specifications and perform independent validation for regulatory compliance
-- Use at your own risk - see [LICENSE](LICENSE) for details
+| Challenge | ccdakit Solution |
+|-----------|------------------|
+| Template engines (Jinja, XSLT) are verbose and hard to validate | **Pure Python builders** with full type safety |
+| String manipulation is error-prone | **Structured builders** with IDE autocomplete |
+| Single version support limits flexibility | **Multi-version support** (R2.1, R2.0) |
+| Vendor lock-in to specific EHR systems | **Protocol-based design** works with any data model |
+| Manual validation catches errors late | **Built-in XSD validation** at generation time |
+| Difficult to compose and reuse logic | **Composable section builders** |
 
-**For official HL7 resources, visit [HL7.org](https://www.hl7.org/)**
+ccdakit provides a modern, Pythonic approach to C-CDA document generation suitable for EHR systems, health information exchanges, and healthcare applications.
 
 ---
-
-## Overview
-
-**ccdakit** is a Python library for programmatic generation of HL7 C-CDA (Consolidated Clinical Document Architecture) documents. It provides a type-safe, protocol-oriented, and version-aware approach to creating ONC-compliant clinical documents.
-
-### Why ccdakit?
-
-Existing C-CDA solutions have limitations:
-- **Template-based** (Jinja2, XSLT): Hard to validate, verbose context management
-- **String manipulation**: Error-prone, no type safety
-- **Vendor-specific**: Locked to particular EHR systems
-- **No version management**: Can't easily support multiple C-CDA versions
-
-### Key Features
-
-| Feature | Description |
-|---------|-------------|
-| **Multi-version** | Support C-CDA R2.1, R2.0 |
-| **Build-time validation** | XSD/Schematron validation during generation |
-| **Protocol-oriented** | No inheritance required, works with any data model |
-| **Type-safe** | Full type hints, IDE autocomplete |
-| **Composable** | Reusable builders for common elements |
-| **Pure Python** | Only dependency: lxml |
 
 ## Installation
 
-### For Users
+### Standard Installation
 
 ```bash
-# Using pip
 pip install ccdakit
-
-# With all extras
-pip install ccdakit[dev,docs,validation]
 ```
 
-### For Contributors (Recommended: uv)
-
-This project uses [uv](https://docs.astral.sh/uv/) for fast package management (10-100x faster than pip):
+### With Optional Dependencies
 
 ```bash
-# Install uv (if not already installed)
+# Include validation tools
+pip install ccdakit[validation]
+
+# Include development dependencies
+pip install ccdakit[dev]
+
+# All extras
+pip install ccdakit[dev,validation,docs]
+```
+
+### For Contributors
+
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management:
+
+```bash
+# Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Clone and setup project
-git clone <repository>
+# Clone repository
+git clone https://github.com/Itisfilipe/ccdakit.git
 cd ccdakit
 
-# Install dependencies (creates .venv automatically)
+# Install dependencies
 uv sync --all-extras
 
-# Download C-CDA 2.1 references (required for development)
-cd references/
-git clone https://github.com/jddamore/ccda-search.git C-CDA_2.1
-cd ..
-
-# Run tests
+# Run test suite
 uv run pytest
 ```
 
-> **⚠️ Important for Contributors**: The C-CDA 2.1 reference documentation is not included in the repository. You must download it separately (see `references/README.md` for details). This reference is essential for implementing new sections correctly.
+See [Development Setup](./docs/development/setup.md) for complete instructions.
 
-See [UV Guide](./docs/development/uv-guide.md) for complete uv usage guide.
+---
 
 ## Quick Start
 
-### Basic Example
+### Basic Document Generation
 
 ```python
-from ccdakit import (
-    configure,
-    CDAConfig,
-    OrganizationInfo,
-    CDAVersion,
-    ClinicalDocument,
-    ProblemsSection,
-    MedicationsSection,
-)
+from ccdakit import ClinicalDocument, ProblemsSection, CDAVersion
 from datetime import date
 
-# 1. Configure the library (optional, uses defaults otherwise)
-config = CDAConfig(
-    organization=OrganizationInfo(
-        name="Example Medical Center",
-        npi="1234567890",
-        oid_root="2.16.840.1.113883.3.EXAMPLE",
-    ),
-    version=CDAVersion.R2_1,
-)
-configure(config)
+# Define your data model (or use existing models)
+class Problem:
+    name = "Type 2 Diabetes Mellitus"
+    code = "44054006"
+    code_system = "SNOMED"
+    status = "active"
+    onset_date = date(2020, 3, 15)
 
-# 2. Create data objects that satisfy protocols
-# Your existing data models work automatically!
-class MyPatient:
-    @property
-    def first_name(self):
-        return "John"
-
-    @property
-    def last_name(self):
-        return "Doe"
-
-    @property
-    def date_of_birth(self):
-        return date(1970, 1, 1)
-
-    @property
-    def sex(self):
-        return "M"
-
-    # ... implement other required properties
-
-class MyProblem:
-    @property
-    def name(self):
-        return "Type 2 Diabetes Mellitus"
-
-    @property
-    def code(self):
-        return "44054006"
-
-    @property
-    def code_system(self):
-        return "SNOMED"
-
-    @property
-    def status(self):
-        return "active"
-
-    @property
-    def onset_date(self):
-        return date(2020, 3, 15)
-
-# 3. Generate complete C-CDA document
-patient = MyPatient()
-problems = [MyProblem()]
-
+# Generate C-CDA document
 doc = ClinicalDocument(
     patient=patient,
-    sections=[
-        ProblemsSection(problems=problems, version=CDAVersion.R2_1),
-        # Add more sections as needed
-    ],
-    version=CDAVersion.R2_1,
+    sections=[ProblemsSection(problems=[Problem()])],
+    version=CDAVersion.R2_1
 )
 
-# 4. Output formatted XML
-xml = doc.to_string(pretty=True)
-print(xml)
-
-# 5. Save to file
-with open("patient_ccda.xml", "w") as f:
-    f.write(xml)
+# Output XML
+xml_string = doc.to_string(pretty=True)
 ```
 
-### Comprehensive Example with Multiple Sections
+### Multiple Sections
 
 ```python
 from ccdakit import (
@@ -184,235 +120,374 @@ from ccdakit import (
     ProblemsSection,
     MedicationsSection,
     AllergiesSection,
-    ImmunizationsSection,
     VitalSignsSection,
-    CDAVersion,
 )
 
-# Create sections with your data
 doc = ClinicalDocument(
     patient=patient_data,
-    author=author_data,
-    custodian=custodian_data,
+    author=provider_data,
+    custodian=organization_data,
     sections=[
-        ProblemsSection(problems=problems_list, version=CDAVersion.R2_1),
-        MedicationsSection(medications=meds_list, version=CDAVersion.R2_1),
-        AllergiesSection(allergies=allergies_list, version=CDAVersion.R2_1),
-        ImmunizationsSection(immunizations=immunizations_list, version=CDAVersion.R2_1),
-        VitalSignsSection(organizers=vitals_organizers, version=CDAVersion.R2_1),
+        ProblemsSection(problems=problems_list),
+        MedicationsSection(medications=medications_list),
+        AllergiesSection(allergies=allergies_list),
+        VitalSignsSection(vital_signs_organizers=vitals_list),
     ],
-    version=CDAVersion.R2_1,
+    version=CDAVersion.R2_1
 )
-
-# Generate valid, ONC-compliant C-CDA R2.1 document
-xml = doc.to_string(pretty=True)
 ```
 
-### Validation Example
+### Validation
 
 ```python
-from ccdakit.validators import XSDValidator, SchemaManager
+from ccdakit.validators import XSDValidator
 
-# Check if schemas are installed
-manager = SchemaManager()
-if not manager.schemas_installed():
-    print("Schemas not found. Download from: http://www.hl7.org/...")
-
-# Validate your document
 validator = XSDValidator()
-result = validator.validate(xml)
+result = validator.validate(xml_string)
 
 if result.is_valid:
-    print("✅ Document is valid!")
+    print("Document is valid")
 else:
-    print("❌ Validation errors:")
     for issue in result.issues:
-        print(f"  - {issue.message}")
+        print(f"Error: {issue.message} (line {issue.line})")
 ```
 
-**See [examples/generate_ccda.py](./examples/generate_ccda.py) for a complete working example with all sections.**
+**Complete examples:** [examples/generate_ccda.py](./examples/generate_ccda.py)
 
-## Architecture
+---
 
-ccdakit uses a protocol-oriented design that separates data contracts from implementation:
+## Key Features
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    Your Application                          │
-│              (EHR, HIE, Health App, etc.)                   │
-│                                                              │
-│  ┌────────────────────────────────────────────────────┐    │
-│  │    Your Data Models (adapt via protocols)           │    │
-│  └────────────────────────────────────────────────────┘    │
-└────────────────────────┬─────────────────────────────────────┘
-                         │ Implements Protocols
-                         ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    ccdakit Library                            │
-│                                                              │
-│  Protocols → Builders → Validators → XML Output             │
-└─────────────────────────────────────────────────────────────┘
-```
+### Comprehensive Section Support
+
+29 complete C-CDA sections organized by clinical purpose:
+
+**Core Clinical Sections (9)**
+- Problems, Medications, Allergies, Immunizations, Vital Signs, Procedures, Results, Social History, Encounters
+
+**Extended Clinical Sections (9)**
+- Family History, Functional Status, Mental Status, Goals, Health Concerns, Health Status Evaluations, Past Medical History, Physical Exam, Assessment and Plan
+
+**Specialized/Administrative Sections (11)**
+- Plan of Treatment, Advance Directives, Medical Equipment, Admission/Discharge Medications, Hospital Discharge Instructions, Payers, Nutrition, Reason for Visit, Chief Complaint, Interventions
+
+See [complete section documentation](./docs/api/sections.md) for details.
 
 ### Protocol-Oriented Design
 
-No inheritance required! Just implement the properties:
+Works with existing data models without inheritance requirements. Uses Python's structural typing (protocols):
 
 ```python
 from typing import Protocol
-from datetime import date
 
-# ccdakit defines protocols (interfaces)
+# ccdakit defines the interface
 class ProblemProtocol(Protocol):
     @property
     def name(self) -> str: ...
-
     @property
     def code(self) -> str: ...
-
     @property
     def status(self) -> str: ...
 
-# Your class automatically satisfies the protocol
-class MyProblem:
-    def __init__(self, data: dict):
-        self._data = data
+# Your existing models automatically satisfy the protocol
+class DatabaseProblem:
+    def __init__(self, db_record):
+        self._record = db_record
 
     @property
-    def name(self) -> str:
-        return self._data['problem_name']
+    def name(self):
+        return self._record.diagnosis_name
 
     @property
-    def code(self) -> str:
-        return self._data['snomed_code']
+    def code(self):
+        return self._record.snomed_code
 
     @property
-    def status(self) -> str:
-        return self._data['active_status']
+    def status(self):
+        return self._record.status
 
-# Works with ccdakit builders without any changes!
+# Use directly with ccdakit builders
+section = ProblemsSection(problems=[DatabaseProblem(record)])
 ```
 
-## Development Status
+### Multi-Version Support
 
-**Current Version**: 0.1.0-alpha (MVP Complete)
+Generate documents for different C-CDA releases:
 
-This project has reached **MVP completion** with comprehensive features ready for validation:
+```python
+# C-CDA R2.1 (current standard)
+doc_v21 = ClinicalDocument(..., version=CDAVersion.R2_1)
 
-- ✅ Core architecture (base classes, protocols)
-- ✅ Configuration system
-- ✅ Version management (R2.1, R2.0)
-- ✅ **29 Complete Clinical Sections**:
+# C-CDA R2.0 (backward compatibility)
+doc_v20 = ClinicalDocument(..., version=CDAVersion.R2_0)
+```
 
-  *Core Clinical Sections (9)*:
-  - ✅ Problems Section (SNOMED/ICD-10 codes)
-  - ✅ Medications Section (RxNorm codes)
-  - ✅ Allergies Section (RxNorm/UNII/SNOMED CT codes)
-  - ✅ Immunizations Section (CVX codes)
-  - ✅ Vital Signs Section (LOINC codes with organizer support)
-  - ✅ Procedures Section (CPT/SNOMED codes)
-  - ✅ Results Section (LOINC codes with panels)
-  - ✅ Social History Section (Smoking status, etc.)
-  - ✅ Encounters Section
+### Built-in Validation
 
-  *Extended Clinical Sections (9)*:
-  - ✅ Family History Section
-  - ✅ Functional Status Section
-  - ✅ Mental Status Section
-  - ✅ Goals Section
-  - ✅ Health Concerns Section
-  - ✅ Health Status Evaluations and Outcomes Section
-  - ✅ Past Medical History Section
-  - ✅ Physical Exam Section
-  - ✅ Assessment and Plan Section
+XSD schema validation integrated into the generation process:
 
-  *Specialized/Administrative Sections (11)*:
-  - ✅ Plan of Treatment Section
-  - ✅ Advance Directives Section
-  - ✅ Medical Equipment Section
-  - ✅ Admission Medications Section
-  - ✅ Discharge Medications Section
-  - ✅ Hospital Discharge Instructions Section
-  - ✅ Payers Section
-  - ✅ Nutrition Section
-  - ✅ Reason for Visit Section
-  - ✅ Chief Complaint and Reason for Visit Section
-  - ✅ Interventions Section
-- ✅ **XSD Schema Validation** (official HL7 schemas)
-- ✅ **1,903 tests, 94% Coverage**
-- ✅ Complete narrative HTML table generation
+- Official HL7 schemas
+- Configurable validation rules
+- Detailed error reporting with line numbers
+- Schematron support (in development)
 
-**Testing & Quality**:
-- 1,903 comprehensive tests across all modules
-- 94% code coverage
-- Type-safe with full type hints
-- Parallel test execution with pytest-xdist
+### Automatic Narrative Generation
 
-See [Architecture](./docs/development/architecture.md) for detailed design documentation and [roadmap](./docs/development/roadmap.md) for future plans.
+Generates human-readable narrative text alongside structured data:
 
-## Roadmap
+```python
+section = ProblemsSection(problems=problems_list)
 
-### Phase 1: MVP ✅ COMPLETE
-- [x] Core infrastructure
-- [x] Protocol system
-- [x] 29 Clinical sections across Core, Extended, and Specialized categories
-- [x] XSD validation
-- [x] Comprehensive documentation
-- [x] 1,903 tests, 94% coverage
+# Automatically generates both:
+# 1. Structured <entry> elements with coded data
+# 2. Narrative <text> element with HTML table
+```
 
-### Phase 2: Additional Features & Sections (Next)
+---
+
+## Architecture
+
+```
+┌──────────────────────────────────────┐
+│     Healthcare Application           │
+│     (EHR, HIE, Health Platform)      │
+└───────────────┬──────────────────────┘
+                │ provides data
+                ▼
+┌──────────────────────────────────────┐
+│     ccdakit Protocols                │
+│     (Data Contracts)                 │
+└───────────────┬──────────────────────┘
+                │ implemented by
+                ▼
+┌──────────────────────────────────────┐
+│     Section Builders                 │
+│     (Problems, Medications, etc.)    │
+└───────────────┬──────────────────────┘
+                │ assembled by
+                ▼
+┌──────────────────────────────────────┐
+│     Clinical Document Builder        │
+└───────────────┬──────────────────────┘
+                │ generates
+                ▼
+┌──────────────────────────────────────┐
+│     Standards-Compliant XML          │
+│     (HL7 C-CDA R2.1 / R2.0)         │
+└──────────────────────────────────────┘
+```
+
+**Design Principles:**
+
+- **Separation of Concerns**: Data models remain independent of generation logic
+- **Type Safety**: Full type hints enable static analysis and IDE support
+- **Composability**: Build complex documents from reusable components
+- **Standards Compliance**: Follows HL7 C-CDA specifications exactly
+- **Testability**: Protocol-based design simplifies unit testing
+
+See [Architecture Documentation](./docs/development/architecture.md) for detailed design decisions.
+
+---
+
+## Project Status
+
+**Current Release:** 0.1.0-alpha (MVP Complete)
+
+| Metric | Status |
+|--------|--------|
+| **Sections** | 29 of 82 C-CDA sections implemented (35%) |
+| **Test Suite** | 1,903 comprehensive tests |
+| **Code Coverage** | 94% |
+| **Documentation** | Complete API reference + 40-page HL7 guide |
+| **Validation** | XSD validation complete, Schematron in progress |
+
+### Implementation Status
+
+**Phase 1: MVP** ✓ Complete
+- [x] Core infrastructure and protocols
+- [x] 29 clinical sections (Core, Extended, Specialized)
+- [x] XSD validation framework
+- [x] Multi-version support (R2.1, R2.0)
+- [x] Comprehensive test coverage
+- [x] Complete documentation
+
+**Phase 2: Additional Sections** (In Progress)
 - [ ] Care Plan Section
 - [ ] Hospital Course Section
-- [ ] Admission Diagnosis Section
-- [ ] Discharge Diagnosis Section
+- [ ] Admission/Discharge Diagnosis Sections
 - [ ] Instructions Section
+- [ ] Additional document-specific sections
 
-### Phase 3: Enhanced Validation & Tools
-- [ ] Schematron validation (in progress)
+**Phase 3: Enhanced Validation** (Planned)
+- [ ] Schematron validation
 - [ ] ONC C-CDA Validator integration
-- [ ] CLI tool for document generation
+- [ ] Custom validation rules API
 - [ ] Performance optimization
-- [ ] Fluent builder API enhancements
 
-### Phase 4: Production Ready (1.0)
-- [ ] Plugin system for custom sections
-- [ ] Bulk generation utilities
-- [ ] Complete API documentation
+**Phase 4: Production Release** (Planned)
+- [ ] Plugin architecture
+- [ ] CLI tooling
 - [ ] Performance benchmarks
-- [ ] 1.0 release
+- [ ] 1.0 stable release
+
+See [Roadmap](./docs/development/roadmap.md) for detailed plans.
+
+---
+
+## Documentation
+
+Comprehensive documentation is available:
+
+| Resource | Description |
+|----------|-------------|
+| [Getting Started](./docs/getting-started/quickstart.md) | Installation and first document |
+| [HL7/C-CDA Implementation Guide](./docs/guides/hl7-guide/index.md) | 40-page guide to C-CDA standards |
+| [API Reference](./docs/api/sections.md) | Complete API documentation |
+| [Examples](./examples/) | Working code for all sections |
+| [Architecture](./docs/development/architecture.md) | Design decisions and patterns |
+| [Contributing](./CONTRIBUTING.md) | Development setup and guidelines |
+
+### HL7/C-CDA Implementation Guide
+
+We've created a comprehensive implementation guide (40 pages) that bridges official HL7 specifications and practical implementation:
+
+- **Foundation** (5 pages): HL7 basics, CDA architecture, templates, code systems
+- **Section Guides** (30 pages): Complete documentation for all 29 implemented sections
+- **Appendices** (5 pages): OID reference, conformance rules, glossary
+
+This guide complements official HL7 documentation with practical examples and implementation patterns.
+
+[Read the complete guide →](./docs/guides/hl7-guide/index.md)
+
+---
+
+## Use Cases
+
+ccdakit is designed for:
+
+**Electronic Health Records (EHR)**
+- Generate discharge summaries, continuity of care documents, referral notes
+- Support ONC certification requirements
+- Enable standards-based data exchange
+
+**Health Information Exchanges (HIE)**
+- Create compliant documents for cross-organization data sharing
+- Support multiple C-CDA versions for interoperability
+- Validate documents before transmission
+
+**Healthcare Applications**
+- Export patient data in C-CDA format
+- Integrate with existing health IT systems
+- Support FHIR-to-CDA conversion workflows
+
+**Testing and Validation**
+- Generate test documents for validator testing
+- Create synthetic patient data for QA
+- Support conformance testing
+
+**Data Migration**
+- Convert legacy formats to C-CDA
+- Support system migrations and upgrades
+- Enable data preservation
+
+---
+
+## Testing
+
+Comprehensive test suite with 1,903 tests and 94% coverage:
+
+```bash
+# Run all tests
+uv run pytest
+
+# Run with coverage report
+uv run pytest --cov=ccdakit --cov-report=html
+
+# Run specific test suite
+uv run pytest tests/test_builders/
+
+# Parallel execution for speed
+uv run pytest -n auto
+```
+
+See [Testing Guide](./docs/development/testing.md) for details.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+Contributions are welcome. Please review our guidelines:
 
-This is an open-source project under the MIT license. We follow the [Contributor Covenant Code of Conduct](./CODE_OF_CONDUCT.md).
+**Before Contributing:**
+- Read the [Code of Conduct](./CODE_OF_CONDUCT.md)
+- Review [Contributing Guidelines](./CONTRIBUTING.md)
+- Check existing [Issues](https://github.com/Itisfilipe/ccdakit/issues)
+
+**Development Setup:**
+1. Fork the repository
+2. Clone your fork
+3. Install dependencies: `uv sync --all-extras`
+4. Download C-CDA references (see `references/README.md`)
+5. Create a feature branch
+6. Make changes with tests
+7. Run test suite: `uv run pytest`
+8. Submit pull request
+
+See [Development Setup Guide](./docs/development/setup.md) for complete instructions.
+
+---
+
+## Important Disclaimers
+
+**Independent Project**
+
+This is an independent, community-driven project and is NOT an official HL7 product.
+
+- **Not affiliated with HL7 International**: This library is not endorsed by or officially recognized by HL7 International
+- **AI-assisted development**: This project was developed extensively with AI assistance (Claude Code)
+- **Validation required**: Thoroughly test and validate before production use
+- **Not a substitute for official specifications**: Always consult official HL7 documentation for regulatory compliance
+- **No warranty**: See [LICENSE](./LICENSE) for details
+
+**For official HL7 resources:** Visit [HL7.org](https://www.hl7.org/)
+
+**Trademarks:** HL7® and C-CDA® are registered trademarks of Health Level Seven International.
+
+---
 
 ## Requirements
 
-- Python 3.8+
-- lxml >= 4.9.0
+- Python 3.8 or higher
+- lxml >= 4.9.0 (only required dependency)
+
+Optional dependencies for development:
+- pytest (testing)
+- ruff (linting)
+- mypy (type checking)
+- mkdocs-material (documentation)
+
+---
 
 ## License
 
-MIT License - see [LICENSE](./LICENSE) file for details.
+MIT License - See [LICENSE](./LICENSE) file for details.
+
+---
 
 ## Acknowledgments
 
-- Built following [HL7 C-CDA R2.1 Implementation Guide](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492)
-- Designed for [ONC Certification](https://www.healthit.gov/topic/certification-ehrs/2015-edition-test-method) compliance
-- Developed extensively with AI assistance using [Claude Code](https://claude.com/claude-code)
+This project follows the [HL7 C-CDA Release 2.1 Implementation Guide](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492) and is designed to support [ONC Health IT Certification](https://www.healthit.gov/topic/certification-ehrs/2015-edition-test-method) requirements.
 
-## Disclaimer
+Developed with assistance from [Claude Code](https://claude.com/claude-code).
 
-**This project is not affiliated with HL7 International.** HL7® and C-CDA® are registered trademarks of Health Level Seven International. This is an independent implementation created to help developers work with C-CDA standards. This software was developed extensively with AI assistance and should be thoroughly validated before any production use. Always refer to official HL7 specifications for authoritative guidance.
+---
 
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/Itisfilipe/ccdakit/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Itisfilipe/ccdakit/discussions)
-- **Documentation**: [Read the Docs](https://ccdakit.readthedocs.io)
-- **HL7 Guide**: Complete primer on HL7 and C-CDA standards
+- **Documentation**: [Complete Documentation](./docs/index.md)
 
 ---
 
-**Status**: Alpha MVP Complete - Ready for validation and testing. Production use should await additional validation and review.
+**Current Status:** Alpha release - MVP complete and ready for validation testing. Production use should be preceded by thorough validation against your specific requirements.
