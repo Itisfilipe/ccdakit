@@ -78,9 +78,6 @@ uv run pytest
 # Check code formatting
 uv run ruff check ccdakit
 uv run ruff format --check ccdakit
-
-# Run type checking
-uv run mypy ccdakit
 ```
 
 ## How to Contribute
@@ -124,9 +121,6 @@ uv run ruff format ccdakit tests
 
 # Lint code
 uv run ruff check --fix ccdakit tests
-
-# Type check
-uv run mypy ccdakit
 ```
 
 4. **Commit your changes**
@@ -383,9 +377,6 @@ uv run ruff format ccdakit tests
 
 # Lint code
 uv run ruff check --fix ccdakit
-
-# Type check
-uv run mypy ccdakit
 
 # Build package
 uv build

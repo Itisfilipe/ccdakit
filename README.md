@@ -463,7 +463,6 @@ This is an independent, community-driven project and is NOT an official HL7 prod
 Optional dependencies for development:
 - pytest (testing)
 - ruff (linting)
-- mypy (type checking)
 - mkdocs-material (documentation)
 
 ---

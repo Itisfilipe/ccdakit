@@ -43,7 +43,7 @@ Existing solutions have limitations:
 - **XSD validation**: Catch errors at build time, not runtime
 - **Composable**: Reusable builders for common elements
 - **Extensible**: Plugin system for custom sections and entries
-- **Type-safe**: Full mypy support, IDE autocomplete
+- **Type-safe**: Full type hints, IDE autocomplete
 
 ### Key Features
 
@@ -241,7 +241,7 @@ class MyPatient:
 - Composability: Builders return Elements that can be combined
 - Testability: Unit test each builder independently
 - Reusability: Common builders used across sections
-- Type safety: IDE autocomplete and mypy validation
+- Type safety: IDE autocomplete and static type checking
 
 **Example**:
 
@@ -1767,9 +1767,8 @@ dependencies = [
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
-    "black>=22.0.0",
-    "mypy>=0.990",
     "ruff>=0.0.250",
+    "pyright>=1.1.0",
 ]
 docs = [
     "mkdocs>=1.4.0",
@@ -1795,16 +1794,6 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "--cov=ccda_builder --cov-report=html --cov-report=term"
-
-[tool.mypy]
-python_version = "3.8"
-strict = true
-warn_return_any = true
-warn_unused_configs = true
-
-[tool.black]
-line-length = 100
-target-version = ['py38']
 
 [tool.ruff]
 line-length = 100

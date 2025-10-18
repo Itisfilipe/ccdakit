@@ -48,9 +48,6 @@ uv run pytest
 # Run pytest with coverage
 uv run pytest --cov=ccdakit
 
-# Run mypy
-uv run mypy ccdakit
-
 # Run ruff format
 uv run ruff format ccdakit tests
 
@@ -125,9 +122,6 @@ uv run pytest
 # Run tests after changes
 uv run pytest tests/test_core/
 
-# Check types
-uv run mypy ccdakit
-
 # Format code
 uv run ruff format ccdakit tests
 
@@ -161,7 +155,6 @@ uv run pytest --cov=ccdakit --cov-report=term-missing
 # Format and lint
 uv run ruff format ccdakit tests
 uv run ruff check ccdakit
-uv run mypy ccdakit
 
 # Commit (uv.lock will be included automatically)
 git add .
@@ -199,12 +192,6 @@ uv run pytest tests/test_core/test_base.py
 ```bash
 uv run pytest --cov=ccdakit --cov-report=html
 open htmlcov/index.html  # View coverage report
-```
-
-### Type Checking
-
-```bash
-uv run mypy ccdakit
 ```
 
 ### Code Formatting
@@ -253,9 +240,6 @@ jobs:
 
       - name: Run tests
         run: uv run pytest --cov=ccdakit
-
-      - name: Run type checks
-        run: uv run mypy ccdakit
 ```
 
 ## Troubleshooting
