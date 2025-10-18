@@ -1,0 +1,25 @@
+{
+  "oid": "2.16.840.1.113883.1.11.15933",
+  "name": "Problem Status",
+  "description": "Status of a problem or condition (active, inactive, resolved)",
+  "version": "1.0",
+  "source": "HL7 C-CDA R2.1",
+  "url": "http://hl7.org/fhir/ValueSet/problem-status",
+  "codes": {
+    "55561003": {
+      "display": "Active",
+      "system": "SNOMED",
+      "definition": "The problem is currently active and requires ongoing management"
+    },
+    "73425007": {
+      "display": "Inactive",
+      "system": "SNOMED",
+      "definition": "The problem is not currently active but has not been resolved"
+    },
+    "413322009": {
+      "display": "Resolved",
+      "system": "SNOMED",
+      "definition": "The problem has been resolved and is no longer present"
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "title": "Clinical Progress Note",
+    "description": "Empty template for clinical progress note documentation",
+    "document_type": "progress_note",
+    "template_id": "2.16.840.1.113883.10.20.22.1.9"
+  },
+  "patient": {
+    "first_name": "[Patient First Name]",
+    "middle_name": null,
+    "last_name": "[Patient Last Name]",
+    "date_of_birth": "2000-01-01",
+    "sex": "F",
+    "race": null,
+    "ethnicity": null,
+    "language": "eng",
+    "ssn": null,
+    "marital_status": null,
+    "addresses": [
+      {
+        "street_lines": ["[Street Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "[Provider First Name]",
+    "middle_name": null,
+    "last_name": "[Provider Last Name]",
+    "npi": "[NPI]",
+    "time": "2024-01-01T00:00:00",
+    "addresses": [
+      {
+        "street_lines": ["[Clinic Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "[Clinic Name]",
+      "npi": "[Clinic NPI]",
+      "tin": null,
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["[Clinic Address]"],
+          "city": "[City]",
+          "state": "[State]",
+          "postal_code": "[ZIP]",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "[Phone Number]",
+          "use": "work"
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "[Clinic Name]",
+    "npi": "[Clinic NPI]",
+    "tin": null,
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["[Clinic Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "work"
+      }
+    ]
+  },
+  "sections": {
+    "problems": [],
+    "medications": [],
+    "vital_signs": []
+  }
+}

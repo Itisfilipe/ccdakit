@@ -1,0 +1,30 @@
+{
+  "oid": "2.16.840.1.113883.3.88.12.3221.6.8",
+  "name": "Allergy Severity",
+  "description": "Severity of an allergic reaction",
+  "version": "1.0",
+  "source": "HITSP C32 / C-CDA",
+  "url": "http://hl7.org/fhir/ValueSet/allergy-intolerance-severity",
+  "codes": {
+    "255604002": {
+      "display": "Mild",
+      "system": "SNOMED",
+      "definition": "Mild severity - causes minimal discomfort"
+    },
+    "6736007": {
+      "display": "Moderate",
+      "system": "SNOMED",
+      "definition": "Moderate severity - causes significant discomfort"
+    },
+    "24484000": {
+      "display": "Severe",
+      "system": "SNOMED",
+      "definition": "Severe severity - causes major symptoms or complications"
+    },
+    "399166001": {
+      "display": "Fatal",
+      "system": "SNOMED",
+      "definition": "Fatal severity - life-threatening reaction"
+    }
+  }
+}

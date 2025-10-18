@@ -1,0 +1,174 @@
+site_name: ccdakit Documentation
+site_description: Python library for generating HL7 C-CDA clinical documents
+site_author: Filipe Amaral
+site_url: https://Itisfilipe.github.io/ccdakit
+
+repo_name: Itisfilipe/ccdakit
+repo_url: https://github.com/Itisfilipe/ccdakit
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            show_object_full_path: false
+            show_category_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            heading_level: 2
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Basic Concepts: getting-started/concepts.md
+  - User Guide:
+    - Overview: guides/overview.md
+    - Working with Sections: guides/sections.md
+    - Protocols: guides/protocols.md
+    - Configuration: guides/configuration.md
+    - Validation: guides/validation.md
+    - Code Systems & Value Sets: guides/terminologies.md
+  - HL7/C-CDA Guide:
+    - Introduction: guides/hl7-guide/index.md
+    - Foundation:
+      - Introduction to HL7: guides/hl7-guide/01-introduction-to-hl7.md
+      - CDA Architecture: guides/hl7-guide/02-cda-architecture.md
+      - Templates & Conformance: guides/hl7-guide/03-templates-and-conformance.md
+      - Code Systems & Terminologies: guides/hl7-guide/04-code-systems-and-terminologies.md
+      - Document Types: guides/hl7-guide/05-document-types.md
+    - Clinical Sections:
+      - Sections Overview: guides/hl7-guide/sections/index.md
+      - Core Sections:
+        - Problems Section: guides/hl7-guide/sections/problems-section.md
+        - Medications Section: guides/hl7-guide/sections/medications-section.md
+        - Allergies Section: guides/hl7-guide/sections/allergies-section.md
+        - Immunizations Section: guides/hl7-guide/sections/immunizations-section.md
+        - Vital Signs Section: guides/hl7-guide/sections/vital-signs-section.md
+        - Procedures Section: guides/hl7-guide/sections/procedures-section.md
+        - Results Section: guides/hl7-guide/sections/results-section.md
+        - Social History Section: guides/hl7-guide/sections/social-history-section.md
+        - Encounters Section: guides/hl7-guide/sections/encounters-section.md
+      - Extended Sections:
+        - Past Medical History: guides/hl7-guide/sections/past-medical-history-section.md
+        - Goals Section: guides/hl7-guide/sections/goals-section.md
+        - Health Concerns: guides/hl7-guide/sections/health-concerns-section.md
+        - Functional Status: guides/hl7-guide/sections/functional-status-section.md
+        - Mental Status: guides/hl7-guide/sections/mental-status-section.md
+        - Assessment and Plan: guides/hl7-guide/sections/assessment-and-plan-section.md
+        - Advance Directives: guides/hl7-guide/sections/advance-directives-section.md
+        - Family History: guides/hl7-guide/sections/family-history-section.md
+        - Medical Equipment: guides/hl7-guide/sections/medical-equipment-section.md
+      - Specialized Sections:
+        - Plan of Treatment: guides/hl7-guide/sections/plan-of-treatment-section.md
+        - Hospital Discharge Instructions: guides/hl7-guide/sections/hospital-discharge-instructions-section.md
+        - Discharge Medications: guides/hl7-guide/sections/discharge-medications-section.md
+        - Physical Exam: guides/hl7-guide/sections/physical-exam-section.md
+        - Reason for Visit: guides/hl7-guide/sections/reason-for-visit-section.md
+        - Chief Complaint & Reason for Visit: guides/hl7-guide/sections/chief-complaint-reason-for-visit-section.md
+        - Nutrition Section: guides/hl7-guide/sections/nutrition-section.md
+        - Payers Section: guides/hl7-guide/sections/payers-section.md
+        - Admission Medications: guides/hl7-guide/sections/admission-medications-section.md
+        - Interventions Section: guides/hl7-guide/sections/interventions-section.md
+        - Health Status Evaluations: guides/hl7-guide/sections/health-status-evaluations-section.md
+    - Appendices:
+      - OID Reference: guides/hl7-guide/appendices/oid-reference.md
+      - Conformance Verbs: guides/hl7-guide/appendices/conformance-verbs.md
+      - Resources: guides/hl7-guide/appendices/resources.md
+      - Glossary: guides/hl7-guide/appendices/glossary.md
+  - Examples:
+    - Complete Document: examples/complete-document.md
+    - Builder API: examples/builder-api.md
+    - All Sections: examples/all-sections.md
+    - Validation: examples/validation.md
+    - Custom Data Models: examples/custom-models.md
+  - API Reference:
+    - Core: api/core.md
+    - Builders: api/builders.md
+    - Sections: api/sections.md
+    - Protocols: api/protocols.md
+    - Validators: api/validators.md
+    - Utilities: api/utilities.md
+  - Architecture:
+    - Design Principles: development/architecture.md
+    - Protocol System: development/protocols.md
+    - Builder Pattern: development/builders.md
+    - Version Management: development/versions.md
+  - Development:
+    - Contributing: development/contributing.md
+    - Development Setup: development/setup.md
+    - Testing: development/testing.md
+    - Roadmap: development/roadmap.md
+  - About:
+    - Changelog: about/changelog.md
+    - Disclaimer: about/disclaimer.md
+    - License: about/license.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Itisfilipe/ccdakit
+  version:
+    provider: mike
+
+copyright: |
+  Copyright &copy; 2024 Filipe Amaral<br>
+  <small>Not affiliated with HL7 International. Developed with AI assistance. See <a href="/about/disclaimer/">Disclaimer</a>.</small>

@@ -1,0 +1,50 @@
+{
+  "oid": "2.16.840.1.113883.11.20.9.38",
+  "name": "Smoking Status",
+  "description": "Patient's smoking status - meaningful use requirement",
+  "version": "1.0",
+  "source": "HL7 C-CDA R2.1 / Meaningful Use",
+  "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes",
+  "codes": {
+    "449868002": {
+      "display": "Current every day smoker",
+      "system": "SNOMED",
+      "definition": "Smokes tobacco daily"
+    },
+    "428041000124106": {
+      "display": "Current some day smoker",
+      "system": "SNOMED",
+      "definition": "Smokes tobacco occasionally"
+    },
+    "8517006": {
+      "display": "Former smoker",
+      "system": "SNOMED",
+      "definition": "Previously smoked but quit"
+    },
+    "266919005": {
+      "display": "Never smoker",
+      "system": "SNOMED",
+      "definition": "Has never smoked tobacco"
+    },
+    "77176002": {
+      "display": "Smoker, current status unknown",
+      "system": "SNOMED",
+      "definition": "Smoker but frequency unknown"
+    },
+    "266927001": {
+      "display": "Unknown if ever smoked",
+      "system": "SNOMED",
+      "definition": "Smoking history unknown"
+    },
+    "428071000124103": {
+      "display": "Current Heavy tobacco smoker",
+      "system": "SNOMED",
+      "definition": "Heavy current smoker"
+    },
+    "428061000124105": {
+      "display": "Current Light tobacco smoker",
+      "system": "SNOMED",
+      "definition": "Light current smoker"
+    }
+  }
+}

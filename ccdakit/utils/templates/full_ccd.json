@@ -1,0 +1,425 @@
+{
+  "metadata": {
+    "title": "Complete C-CDA Document",
+    "description": "Fully populated C-CDA document with all major clinical sections",
+    "document_type": "ccd",
+    "template_id": "2.16.840.1.113883.10.20.22.1.2"
+  },
+  "patient": {
+    "first_name": "Robert",
+    "middle_name": "James",
+    "last_name": "Johnson",
+    "date_of_birth": "1965-08-20",
+    "sex": "M",
+    "race": "2106-3",
+    "ethnicity": "2186-5",
+    "language": "eng",
+    "ssn": "987-65-4321",
+    "marital_status": "M",
+    "addresses": [
+      {
+        "street_lines": ["789 Oak Avenue", "Apartment 3C"],
+        "city": "Cambridge",
+        "state": "MA",
+        "postal_code": "02139",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-7890",
+        "use": "home"
+      },
+      {
+        "type": "phone",
+        "value": "617-555-7891",
+        "use": "mobile"
+      },
+      {
+        "type": "email",
+        "value": "robert.johnson@email.com",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "Sarah",
+    "middle_name": "Elizabeth",
+    "last_name": "Williams",
+    "npi": "1234567890",
+    "time": "2024-01-15T14:45:00",
+    "addresses": [
+      {
+        "street_lines": ["100 Medical Center Drive"],
+        "city": "Cambridge",
+        "state": "MA",
+        "postal_code": "02139",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-2000",
+        "use": "work"
+      },
+      {
+        "type": "email",
+        "value": "swilliams@healthcenter.org",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "Cambridge Medical Center",
+      "npi": "9876543210",
+      "tin": "12-3456789",
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["100 Medical Center Drive"],
+          "city": "Cambridge",
+          "state": "MA",
+          "postal_code": "02139",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "617-555-2000",
+          "use": "work"
+        },
+        {
+          "type": "url",
+          "value": "https://cambridgemedical.org",
+          "use": null
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "Cambridge Medical Center",
+    "npi": "9876543210",
+    "tin": "12-3456789",
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["100 Medical Center Drive"],
+        "city": "Cambridge",
+        "state": "MA",
+        "postal_code": "02139",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-2000",
+        "use": "work"
+      }
+    ]
+  },
+  "sections": {
+    "problems": [
+      {
+        "name": "Essential Hypertension",
+        "code": "59621000",
+        "code_system": "SNOMED",
+        "status": "active",
+        "onset_date": "2018-05-10",
+        "resolved_date": null,
+        "persistent_id": null
+      },
+      {
+        "name": "Type 2 Diabetes Mellitus",
+        "code": "44054006",
+        "code_system": "SNOMED",
+        "status": "active",
+        "onset_date": "2019-03-15",
+        "resolved_date": null,
+        "persistent_id": null
+      },
+      {
+        "name": "Hyperlipidemia",
+        "code": "55822004",
+        "code_system": "SNOMED",
+        "status": "active",
+        "onset_date": "2018-08-22",
+        "resolved_date": null,
+        "persistent_id": null
+      }
+    ],
+    "medications": [
+      {
+        "name": "Lisinopril 10mg oral tablet",
+        "code": "314076",
+        "dosage": "10 mg",
+        "route": "oral",
+        "frequency": "once daily",
+        "start_date": "2018-06-01",
+        "end_date": null,
+        "status": "active",
+        "instructions": "Take in the morning with water"
+      },
+      {
+        "name": "Metformin 500mg oral tablet",
+        "code": "860975",
+        "dosage": "500 mg",
+        "route": "oral",
+        "frequency": "twice daily",
+        "start_date": "2019-04-01",
+        "end_date": null,
+        "status": "active",
+        "instructions": "Take with meals"
+      },
+      {
+        "name": "Atorvastatin 20mg oral tablet",
+        "code": "617310",
+        "dosage": "20 mg",
+        "route": "oral",
+        "frequency": "once daily",
+        "start_date": "2018-09-01",
+        "end_date": null,
+        "status": "active",
+        "instructions": "Take at bedtime"
+      }
+    ],
+    "allergies": [
+      {
+        "allergen": "Penicillin",
+        "allergen_code": "70618",
+        "allergen_code_system": "RxNorm",
+        "allergy_type": "allergy",
+        "reaction": "Hives",
+        "reaction_code": "247472004",
+        "reaction_code_system": "SNOMED",
+        "severity": "moderate",
+        "status": "active",
+        "onset_date": "1985-06-15"
+      },
+      {
+        "allergen": "Shellfish",
+        "allergen_code": "300913006",
+        "allergen_code_system": "SNOMED",
+        "allergy_type": "allergy",
+        "reaction": "Anaphylaxis",
+        "reaction_code": "39579001",
+        "reaction_code_system": "SNOMED",
+        "severity": "severe",
+        "status": "active",
+        "onset_date": "1990-08-10"
+      }
+    ],
+    "immunizations": [
+      {
+        "vaccine_name": "Influenza vaccine, seasonal",
+        "cvx_code": "141",
+        "administration_date": "2023-09-15",
+        "status": "completed",
+        "lot_number": "ABC123456",
+        "manufacturer": "Sanofi Pasteur",
+        "route": "intramuscular",
+        "site": "left deltoid",
+        "dose_quantity": "0.5 mL"
+      },
+      {
+        "vaccine_name": "COVID-19 vaccine, mRNA",
+        "cvx_code": "208",
+        "administration_date": "2023-06-01",
+        "status": "completed",
+        "lot_number": "XYZ789012",
+        "manufacturer": "Pfizer Inc.",
+        "route": "intramuscular",
+        "site": "left deltoid",
+        "dose_quantity": "0.3 mL"
+      },
+      {
+        "vaccine_name": "Tetanus and diphtheria toxoids",
+        "cvx_code": "139",
+        "administration_date": "2021-03-10",
+        "status": "completed",
+        "lot_number": null,
+        "manufacturer": "GSK",
+        "route": "intramuscular",
+        "site": "right deltoid",
+        "dose_quantity": null
+      }
+    ],
+    "vital_signs": [
+      {
+        "date": "2024-01-15T14:30:00",
+        "vital_signs": [
+          {
+            "type": "Heart Rate",
+            "code": "8867-4",
+            "value": "78",
+            "unit": "bpm",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": "Normal"
+          },
+          {
+            "type": "Systolic Blood Pressure",
+            "code": "8480-6",
+            "value": "135",
+            "unit": "mm[Hg]",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": "High"
+          },
+          {
+            "type": "Diastolic Blood Pressure",
+            "code": "8462-4",
+            "value": "85",
+            "unit": "mm[Hg]",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": "High"
+          },
+          {
+            "type": "Body Temperature",
+            "code": "8310-5",
+            "value": "98.6",
+            "unit": "degF",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": "Normal"
+          },
+          {
+            "type": "Respiratory Rate",
+            "code": "9279-1",
+            "value": "18",
+            "unit": "/min",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": "Normal"
+          },
+          {
+            "type": "Body Weight",
+            "code": "29463-7",
+            "value": "195",
+            "unit": "lb",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": null
+          },
+          {
+            "type": "Body Height",
+            "code": "8302-2",
+            "value": "70",
+            "unit": "in",
+            "date": "2024-01-15T14:30:00",
+            "interpretation": null
+          }
+        ]
+      }
+    ],
+    "procedures": [
+      {
+        "name": "Colonoscopy",
+        "code": "73761001",
+        "code_system": "SNOMED",
+        "date": "2023-05-10",
+        "status": "completed",
+        "body_site": "Colon",
+        "body_site_code": "71854001",
+        "body_site_code_system": "SNOMED"
+      },
+      {
+        "name": "Annual Physical Examination",
+        "code": "185349003",
+        "code_system": "SNOMED",
+        "date": "2024-01-15",
+        "status": "completed",
+        "body_site": null,
+        "body_site_code": null,
+        "body_site_code_system": null
+      }
+    ],
+    "results": [
+      {
+        "date": "2024-01-10",
+        "results": [
+          {
+            "name": "Hemoglobin A1c",
+            "code": "4548-4",
+            "code_system": "LOINC",
+            "value": "7.2",
+            "unit": "%",
+            "date": "2024-01-10",
+            "interpretation": "High",
+            "reference_range": "< 5.7%"
+          },
+          {
+            "name": "Glucose",
+            "code": "2345-7",
+            "code_system": "LOINC",
+            "value": "145",
+            "unit": "mg/dL",
+            "date": "2024-01-10",
+            "interpretation": "High",
+            "reference_range": "70-100 mg/dL"
+          },
+          {
+            "name": "Total Cholesterol",
+            "code": "2093-3",
+            "code_system": "LOINC",
+            "value": "220",
+            "unit": "mg/dL",
+            "date": "2024-01-10",
+            "interpretation": "High",
+            "reference_range": "< 200 mg/dL"
+          },
+          {
+            "name": "LDL Cholesterol",
+            "code": "18262-6",
+            "code_system": "LOINC",
+            "value": "140",
+            "unit": "mg/dL",
+            "date": "2024-01-10",
+            "interpretation": "High",
+            "reference_range": "< 100 mg/dL"
+          },
+          {
+            "name": "HDL Cholesterol",
+            "code": "2085-9",
+            "code_system": "LOINC",
+            "value": "45",
+            "unit": "mg/dL",
+            "date": "2024-01-10",
+            "interpretation": "Normal",
+            "reference_range": "> 40 mg/dL"
+          }
+        ]
+      }
+    ],
+    "encounters": [
+      {
+        "name": "Office Visit",
+        "code": "99213",
+        "code_system": "CPT",
+        "date": "2024-01-15",
+        "type": "ambulatory",
+        "type_code": "AMB",
+        "status": "completed",
+        "location": "Cambridge Medical Center",
+        "reason": "Follow-up for chronic conditions"
+      },
+      {
+        "name": "Annual Wellness Visit",
+        "code": "99387",
+        "code_system": "CPT",
+        "date": "2023-01-20",
+        "type": "ambulatory",
+        "type_code": "AMB",
+        "status": "completed",
+        "location": "Cambridge Medical Center",
+        "reason": "Preventive care and health assessment"
+      }
+    ],
+    "smoking_status": [
+      {
+        "status": "Former smoker",
+        "code": "8517006",
+        "code_system": "SNOMED",
+        "date": "2024-01-15",
+        "quit_date": "2010-06-01"
+      }
+    ]
+  }
+}

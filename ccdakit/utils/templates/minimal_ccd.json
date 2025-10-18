@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "title": "Minimal C-CDA Document",
+    "description": "Minimal but complete C-CDA document with basic patient information",
+    "document_type": "ccd",
+    "template_id": "2.16.840.1.113883.10.20.22.1.2"
+  },
+  "patient": {
+    "first_name": "Jane",
+    "middle_name": "M",
+    "last_name": "Doe",
+    "date_of_birth": "1980-03-15",
+    "sex": "F",
+    "race": "2106-3",
+    "ethnicity": "2186-5",
+    "language": "eng",
+    "ssn": "123-45-6789",
+    "marital_status": "M",
+    "addresses": [
+      {
+        "street_lines": ["123 Main Street"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02101",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-1234",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "John",
+    "middle_name": "A",
+    "last_name": "Smith",
+    "npi": "1234567890",
+    "time": "2024-01-15T10:30:00",
+    "addresses": [
+      {
+        "street_lines": ["456 Medical Plaza"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02101",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-5555",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "Community Health Center",
+      "npi": "9876543210",
+      "tin": null,
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["456 Medical Plaza"],
+          "city": "Boston",
+          "state": "MA",
+          "postal_code": "02101",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "617-555-9999",
+          "use": "work"
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "Community Health Center",
+    "npi": "9876543210",
+    "tin": null,
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["456 Medical Plaza"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02101",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-9999",
+        "use": "work"
+      }
+    ]
+  },
+  "sections": {
+    "problems": [
+      {
+        "name": "Essential Hypertension",
+        "code": "59621000",
+        "code_system": "SNOMED",
+        "status": "active",
+        "onset_date": "2020-01-15",
+        "resolved_date": null,
+        "persistent_id": null
+      }
+    ]
+  }
+}

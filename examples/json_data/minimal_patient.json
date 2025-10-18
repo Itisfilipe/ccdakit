@@ -1,0 +1,107 @@
+{
+  "patient": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "Q",
+    "date_of_birth": "1970-05-15",
+    "sex": "M",
+    "race": "2106-3",
+    "ethnicity": "2186-5",
+    "language": "eng",
+    "ssn": "123-45-6789",
+    "marital_status": "M",
+    "addresses": [
+      {
+        "street_lines": ["123 Main Street", "Apartment 4B"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02101",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-1234",
+        "use": "home"
+      },
+      {
+        "type": "email",
+        "value": "john.doe@example.com",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "middle_name": "M",
+    "npi": "9876543210",
+    "time": "2024-01-15T10:30:00",
+    "addresses": [
+      {
+        "street_lines": ["456 Medical Plaza"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02115",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-5555",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "Community Health Center",
+      "npi": "1234567890",
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["789 Hospital Road"],
+          "city": "Boston",
+          "state": "MA",
+          "postal_code": "02115",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "617-555-9999",
+          "use": "work"
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "Community Health Center",
+    "npi": "1234567890",
+    "tin": "12-3456789",
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["789 Hospital Road"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02115",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-9999",
+        "use": "work"
+      }
+    ]
+  },
+  "document": {
+    "title": "Patient Clinical Summary",
+    "document_id": "DOC-20240115-001",
+    "effective_time": "2024-01-15T14:30:00",
+    "version": "R2_1"
+  }
+}

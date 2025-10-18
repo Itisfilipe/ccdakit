@@ -1,0 +1,139 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccdakit"
+version = "0.1.0a1"
+description = "Python library for generating HL7 C-CDA clinical documents"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [
+    {name = "Filipe", email = "filipe@example.com"}
+]
+keywords = ["c-cda", "ccda", "hl7", "healthcare", "clinical-document", "ehr", "fhir"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Typing :: Typed",
+]
+dependencies = [
+    "lxml>=4.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-xdist>=3.0.0",  # Parallel test execution
+    "ruff>=0.0.250",  # Replaces black, isort, and multiple linters
+    "pyright>=1.1.0",  # Type checker
+]
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.20.0",
+]
+validation = [
+    "requests>=2.28.0",  # For ONC validator API
+]
+test-data = [
+    "faker>=20.0.0",  # Generate realistic test data
+]
+
+[project.urls]
+Homepage = "https://github.com/Itisfilipe/ccdakit"
+Documentation = "https://Itisfilipe.github.io/ccdakit"
+Repository = "https://github.com/Itisfilipe/ccdakit"
+Issues = "https://github.com/Itisfilipe/ccdakit/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ccdakit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=ccdakit --cov-report=html --cov-report=term --cov-report=term-missing"
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "validation: Tests requiring XSD/Schematron validation",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "*.egg-info",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (import sorting)
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "S",   # flake8-bandit (security)
+    "T20", # flake8-print
+    "PT",  # flake8-pytest-style
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "S101",  # assert usage (needed in tests)
+    "T201",  # print statements (allowed in examples)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "PT", "B"]  # Allow asserts and flexible test patterns
+"examples/**/*.py" = ["T201"]  # Allow print in examples
+"ccdakit/utils/test_data.py" = ["S311"]  # Allow random for test data generation
+"ccdakit/validators/utils.py" = ["S310"]  # Allow urlretrieve for schema downloads
+
+[tool.ruff.lint.isort]
+known-first-party = ["ccdakit"]
+force-single-line = false
+lines-after-imports = 2
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+
+[tool.coverage.run]
+source = ["ccdakit"]
+omit = ["tests/*", "examples/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]

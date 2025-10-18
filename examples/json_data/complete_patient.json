@@ -1,0 +1,434 @@
+{
+  "patient": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "middle_name": "Q",
+    "date_of_birth": "1970-05-15",
+    "sex": "M",
+    "race": "2106-3",
+    "ethnicity": "2186-5",
+    "language": "eng",
+    "ssn": "123-45-6789",
+    "marital_status": "M",
+    "addresses": [
+      {
+        "street_lines": ["123 Main Street", "Apartment 4B"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02101",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-1234",
+        "use": "home"
+      },
+      {
+        "type": "email",
+        "value": "john.doe@example.com",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "Alice",
+    "last_name": "Smith",
+    "middle_name": "M",
+    "npi": "9876543210",
+    "time": "2024-01-15T10:30:00",
+    "addresses": [
+      {
+        "street_lines": ["456 Medical Plaza"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02115",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-5555",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "Community Health Center",
+      "npi": "1234567890",
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["789 Hospital Road"],
+          "city": "Boston",
+          "state": "MA",
+          "postal_code": "02115",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "617-555-9999",
+          "use": "work"
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "Community Health Center",
+    "npi": "1234567890",
+    "tin": "12-3456789",
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["789 Hospital Road"],
+        "city": "Boston",
+        "state": "MA",
+        "postal_code": "02115",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "617-555-9999",
+        "use": "work"
+      }
+    ]
+  },
+  "document": {
+    "title": "Comprehensive Patient Clinical Summary",
+    "document_id": "DOC-20240115-COMPLETE-001",
+    "effective_time": "2024-01-15T14:30:00",
+    "version": "R2_1"
+  },
+  "sections": [
+    {
+      "type": "problems",
+      "title": "Problem List",
+      "data": [
+        {
+          "name": "Essential Hypertension",
+          "code": "59621000",
+          "code_system": "SNOMED",
+          "status": "active",
+          "onset_date": "2018-05-10"
+        },
+        {
+          "name": "Type 2 Diabetes Mellitus",
+          "code": "44054006",
+          "code_system": "SNOMED",
+          "status": "active",
+          "onset_date": "2019-03-15"
+        },
+        {
+          "name": "Acute Bronchitis",
+          "code": "10509002",
+          "code_system": "SNOMED",
+          "status": "resolved",
+          "onset_date": "2023-01-05",
+          "resolved_date": "2023-02-01"
+        }
+      ]
+    },
+    {
+      "type": "medications",
+      "title": "Medications",
+      "data": [
+        {
+          "name": "Lisinopril 10mg oral tablet",
+          "code": "314076",
+          "dosage": "10 mg",
+          "route": "oral",
+          "frequency": "once daily",
+          "start_date": "2018-06-01",
+          "status": "active",
+          "instructions": "Take in the morning with water"
+        },
+        {
+          "name": "Metformin 500mg oral tablet",
+          "code": "860975",
+          "dosage": "500 mg",
+          "route": "oral",
+          "frequency": "twice daily",
+          "start_date": "2019-04-01",
+          "status": "active",
+          "instructions": "Take with meals"
+        },
+        {
+          "name": "Amoxicillin 500mg oral capsule",
+          "code": "308191",
+          "dosage": "500 mg",
+          "route": "oral",
+          "frequency": "three times daily",
+          "start_date": "2023-01-10",
+          "end_date": "2023-01-24",
+          "status": "completed",
+          "instructions": "Complete full course for bronchitis"
+        }
+      ]
+    },
+    {
+      "type": "allergies",
+      "title": "Allergies and Intolerances",
+      "data": [
+        {
+          "allergen": "Penicillin",
+          "allergen_code": "7980",
+          "allergen_code_system": "RxNorm",
+          "allergy_type": "allergy",
+          "reaction": "Hives",
+          "severity": "moderate",
+          "status": "active",
+          "onset_date": "2015-03-20"
+        },
+        {
+          "allergen": "Peanuts",
+          "allergen_code": "256349002",
+          "allergen_code_system": "SNOMED",
+          "allergy_type": "allergy",
+          "reaction": "Anaphylaxis",
+          "severity": "severe",
+          "status": "active",
+          "onset_date": "1975-01-01"
+        }
+      ]
+    },
+    {
+      "type": "immunizations",
+      "title": "Immunization History",
+      "data": [
+        {
+          "vaccine_name": "Influenza vaccine, seasonal",
+          "cvx_code": "141",
+          "administration_date": "2023-09-15",
+          "status": "completed",
+          "lot_number": "ABC123456",
+          "manufacturer": "Sanofi Pasteur",
+          "route": "intramuscular",
+          "site": "left deltoid",
+          "dose_quantity": "0.5 mL"
+        },
+        {
+          "vaccine_name": "COVID-19 vaccine, mRNA",
+          "cvx_code": "208",
+          "administration_date": "2023-06-01",
+          "status": "completed",
+          "lot_number": "XYZ789012",
+          "manufacturer": "Pfizer Inc.",
+          "route": "intramuscular",
+          "site": "left deltoid",
+          "dose_quantity": "0.3 mL"
+        },
+        {
+          "vaccine_name": "Tetanus and diphtheria toxoids",
+          "cvx_code": "139",
+          "administration_date": "2021-03-10",
+          "status": "completed",
+          "manufacturer": "GSK",
+          "route": "intramuscular",
+          "site": "right deltoid"
+        }
+      ]
+    },
+    {
+      "type": "vital_signs",
+      "title": "Vital Signs",
+      "data": [
+        {
+          "date": "2023-10-15T10:30:00",
+          "vital_signs": [
+            {
+              "type": "Heart Rate",
+              "code": "8867-4",
+              "value": "72",
+              "unit": "bpm",
+              "date": "2023-10-15T10:30:00",
+              "interpretation": "Normal"
+            },
+            {
+              "type": "Systolic Blood Pressure",
+              "code": "8480-6",
+              "value": "120",
+              "unit": "mm[Hg]",
+              "date": "2023-10-15T10:30:00",
+              "interpretation": "Normal"
+            },
+            {
+              "type": "Diastolic Blood Pressure",
+              "code": "8462-4",
+              "value": "80",
+              "unit": "mm[Hg]",
+              "date": "2023-10-15T10:30:00",
+              "interpretation": "Normal"
+            },
+            {
+              "type": "Body Temperature",
+              "code": "8310-5",
+              "value": "98.6",
+              "unit": "degF",
+              "date": "2023-10-15T10:30:00",
+              "interpretation": "Normal"
+            },
+            {
+              "type": "Respiratory Rate",
+              "code": "9279-1",
+              "value": "16",
+              "unit": "/min",
+              "date": "2023-10-15T10:30:00",
+              "interpretation": "Normal"
+            },
+            {
+              "type": "Body Weight",
+              "code": "29463-7",
+              "value": "185",
+              "unit": "lb",
+              "date": "2023-10-15T10:30:00"
+            },
+            {
+              "type": "Body Height",
+              "code": "8302-2",
+              "value": "70",
+              "unit": "in",
+              "date": "2023-10-15T10:30:00"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "procedures",
+      "title": "Procedures",
+      "data": [
+        {
+          "name": "Appendectomy",
+          "code": "80146002",
+          "code_system": "SNOMED",
+          "date": "2015-07-20",
+          "status": "completed",
+          "target_site": "Appendix"
+        },
+        {
+          "name": "Colonoscopy",
+          "code": "73761001",
+          "code_system": "SNOMED",
+          "date": "2022-04-10",
+          "status": "completed",
+          "target_site": "Colon"
+        }
+      ]
+    },
+    {
+      "type": "results",
+      "title": "Laboratory Results",
+      "data": [
+        {
+          "name": "Complete Blood Count",
+          "code": "58410-2",
+          "code_system": "LOINC",
+          "date": "2023-10-15T09:00:00",
+          "status": "completed",
+          "results": [
+            {
+              "name": "Hemoglobin",
+              "code": "718-7",
+              "code_system": "LOINC",
+              "value": "14.5",
+              "unit": "g/dL",
+              "date": "2023-10-15T09:00:00",
+              "interpretation": "Normal",
+              "reference_range": "13.5-17.5 g/dL"
+            },
+            {
+              "name": "White Blood Cell Count",
+              "code": "6690-2",
+              "code_system": "LOINC",
+              "value": "7.2",
+              "unit": "10*3/uL",
+              "date": "2023-10-15T09:00:00",
+              "interpretation": "Normal",
+              "reference_range": "4.5-11.0 10*3/uL"
+            },
+            {
+              "name": "Platelet Count",
+              "code": "777-3",
+              "code_system": "LOINC",
+              "value": "250",
+              "unit": "10*3/uL",
+              "date": "2023-10-15T09:00:00",
+              "interpretation": "Normal",
+              "reference_range": "150-400 10*3/uL"
+            }
+          ]
+        },
+        {
+          "name": "Metabolic Panel",
+          "code": "24323-8",
+          "code_system": "LOINC",
+          "date": "2023-10-15T09:00:00",
+          "status": "completed",
+          "results": [
+            {
+              "name": "Glucose",
+              "code": "2345-7",
+              "code_system": "LOINC",
+              "value": "95",
+              "unit": "mg/dL",
+              "date": "2023-10-15T09:00:00",
+              "interpretation": "Normal",
+              "reference_range": "70-100 mg/dL"
+            },
+            {
+              "name": "Creatinine",
+              "code": "2160-0",
+              "code_system": "LOINC",
+              "value": "1.0",
+              "unit": "mg/dL",
+              "date": "2023-10-15T09:00:00",
+              "interpretation": "Normal",
+              "reference_range": "0.7-1.3 mg/dL"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "encounters",
+      "title": "Encounters",
+      "data": [
+        {
+          "type": "Office Visit",
+          "code": "99213",
+          "code_system": "CPT",
+          "start_date": "2023-10-15",
+          "status": "completed",
+          "location": "Community Health Center",
+          "performer": "Dr. Alice Smith"
+        },
+        {
+          "type": "Annual Physical Examination",
+          "code": "99385",
+          "code_system": "CPT",
+          "start_date": "2023-01-15",
+          "status": "completed",
+          "location": "Community Health Center",
+          "performer": "Dr. Alice Smith"
+        }
+      ]
+    },
+    {
+      "type": "social_history",
+      "title": "Social History",
+      "data": [
+        {
+          "status": "Former smoker",
+          "code": "8517006",
+          "code_system": "SNOMED",
+          "date": "2023-10-15T10:30:00"
+        }
+      ]
+    }
+  ]
+}

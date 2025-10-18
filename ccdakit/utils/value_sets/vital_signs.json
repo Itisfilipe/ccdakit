@@ -1,0 +1,76 @@
+{
+  "oid": "2.16.840.1.113883.3.88.12.80.62",
+  "name": "Vital Sign Result Type",
+  "description": "Types of vital sign measurements using LOINC codes",
+  "version": "1.0",
+  "source": "HL7 C-CDA R2.1 / US Core",
+  "url": "http://hl7.org/fhir/ValueSet/observation-vitalsignresult",
+  "codes": {
+    "8310-5": {
+      "display": "Body temperature",
+      "system": "LOINC",
+      "definition": "Body temperature measurement",
+      "units": "Cel, [degF]"
+    },
+    "8867-4": {
+      "display": "Heart rate",
+      "system": "LOINC",
+      "definition": "Heart rate measurement",
+      "units": "/min"
+    },
+    "9279-1": {
+      "display": "Respiratory rate",
+      "system": "LOINC",
+      "definition": "Respiratory rate measurement",
+      "units": "/min"
+    },
+    "8480-6": {
+      "display": "Systolic blood pressure",
+      "system": "LOINC",
+      "definition": "Systolic blood pressure measurement",
+      "units": "mm[Hg]"
+    },
+    "8462-4": {
+      "display": "Diastolic blood pressure",
+      "system": "LOINC",
+      "definition": "Diastolic blood pressure measurement",
+      "units": "mm[Hg]"
+    },
+    "8287-5": {
+      "display": "Head circumference",
+      "system": "LOINC",
+      "definition": "Head circumference measurement",
+      "units": "cm, [in_i]"
+    },
+    "8302-2": {
+      "display": "Body height",
+      "system": "LOINC",
+      "definition": "Body height measurement",
+      "units": "cm, [in_i]"
+    },
+    "8306-3": {
+      "display": "Body height (lying)",
+      "system": "LOINC",
+      "definition": "Body height measurement in recumbent position",
+      "units": "cm, [in_i]"
+    },
+    "29463-7": {
+      "display": "Body weight",
+      "system": "LOINC",
+      "definition": "Body weight measurement",
+      "units": "kg, [lb_av]"
+    },
+    "39156-5": {
+      "display": "Body mass index",
+      "system": "LOINC",
+      "definition": "Body mass index (BMI)",
+      "units": "kg/m2"
+    },
+    "2710-2": {
+      "display": "Oxygen saturation",
+      "system": "LOINC",
+      "definition": "Oxygen saturation in arterial blood",
+      "units": "%"
+    }
+  }
+}

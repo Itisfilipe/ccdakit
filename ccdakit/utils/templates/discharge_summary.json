@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "title": "Hospital Discharge Summary",
+    "description": "Empty template for hospital discharge summary documentation",
+    "document_type": "discharge_summary",
+    "template_id": "2.16.840.1.113883.10.20.22.1.8"
+  },
+  "patient": {
+    "first_name": "[Patient First Name]",
+    "middle_name": null,
+    "last_name": "[Patient Last Name]",
+    "date_of_birth": "2000-01-01",
+    "sex": "M",
+    "race": null,
+    "ethnicity": null,
+    "language": "eng",
+    "ssn": null,
+    "marital_status": null,
+    "addresses": [
+      {
+        "street_lines": ["[Street Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "home"
+      }
+    ]
+  },
+  "author": {
+    "first_name": "[Physician First Name]",
+    "middle_name": null,
+    "last_name": "[Physician Last Name]",
+    "npi": "[NPI]",
+    "time": "2024-01-01T00:00:00",
+    "addresses": [
+      {
+        "street_lines": ["[Hospital Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "work"
+      }
+    ],
+    "organization": {
+      "name": "[Hospital Name]",
+      "npi": "[Hospital NPI]",
+      "tin": null,
+      "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+      "addresses": [
+        {
+          "street_lines": ["[Hospital Address]"],
+          "city": "[City]",
+          "state": "[State]",
+          "postal_code": "[ZIP]",
+          "country": "US"
+        }
+      ],
+      "telecoms": [
+        {
+          "type": "phone",
+          "value": "[Phone Number]",
+          "use": "work"
+        }
+      ]
+    }
+  },
+  "custodian": {
+    "name": "[Hospital Name]",
+    "npi": "[Hospital NPI]",
+    "tin": null,
+    "oid_root": "2.16.840.1.113883.3.EXAMPLE",
+    "addresses": [
+      {
+        "street_lines": ["[Hospital Address]"],
+        "city": "[City]",
+        "state": "[State]",
+        "postal_code": "[ZIP]",
+        "country": "US"
+      }
+    ],
+    "telecoms": [
+      {
+        "type": "phone",
+        "value": "[Phone Number]",
+        "use": "work"
+      }
+    ]
+  },
+  "sections": {
+    "problems": [],
+    "medications": [],
+    "procedures": [],
+    "encounters": []
+  }
+}
