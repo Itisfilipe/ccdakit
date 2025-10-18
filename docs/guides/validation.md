@@ -45,13 +45,36 @@ class ValidationIssue:
 
 ## Schematron Validation
 
-More advanced rule-based validation:
+More advanced rule-based validation for business rules and template conformance.
+
+### Automatic Setup
+
+The official HL7 C-CDA R2.1 Schematron files are automatically downloaded and cleaned on first use:
 
 ```python
 from ccdakit.validators import SchematronValidator
 
+# Files auto-download on first use (~63MB one-time download)
+# Automatically uses cleaned version compatible with lxml
+validator = SchematronValidator()
+result = validator.validate(xml_string)
+
+if result.is_valid:
+    print("✅ Passes Schematron validation!")
+else:
+    for error in result.errors:
+        print(f"  - {error.message}")
+```
+
+**Note**: The official HL7 Schematron file contains IDREF errors that prevent lxml from loading it. ccdakit automatically cleans these files during download, removing invalid pattern references while preserving all validation rules.
+
+### Custom Schematron Files
+
+You can also use your own Schematron files:
+
+```python
 validator = SchematronValidator(
-    schematron_path="path/to/ccda.sch"
+    schematron_path="path/to/custom.sch"
 )
 result = validator.validate(xml_string)
 ```

@@ -64,10 +64,12 @@ Future development plans for ccdakit.
 ### Known Gaps & Limitations
 
 **Validation**:
-- Schematron validation implementation complete, but official HL7 C-CDA R2.1 Schematron file is incompatible with lxml's strict ISO Schematron parser
-  - Works perfectly with custom/simple Schematron files
-  - Recommend using XSD validation (fully functional) or external ONC validator for production
-  - See `schemas/schematron/README.md` for details and alternatives
+- ✅ **Schematron validation fully functional** (as of v0.1.0)
+  - Official HL7 C-CDA R2.1 Schematron file had IDREF errors (incompatible with lxml)
+  - Now automatically cleaned on download to fix compatibility issues
+  - All validation rules preserved, ~60 invalid pattern references removed
+  - Auto-download and cleaning happens on first use
+  - See `schemas/schematron/README.md` for technical details
 
 **Missing Sections** (53 remaining sections - not critical for most use cases):
 - Care Team, Immunization Recommendation, Transfer Summary, etc.
@@ -137,7 +139,7 @@ Future development plans for ccdakit.
 - [ ] Validation profiles (strict/lenient modes)
 - [ ] Batch validation utilities
 - [ ] Validation report formatting (HTML, PDF)
-- [ ] Pre-processing tool for HL7 Schematron files (fix compatibility issues)
+- [x] ~~Pre-processing tool for HL7 Schematron files~~ (✅ Completed in v0.1.0)
 
 ### Developer Tools
 - [ ] CLI tool for document generation

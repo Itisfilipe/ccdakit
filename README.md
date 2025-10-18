@@ -140,16 +140,21 @@ doc = ClinicalDocument(
 ### Validation
 
 ```python
-from ccdakit.validators import XSDValidator
+from ccdakit.validators import XSDValidator, SchematronValidator
 
-validator = XSDValidator()
-result = validator.validate(xml_string)
+# XSD structural validation
+xsd_validator = XSDValidator()
+result = xsd_validator.validate(xml_string)
+
+# Schematron business rule validation (auto-downloads on first use)
+schematron_validator = SchematronValidator()
+result = schematron_validator.validate(xml_string)
 
 if result.is_valid:
     print("Document is valid")
 else:
-    for issue in result.issues:
-        print(f"Error: {issue.message} (line {issue.line})")
+    for issue in result.errors:
+        print(f"Error: {issue.message}")
 ```
 
 **Complete examples:** [examples/generate_ccda.py](./examples/generate_ccda.py)
@@ -229,7 +234,7 @@ XSD schema validation integrated into the generation process:
 - Official HL7 schemas
 - Configurable validation rules
 - Detailed error reporting with line numbers
-- Schematron support (in development)
+- Schematron support with auto-download and cleaning
 
 ### Automatic Narrative Generation
 
@@ -299,7 +304,7 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 | **Test Suite** | 1,903 comprehensive tests |
 | **Code Coverage** | 94% |
 | **Documentation** | Complete API reference + 40-page HL7 guide |
-| **Validation** | XSD validation complete, Schematron in progress |
+| **Validation** | XSD validation complete, Schematron validation complete (with auto-cleaning) |
 
 ### Implementation Status
 
@@ -318,8 +323,8 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 - [ ] Instructions Section
 - [ ] Additional document-specific sections
 
-**Phase 3: Enhanced Validation** (Planned)
-- [ ] Schematron validation
+**Phase 3: Enhanced Validation** (In Progress)
+- [x] Schematron validation with auto-download and IDREF error fixing
 - [ ] ONC C-CDA Validator integration
 - [ ] Custom validation rules API
 - [ ] Performance optimization

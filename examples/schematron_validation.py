@@ -7,6 +7,10 @@ This example shows how to:
 3. Understand and interpret Schematron validation results
 4. Combine XSD and Schematron validation for complete validation
 5. Common fixes for Schematron validation failures
+
+Note: The official HL7 C-CDA R2.1 Schematron file contains IDREF errors that
+prevent lxml from loading it. ccdakit automatically downloads and cleans these
+files on first use, fixing the errors while preserving all validation rules.
 """
 
 from pathlib import Path
@@ -75,11 +79,13 @@ def validate_document_with_schematron(xml_file: Path):
     print(f"\nDocument: {xml_file}")
 
     # Initialize validator with default HL7 C-CDA R2.1 Schematron
+    # Files are auto-downloaded and cleaned on first use
     print("\n[1] Initializing Schematron Validator...")
     try:
         validator = SchematronValidator()
         print("    ✓ Validator initialized successfully")
         print(f"    Schematron: {validator.schematron_location.name}")
+        print(f"    (Cleaned version - IDREF errors fixed automatically)")
     except FileNotFoundError as e:
         print(f"    ✗ Error: {e}")
         print("\n    Schematron files not found.")

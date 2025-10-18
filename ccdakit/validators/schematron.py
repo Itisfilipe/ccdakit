@@ -19,7 +19,7 @@ class SchematronValidator(BaseValidator):
     template conformance, and ONC certification requirements.
 
     Usage:
-        >>> # Use default HL7 C-CDA R2.1 Schematron
+        >>> # Use default HL7 C-CDA R2.1 Schematron (auto-cleaned version)
         >>> validator = SchematronValidator()
         >>> result = validator.validate(document)
         >>> if result.is_valid:
@@ -35,7 +35,11 @@ class SchematronValidator(BaseValidator):
 
     Note:
         Schematron validation requires both the .sch file and voc.xml vocabulary file.
-        These are automatically included in the schemas/schematron/ directory.
+        These are automatically downloaded and cleaned on first use.
+
+        The official HL7 Schematron file contains IDREF errors that prevent lxml
+        from loading it. This validator automatically uses a cleaned version that
+        fixes these errors while preserving all validation rules.
     """
 
     # SVRL namespace for validation report
@@ -91,6 +95,9 @@ class SchematronValidator(BaseValidator):
         """
         Resolve Schematron file path.
 
+        Uses the cleaned version of HL7 C-CDA R2.1 Schematron by default, as the
+        original file contains IDREF errors that prevent lxml from loading it.
+
         Args:
             path: User-provided path or None for default
 
@@ -100,24 +107,35 @@ class SchematronValidator(BaseValidator):
         if path is not None:
             return Path(path)
 
-        # Default to HL7 C-CDA R2.1 Schematron in package
-        # Try to find schemas directory relative to this file
+        # Default to cleaned HL7 C-CDA R2.1 Schematron in package
+        # The cleaned version has IDREF errors fixed for lxml compatibility
         current_dir = Path(__file__).parent
         package_root = current_dir.parent.parent
 
-        # Check common locations
-        locations = [
+        # Check common locations for cleaned version first
+        cleaned_locations = [
+            package_root / "schemas" / "schematron" / "HL7_CCDA_R2.1_cleaned.sch",
+            Path("schemas") / "schematron" / "HL7_CCDA_R2.1_cleaned.sch",
+            Path.cwd() / "schemas" / "schematron" / "HL7_CCDA_R2.1_cleaned.sch",
+        ]
+
+        for location in cleaned_locations:
+            if location.exists():
+                return location
+
+        # Fall back to original (for backwards compatibility)
+        original_locations = [
             package_root / "schemas" / "schematron" / "HL7_CCDA_R2.1.sch",
             Path("schemas") / "schematron" / "HL7_CCDA_R2.1.sch",
             Path.cwd() / "schemas" / "schematron" / "HL7_CCDA_R2.1.sch",
         ]
 
-        for location in locations:
+        for location in original_locations:
             if location.exists():
                 return location
 
-        # Return default expected location (may not exist yet)
-        return package_root / "schemas" / "schematron" / "HL7_CCDA_R2.1.sch"
+        # Return default expected location (cleaned version, may not exist yet)
+        return package_root / "schemas" / "schematron" / "HL7_CCDA_R2.1_cleaned.sch"
 
     def _attempt_auto_download(self) -> None:
         """
@@ -171,9 +189,12 @@ class SchematronValidator(BaseValidator):
             # Create Schematron validator
             # store_schematron=True keeps the compiled schematron for inspection
             # store_report=True keeps validation reports for error extraction
+            # For HL7 files, we need to be less strict about validation
             kwargs = {
                 "store_schematron": True,
                 "store_report": True,
+                # Skip schema validation to be more permissive with HL7 files
+                "validate_schema": False,
             }
 
             if self.phase is not None:

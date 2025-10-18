@@ -51,7 +51,11 @@ All notable changes to ccdakit will be documented here.
 
 **Validation**:
 - XSD schema validation
-- Schematron validation framework
+- Schematron validation framework with auto-download and cleaning
+  - Automatic download of official HL7 C-CDA R2.1 Schematron files
+  - Automatic cleaning to fix IDREF errors (lxml compatibility)
+  - Removes ~60 invalid pattern references while preserving all validation rules
+  - Creates both original and cleaned versions for transparency
 - Custom validation rules
 - Common validation rule library
 

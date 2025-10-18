@@ -394,28 +394,20 @@ class TestSchematronValidator:
 
         assert result.is_valid is True
 
-    @pytest.mark.skip(
-        reason="HL7 C-CDA Schematron file is not compatible with lxml's strict ISO Schematron parser. "
-        "The official HL7 file has structural issues (missing warning patterns, invalid references). "
-        "See: https://github.com/HL7/CDA-ccda-2.1/issues for known issues."
-    )
     def test_default_schematron_path_resolution(self):
         """Test that default Schematron path resolves correctly."""
-        # This will use the default HL7 C-CDA R2.1 Schematron
+        # This will use the cleaned HL7 C-CDA R2.1 Schematron
         validator = SchematronValidator()
 
         # Verify it loaded successfully
         assert validator.schematron is not None
         assert validator.schematron_path.exists()
-        assert validator.schematron_path.name == "HL7_CCDA_R2.1.sch"
+        # Should use cleaned version by default
+        assert "cleaned" in validator.schematron_path.name.lower()
 
-    @pytest.mark.skip(
-        reason="HL7 C-CDA Schematron file is not compatible with lxml's strict ISO Schematron parser. "
-        "The official HL7 file has structural issues (missing warning patterns, invalid references). "
-        "See: https://github.com/HL7/CDA-ccda-2.1/issues for known issues."
-    )
     def test_validate_with_real_ccda_schematron(self, valid_ccda_minimal):
-        """Test validation with real HL7 C-CDA Schematron."""
+        """Test validation with cleaned HL7 C-CDA Schematron."""
+        # This uses the auto-cleaned version that has IDREF errors fixed
         validator = SchematronValidator()
         result = validator.validate(valid_ccda_minimal)
 

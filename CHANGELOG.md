@@ -10,7 +10,7 @@ All notable changes to ccdakit are documented here.
 
 **29 Clinical Sections**: Problems, Medications, Allergies, Immunizations, Vital Signs, Procedures, Results, Social History, Encounters
 
-**Validation**: XSD validation, Schematron framework, custom rules
+**Validation**: XSD validation, Schematron validation with auto-download and IDREF cleaning, custom rules
 
 **Utilities**: Code systems, value sets, test data generator, builders
 

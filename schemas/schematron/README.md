@@ -86,33 +86,79 @@ Schematron is a rule-based validation language for XML documents. Unlike XSD whi
 - **Code system validation**: Verification of codes against value sets
 - **Cross-reference validation**: Relationships between different parts of the document
 
-## Known Limitations
+## Automatic File Cleaning
 
-### lxml Compatibility Issue
+### The IDREF Error Problem
 
-⚠️ **Important**: The official HL7 C-CDA R2.1 Schematron file (`HL7_CCDA_R2.1.sch`) has structural issues that prevent it from being loaded by lxml's strict ISO Schematron parser:
+The official HL7 C-CDA R2.1 Schematron file (`HL7_CCDA_R2.1.sch`) contains **IDREF errors** that prevent it from being loaded by lxml's strict ISO Schematron parser:
 
-- Missing "warnings" phase patterns (file only defines "errors" phase)
-- Contains invalid pattern references (IDREF attributes pointing to non-existent IDs)
-- Does not conform to strict ISO Schematron schema validation
+- Contains hundreds of invalid pattern references (IDREF attributes pointing to non-existent pattern IDs)
+- References patterns like `p-urn-hl7ii-2.16.840.1.113883.10.20.22.4.27-2014-06-09-errors` that don't exist in the file
+- Does not conform to strict ISO Schematron RelaxNG schema validation
 
-**Impact**: While the Schematron validator in ccdakit works perfectly with custom/simple Schematron files, it cannot currently load the official HL7 file due to lxml's strict validation.
+### The Solution: Automatic Cleaning
 
-**Alternatives**:
-1. **XSD Validation** (Recommended): Use `XSDValidator` for structure and data type validation - this works perfectly and covers most validation needs
-2. **Custom Schematron**: Create simplified Schematron rules for your specific needs
-3. **External Tools**: Use ONC's C-CDA Validator or other Java-based Schematron processors
+**Good news!** ccdakit automatically fixes these issues:
 
-**Future Work**: We're investigating:
-- Pre-processing the HL7 Schematron to fix structural issues
-- Using XSLT-based Schematron validation (more permissive)
-- Integration with external validation services
+1. **On first download**: The `SchematronDownloader` automatically cleans the HL7 file
+2. **Creates cleaned version**: Saves both `HL7_CCDA_R2.1.sch` (original) and `HL7_CCDA_R2.1_cleaned.sch` (fixed)
+3. **Uses cleaned by default**: `SchematronValidator()` automatically uses the cleaned version
+4. **Preserves all rules**: Only invalid references are removed - all validation rules remain intact
+
+### What Gets Cleaned?
+
+The cleaning process:
+- ✅ Scans all `<sch:pattern id="...">` elements to find actual pattern definitions
+- ✅ Identifies invalid `<sch:active pattern="..."/>` references in phases
+- ✅ Removes references to non-existent patterns
+- ✅ Keeps all actual validation rules unchanged
+- ✅ Adds explanatory comment to cleaned file
+
+**Example**: If the "errors" phase references 240 patterns but only 180 exist, the cleaner removes the 60 invalid references.
+
+### Files in This Directory
+
+After automatic download and cleaning, you'll have:
+
+1. **HL7_CCDA_R2.1.sch** (Original, ~987 KB)
+   - Original file from HL7 GitHub repository
+   - Contains IDREF errors, cannot be loaded by lxml
+   - Kept for transparency and reference
+
+2. **HL7_CCDA_R2.1_cleaned.sch** (Cleaned, ~987 KB)
+   - Auto-generated cleaned version
+   - IDREF errors fixed, compatible with lxml
+   - **This is the version used by SchematronValidator by default**
+   - All validation rules preserved
+
+3. **voc.xml** (Vocabulary, ~62 MB)
+   - Required vocabulary file for Schematron validation
+   - No cleaning needed
+
+### Manual Cleaning
+
+If you need to manually clean a Schematron file:
+
+```python
+from pathlib import Path
+from ccdakit.validators.schematron_cleaner import clean_schematron_file
+
+# Clean a Schematron file
+input_file = Path("schemas/schematron/HL7_CCDA_R2.1.sch")
+output_file, stats = clean_schematron_file(input_file)
+
+print(f"Removed {stats['invalid_references']} invalid pattern references")
+print(f"Cleaned file saved to: {output_file}")
+```
 
 ## ONC Certification
 
 The C-CDA R2.1 Schematron rules are required for ONC (Office of the National Coordinator for Health IT) certification. Passing Schematron validation is a key requirement for certified EHR systems.
 
-**Note**: For ONC certification, you should use the official ONC C-CDA Validator tool or Java-based Schematron processors alongside ccdakit's XSD validation.
+ccdakit's `SchematronValidator` now fully supports validation using the official HL7 C-CDA R2.1 Schematron rules (via the auto-cleaned version). For production ONC certification workflows, consider also validating with:
+- Official ONC C-CDA Validator (https://site.healthit.gov/sandbox-ccda/ccda-validator)
+- NIST C-CDA Validation Tool
+- Cross-validation with ccdakit's `XSDValidator` for structural validation
 
 ## License
 

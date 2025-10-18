@@ -65,8 +65,18 @@ configure(config)
 
 ## Schematron Files
 
-Schematron files for business rule validation can be obtained from:
+**Good news!** Schematron files are automatically downloaded and cleaned on first use.
+
+When you initialize `SchematronValidator()`, ccdakit will:
+1. Auto-download official HL7 C-CDA R2.1 Schematron files (~63MB)
+2. Auto-clean them to fix IDREF errors (required for lxml compatibility)
+3. Save both original and cleaned versions to `schemas/schematron/`
+
+The official HL7 Schematron file contains invalid pattern references that prevent lxml from loading it. ccdakit automatically cleans these files during download, removing ~60 invalid references while preserving all validation rules.
+
+See `schemas/schematron/README.md` for detailed information about the cleaning process.
+
+**Alternative sources** (if manual download needed):
+- Official HL7: https://github.com/HL7/CDA-ccda-2.1
 - ONC C-CDA Validator: https://github.com/onc-healthit/ccda-schematron
 - MDHT Project: https://github.com/mdht/mdht-models
-
-Extract `.sch` files to this directory for use with SchematronValidator.

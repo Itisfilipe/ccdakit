@@ -1,8 +1,11 @@
 """Utility for downloading C-CDA Schematron validation files."""
 
+import logging
 import urllib.request
 from pathlib import Path
 from typing import Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 
 class SchematronDownloader:
@@ -73,6 +76,9 @@ class SchematronDownloader:
         """
         Download both Schematron and vocabulary files.
 
+        After downloading the Schematron file, automatically cleans it to fix
+        IDREF errors that prevent lxml from loading it.
+
         Args:
             force: Force download even if files exist
 
@@ -84,6 +90,20 @@ class SchematronDownloader:
         # Download Schematron
         success_sch, msg_sch = self.download_schematron(force)
         results.append((success_sch, msg_sch))
+
+        # Clean Schematron file if download succeeded
+        if success_sch:
+            try:
+                clean_success, clean_msg = self._clean_schematron_file()
+                results.append((clean_success, clean_msg))
+            except Exception as e:
+                logger.warning(f"Failed to clean Schematron file: {e}")
+                results.append(
+                    (
+                        False,
+                        f"⚠ Warning: Schematron file downloaded but cleaning failed: {e}",
+                    )
+                )
 
         # Download vocabulary
         success_voc, msg_voc = self.download_vocabulary(force)
@@ -97,15 +117,20 @@ class SchematronDownloader:
 
     def are_files_present(self) -> bool:
         """
-        Check if both required files are already downloaded.
+        Check if all required files are already downloaded.
 
         Returns:
-            True if both files exist, False otherwise
+            True if original Schematron, cleaned Schematron, and vocabulary files exist
         """
-        schematron_path = self.target_dir / self.FILES["schematron"]["filename"]
-        vocabulary_path = self.target_dir / self.FILES["vocabulary"]["filename"]
+        schematron_path = self.get_schematron_path()
+        cleaned_path = self.get_cleaned_schematron_path()
+        vocabulary_path = self.get_vocabulary_path()
 
-        return schematron_path.exists() and vocabulary_path.exists()
+        return (
+            schematron_path.exists()
+            and cleaned_path.exists()
+            and vocabulary_path.exists()
+        )
 
     def _download_file(self, file_type: str, force: bool = False) -> Tuple[bool, str]:
         """
@@ -152,6 +177,41 @@ class SchematronDownloader:
     def get_vocabulary_path(self) -> Path:
         """Get path to vocabulary file."""
         return self.target_dir / self.FILES["vocabulary"]["filename"]
+
+    def get_cleaned_schematron_path(self) -> Path:
+        """Get path to cleaned Schematron file."""
+        original_name = self.FILES["schematron"]["filename"]
+        # Replace .sch with _cleaned.sch
+        cleaned_name = original_name.replace(".sch", "_cleaned.sch")
+        return self.target_dir / cleaned_name
+
+    def _clean_schematron_file(self) -> Tuple[bool, str]:
+        """
+        Clean the Schematron file to fix IDREF errors.
+
+        Returns:
+            Tuple of (success: bool, message: str)
+        """
+        try:
+            # Import here to avoid circular dependency
+            from .schematron_cleaner import clean_schematron_file
+
+            schematron_path = self.get_schematron_path()
+            cleaned_path = self.get_cleaned_schematron_path()
+
+            # Clean the file
+            output_path, stats = clean_schematron_file(
+                schematron_path, output_path=cleaned_path, quiet=True
+            )
+
+            msg = (
+                f"✓ Cleaned Schematron file: removed {stats['invalid_references']} "
+                f"invalid pattern references"
+            )
+            return True, msg
+
+        except Exception as e:
+            return False, f"✗ Failed to clean Schematron file: {e}"
 
 
 def download_schematron_files(
