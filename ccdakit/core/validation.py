@@ -1,8 +1,10 @@
 """Validation infrastructure for C-CDA documents."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional
+from typing import Any
 
 
 class ValidationLevel(Enum):
@@ -19,8 +21,9 @@ class ValidationIssue:
 
     level: ValidationLevel
     message: str
-    location: Optional[str] = None  # XPath or description
-    code: Optional[str] = None  # Error code for categorization
+    location: str | None = None  # XPath or description
+    code: str | None = None  # Error code for categorization
+    parsed_data: dict[str, Any] | None = None  # Parsed error data for enhanced display
 
     def __str__(self) -> str:
         """String representation of issue."""
@@ -33,9 +36,9 @@ class ValidationIssue:
 class ValidationResult:
     """Result of validation with errors, warnings, and info."""
 
-    errors: List[ValidationIssue] = field(default_factory=list)
-    warnings: List[ValidationIssue] = field(default_factory=list)
-    infos: List[ValidationIssue] = field(default_factory=list)
+    errors: list[ValidationIssue] = field(default_factory=list)
+    warnings: list[ValidationIssue] = field(default_factory=list)
+    infos: list[ValidationIssue] = field(default_factory=list)
 
     @property
     def is_valid(self) -> bool:
@@ -48,7 +51,7 @@ class ValidationResult:
         return len(self.warnings) > 0
 
     @property
-    def all_issues(self) -> List[ValidationIssue]:
+    def all_issues(self) -> list[ValidationIssue]:
         """Get all issues in order: errors, warnings, infos."""
         return self.errors + self.warnings + self.infos
 
@@ -64,14 +67,26 @@ class ValidationResult:
 
     def to_dict(self) -> dict:
         """Convert to dictionary for JSON serialization."""
+
+        def issue_to_dict(issue: ValidationIssue) -> dict:
+            """Convert a single issue to dict, including parsed data if available."""
+            result = {
+                "message": str(issue),
+                "raw_message": issue.message,
+            }
+            # Only add parsed data if it exists (Schematron validation has it, XSD doesn't)
+            if hasattr(issue, "parsed_data") and issue.parsed_data:
+                result["parsed"] = issue.parsed_data
+            return result
+
         return {
             "is_valid": self.is_valid,
             "error_count": len(self.errors),
             "warning_count": len(self.warnings),
             "info_count": len(self.infos),
-            "errors": [str(e) for e in self.errors],
-            "warnings": [str(w) for w in self.warnings],
-            "infos": [str(i) for i in self.infos],
+            "errors": [issue_to_dict(e) for e in self.errors],
+            "warnings": [issue_to_dict(w) for w in self.warnings],
+            "infos": [issue_to_dict(i) for i in self.infos],
         }
 
     def __str__(self) -> str:

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ccdakit
+    runtime: python
+    repo: https://github.com/Itisfilipe/ccdakit
+    branch: main
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run ccdakit serve --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: PORT
+        sync: false
+    healthCheckPath: /
+    autoDeploy: true
