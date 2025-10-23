@@ -24,22 +24,22 @@ class TestValidationRule:
     def test_validation_rule_init(self):
         """Test ValidationRule initialization."""
 
-        class TestRule(ValidationRule):
+        class MockRule(ValidationRule):
             def validate(self, document):
                 return []
 
-        rule = TestRule("test_rule", "Test description")
+        rule = MockRule("test_rule", "Test description")
         assert rule.name == "test_rule"
         assert rule.description == "Test description"
 
     def test_validation_rule_repr(self):
         """Test ValidationRule string representation."""
 
-        class TestRule(ValidationRule):
+        class MockRule(ValidationRule):
             def validate(self, document):
                 return []
 
-        rule = TestRule("test_rule", "Test description")
+        rule = MockRule("test_rule", "Test description")
         assert repr(rule) == "<ValidationRule: test_rule>"
 
     def test_validation_rule_must_implement_validate(self):

@@ -9,11 +9,9 @@ This example shows:
 5. Organization-specific validation scenarios
 """
 
-from datetime import date
+from datetime import date, datetime
 
 from ccdakit.builders.document import ClinicalDocument
-from ccdakit.builders.entries import AllergyEntry, MedicationEntry, ProblemEntry
-from ccdakit.builders.header import AuthorBuilder, CustodianBuilder, PatientBuilder
 from ccdakit.builders.sections import (
     AllergiesSection,
     MedicationsSection,
@@ -33,6 +31,107 @@ from ccdakit.validators.rules import (
 )
 
 
+# ============================================================================
+# Data Models
+# ============================================================================
+
+
+class Patient:
+    """Patient data model that satisfies PatientProtocol."""
+
+    def __init__(self, first_name, last_name, dob, sex):
+        self.first_name = first_name
+        self.middle_name = None
+        self.last_name = last_name
+        self.date_of_birth = dob
+        self.sex = sex
+        self.race = None
+        self.ethnicity = None
+        self.language = None
+        self.ssn = None
+        self.marital_status = None
+        self.addresses = []
+        self.telecoms = []
+
+
+class Author:
+    """Author data model that satisfies AuthorProtocol."""
+
+    def __init__(self, first_name, last_name, time_):
+        self.first_name = first_name
+        self.middle_name = None
+        self.last_name = last_name
+        self.time = time_
+        self.npi = None
+        self.addresses = []
+        self.telecoms = []
+        self.organization = None
+
+
+class Organization:
+    """Organization data model that satisfies OrganizationProtocol."""
+
+    def __init__(self, name):
+        self.name = name
+        self.npi = "1234567890"
+        self.tin = None
+        self.oid_root = None
+        self.addresses = []
+        self.telecoms = []
+
+
+class Problem:
+    """Problem data model that satisfies ProblemProtocol."""
+
+    def __init__(self, name, code, code_system, status, onset_date=None):
+        self.name = name
+        self.code = code
+        self.code_system = code_system
+        self.status = status
+        self.onset_date = onset_date
+        self.resolved_date = None
+        self.persistent_id = None
+
+
+class Medication:
+    """Medication data model that satisfies MedicationProtocol."""
+
+    def __init__(self, name, code, code_system, dosage_value, dosage_unit, route_code, frequency, start_date=None):
+        self.name = name
+        self.code = code
+        self.code_system = code_system
+        self.dosage = f"{dosage_value} {dosage_unit}"
+        self.dosage_value = dosage_value
+        self.dosage_unit = dosage_unit
+        self.route = route_code
+        self.route_code = route_code
+        self.frequency = frequency
+        self.start_date = start_date or date.today()
+        self.end_date = None
+        self.status = "active"
+        self.instructions = None
+
+
+class Allergy:
+    """Allergy data model that satisfies AllergyProtocol."""
+
+    def __init__(self, allergen, allergen_code, allergen_code_system, reaction, reaction_code, severity, status):
+        self.allergen = allergen
+        self.allergen_code = allergen_code
+        self.allergen_code_system = allergen_code_system
+        self.reaction = reaction
+        self.reaction_code = reaction_code
+        self.severity = severity
+        self.status = status
+        self.allergy_type = "medication"  # or "food" or "environment"
+        self.onset_date = None
+
+
+# ============================================================================
+# Examples
+# ============================================================================
+
+
 def example_1_built_in_rules():
     """Example 1: Using built-in validation rules."""
     print("=" * 80)
@@ -40,35 +139,34 @@ def example_1_built_in_rules():
     print("=" * 80)
 
     # Create a simple document
-    patient = PatientBuilder(
+    patient = Patient(
         first_name="John",
         last_name="Doe",
-        date_of_birth=date(1980, 1, 1),
+        dob=date(1980, 1, 1),
         sex="M",
-    ).build()
+    )
 
-    author = AuthorBuilder(first_name="Jane", last_name="Smith", time=date(2024, 1, 15)).build()
+    author = Author(first_name="Jane", last_name="Smith", time_=datetime(2024, 1, 15))
 
-    custodian = CustodianBuilder(name="Test Hospital").build()
+    custodian = Organization(name="Test Hospital")
 
+    # Add problems section
+    problem = Problem(
+        name="Essential Hypertension",
+        code="59621000",
+        code_system="SNOMED",
+        onset_date=date(2020, 1, 1),
+        status="active",
+    )
+
+    # Create document with section
     doc = ClinicalDocument(
         patient=patient,
         author=author,
         custodian=custodian,
+        sections=[ProblemsSection(problems=[problem])],
         version=CDAVersion.R2_1,
     )
-
-    # Add problems section
-    problem = ProblemEntry(
-        problem_name="Essential Hypertension",
-        problem_code="59621000",
-        problem_code_system="SNOMED",
-        onset_date=date(2020, 1, 1),
-        status="active",
-    ).build()
-
-    problems_section = ProblemsSection(entries=[problem])
-    doc.add_section(problems_section.build())
 
     # Build XML
     xml_element = doc.build()
@@ -147,28 +245,27 @@ def example_2_custom_rule_class():
             return issues
 
     # Create document
-    patient = PatientBuilder(
-        first_name="Jane", last_name="Smith", date_of_birth=date(1990, 5, 15), sex="F"
-    ).build()
+    patient = Patient(first_name="Jane", last_name="Smith", dob=date(1990, 5, 15), sex="F")
 
-    author = AuthorBuilder(first_name="Dr", last_name="Jones", time=date(2024, 1, 15)).build()
+    author = Author(first_name="Dr", last_name="Jones", time_=datetime(2024, 1, 15))
 
-    custodian = CustodianBuilder(name="Acme Hospital").build()
-
-    doc = ClinicalDocument(
-        patient=patient, author=author, custodian=custodian, version=CDAVersion.R2_1
-    )
+    custodian = Organization(name="Acme Hospital")
 
     # Add problem WITHOUT onset date (will fail validation)
-    problem = ProblemEntry(
-        problem_name="Type 2 Diabetes",
-        problem_code="44054006",
-        problem_code_system="SNOMED",
+    problem = Problem(
+        name="Type 2 Diabetes",
+        code="44054006",
+        code_system="SNOMED",
         status="active",
-    ).build()
+    )
 
-    problems_section = ProblemsSection(entries=[problem])
-    doc.add_section(problems_section.build())
+    doc = ClinicalDocument(
+        patient=patient,
+        author=author,
+        custodian=custodian,
+        sections=[ProblemsSection(problems=[problem])],
+        version=CDAVersion.R2_1,
+    )
 
     xml_element = doc.build()
 
@@ -195,39 +292,41 @@ def example_3_rule_builder():
     print("=" * 80)
 
     # Create document
-    patient = PatientBuilder(
-        first_name="Bob", last_name="Johnson", date_of_birth=date(1975, 3, 20), sex="M"
-    ).build()
+    patient = Patient(first_name="Bob", last_name="Johnson", dob=date(1975, 3, 20), sex="M")
 
-    author = AuthorBuilder(first_name="Dr", last_name="Williams", time=date(2024, 1, 15)).build()
+    author = Author(first_name="Dr", last_name="Williams", time_=datetime(2024, 1, 15))
 
-    custodian = CustodianBuilder(name="City Hospital").build()
-
-    doc = ClinicalDocument(
-        patient=patient, author=author, custodian=custodian, version=CDAVersion.R2_1
-    )
+    custodian = Organization(name="City Hospital")
 
     # Add multiple sections
-    problem = ProblemEntry(
-        problem_name="Asthma",
-        problem_code="195967001",
-        problem_code_system="SNOMED",
+    problem = Problem(
+        name="Asthma",
+        code="195967001",
+        code_system="SNOMED",
         onset_date=date(2015, 6, 1),
         status="active",
-    ).build()
+    )
 
-    medication = MedicationEntry(
-        medication_name="Albuterol Inhaler",
-        medication_code="745752",
-        medication_code_system="RxNorm",
+    medication = Medication(
+        name="Albuterol Inhaler",
+        code="745752",
+        code_system="RxNorm",
         dosage_value=2.0,
         dosage_unit="puffs",
         route_code="C38216",
         frequency="Q4H PRN",
-    ).build()
+    )
 
-    doc.add_section(ProblemsSection(entries=[problem]).build())
-    doc.add_section(MedicationsSection(entries=[medication]).build())
+    doc = ClinicalDocument(
+        patient=patient,
+        author=author,
+        custodian=custodian,
+        sections=[
+            ProblemsSection(problems=[problem]),
+            MedicationsSection(medications=[medication]),
+        ],
+        version=CDAVersion.R2_1,
+    )
 
     xml_element = doc.build()
 
@@ -299,41 +398,37 @@ def example_4_combined_rules():
     print("=" * 80)
 
     # Create comprehensive document
-    patient = PatientBuilder(
+    patient = Patient(
         first_name="Alice",
         last_name="Brown",
-        date_of_birth=date(1985, 7, 10),
+        dob=date(1985, 7, 10),
         sex="F",
-    ).build()
-
-    author = AuthorBuilder(first_name="Dr", last_name="Taylor", time=date(2024, 1, 15)).build()
-
-    custodian = CustodianBuilder(name="Memorial Hospital").build()
-
-    doc = ClinicalDocument(
-        patient=patient, author=author, custodian=custodian, version=CDAVersion.R2_1
     )
 
+    author = Author(first_name="Dr", last_name="Taylor", time_=datetime(2024, 1, 15))
+
+    custodian = Organization(name="Memorial Hospital")
+
     # Add sections
-    problem = ProblemEntry(
-        problem_name="Hypertension",
-        problem_code="59621000",
-        problem_code_system="SNOMED",
+    problem = Problem(
+        name="Hypertension",
+        code="59621000",
+        code_system="SNOMED",
         onset_date=date(2018, 3, 1),
         status="active",
-    ).build()
+    )
 
-    medication = MedicationEntry(
-        medication_name="Lisinopril 10mg",
-        medication_code="314076",
-        medication_code_system="RxNorm",
+    medication = Medication(
+        name="Lisinopril 10mg",
+        code="314076",
+        code_system="RxNorm",
         dosage_value=10.0,
         dosage_unit="mg",
         route_code="C38288",
         frequency="QD",
-    ).build()
+    )
 
-    allergy = AllergyEntry(
+    allergy = Allergy(
         allergen="Penicillin",
         allergen_code="91936005",
         allergen_code_system="SNOMED",
@@ -341,11 +436,19 @@ def example_4_combined_rules():
         reaction_code="271807003",
         severity="Moderate",
         status="active",
-    ).build()
+    )
 
-    doc.add_section(ProblemsSection(entries=[problem]).build())
-    doc.add_section(MedicationsSection(entries=[medication]).build())
-    doc.add_section(AllergiesSection(entries=[allergy]).build())
+    doc = ClinicalDocument(
+        patient=patient,
+        author=author,
+        custodian=custodian,
+        sections=[
+            ProblemsSection(problems=[problem]),
+            MedicationsSection(medications=[medication]),
+            AllergiesSection(allergies=[allergy]),
+        ],
+        version=CDAVersion.R2_1,
+    )
 
     xml_element = doc.build()
 
@@ -426,42 +529,46 @@ def example_5_organization_workflow():
     # - Patient must have contact info
     # - No future dates allowed
 
-    patient = PatientBuilder(
+    patient = Patient(
         first_name="Charlie",
         last_name="Davis",
-        date_of_birth=date(1960, 11, 5),
+        dob=date(1960, 11, 5),
         sex="M",
-    ).build()
-
-    author = AuthorBuilder(first_name="Dr", last_name="Martinez", time=date(2024, 1, 15)).build()
-
-    custodian = CustodianBuilder(name="County Hospital").build()
-
-    doc = ClinicalDocument(
-        patient=patient, author=author, custodian=custodian, version=CDAVersion.R2_1
     )
 
+    author = Author(first_name="Dr", last_name="Martinez", time_=datetime(2024, 1, 15))
+
+    custodian = Organization(name="County Hospital")
+
     # Add clinical content
-    problem = ProblemEntry(
-        problem_name="Congestive Heart Failure",
-        problem_code="42343007",
-        problem_code_system="SNOMED",
+    problem = Problem(
+        name="Congestive Heart Failure",
+        code="42343007",
+        code_system="SNOMED",
         onset_date=date(2020, 5, 1),
         status="active",
-    ).build()
+    )
 
-    medication = MedicationEntry(
-        medication_name="Furosemide 40mg",
-        medication_code="310429",
-        medication_code_system="RxNorm",
+    medication = Medication(
+        name="Furosemide 40mg",
+        code="310429",
+        code_system="RxNorm",
         dosage_value=40.0,
         dosage_unit="mg",
         route_code="C38288",
         frequency="BID",
-    ).build()
+    )
 
-    doc.add_section(ProblemsSection(entries=[problem]).build())
-    doc.add_section(MedicationsSection(entries=[medication]).build())
+    doc = ClinicalDocument(
+        patient=patient,
+        author=author,
+        custodian=custodian,
+        sections=[
+            ProblemsSection(problems=[problem]),
+            MedicationsSection(medications=[medication]),
+        ],
+        version=CDAVersion.R2_1,
+    )
 
     xml_element = doc.build()
 
@@ -544,7 +651,7 @@ if __name__ == "__main__":
     print("All Examples Complete!")
     print("=" * 80)
     print("\nNext Steps:")
-    print("1. Review CUSTOM_RULES_GUIDE.md for detailed documentation")
+    print("1. Review the validation guide for detailed documentation")
     print("2. Create your own organization-specific validation rules")
     print("3. Combine rules into validation profiles")
     print("4. Integrate validation into your C-CDA generation workflow")

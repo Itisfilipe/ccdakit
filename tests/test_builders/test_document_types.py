@@ -15,8 +15,8 @@ from ccdakit.builders.sections.problems import ProblemsSection
 from ccdakit.core.base import CDAVersion
 
 
-class TestPatient:
-    """Test patient data model."""
+class MockPatient:
+    """Mock patient data model."""
 
     def __init__(self):
         self.first_name = "John"
@@ -29,12 +29,12 @@ class TestPatient:
         self.language = "eng"
         self.ssn = "123-45-6789"
         self.marital_status = "M"
-        self.addresses = [TestAddress()]
-        self.telecoms = [TestTelecom("phone", "617-555-1234", "home")]
+        self.addresses = [MockAddress()]
+        self.telecoms = [MockTelecom("phone", "617-555-1234", "home")]
 
 
-class TestAddress:
-    """Test address data model."""
+class MockAddress:
+    """Mock address data model."""
 
     def __init__(self):
         self.street_lines = ["123 Main St"]
@@ -44,8 +44,8 @@ class TestAddress:
         self.country = "US"
 
 
-class TestTelecom:
-    """Test telecom data model."""
+class MockTelecom:
+    """Mock telecom data model."""
 
     def __init__(self, type_, value, use=None):
         self.type = type_
@@ -53,20 +53,20 @@ class TestTelecom:
         self.use = use
 
 
-class TestOrganization:
-    """Test organization data model."""
+class MockOrganization:
+    """Mock organization data model."""
 
     def __init__(self):
         self.name = "Test Hospital"
         self.npi = "1234567890"
         self.tin = None
         self.oid_root = "2.16.840.1.113883.3.TEST"
-        self.addresses = [TestAddress()]
-        self.telecoms = [TestTelecom("phone", "617-555-9999", "work")]
+        self.addresses = [MockAddress()]
+        self.telecoms = [MockTelecom("phone", "617-555-9999", "work")]
 
 
-class TestAuthor:
-    """Test author data model."""
+class MockAuthor:
+    """Mock author data model."""
 
     def __init__(self):
         self.first_name = "Alice"
@@ -74,13 +74,13 @@ class TestAuthor:
         self.last_name = "Smith"
         self.npi = "9876543210"
         self.time = datetime.now()
-        self.addresses = [TestAddress()]
-        self.telecoms = [TestTelecom("phone", "617-555-5555", "work")]
-        self.organization = TestOrganization()
+        self.addresses = [MockAddress()]
+        self.telecoms = [MockTelecom("phone", "617-555-5555", "work")]
+        self.organization = MockOrganization()
 
 
-class TestProblem:
-    """Test problem data model."""
+class MockProblem:
+    """Mock problem data model."""
 
     def __init__(self):
         self.name = "Hypertension"
@@ -92,8 +92,8 @@ class TestProblem:
         self.persistent_id = None
 
 
-class TestMedication:
-    """Test medication data model."""
+class MockMedication:
+    """Mock medication data model."""
 
     def __init__(self):
         self.name = "Lisinopril 10mg"
@@ -107,8 +107,8 @@ class TestMedication:
         self.instructions = "Take in morning"
 
 
-class TestAllergy:
-    """Test allergy data model."""
+class MockAllergy:
+    """Mock allergy data model."""
 
     def __init__(self):
         self.allergen = "Penicillin"
@@ -121,8 +121,8 @@ class TestAllergy:
         self.onset_date = datetime(2015, 5, 10)
 
 
-class TestDischargeInstruction:
-    """Test discharge instruction data model."""
+class MockDischargeInstruction:
+    """Mock discharge instruction data model."""
 
     def __init__(self):
         self.text = "Follow up with primary care physician in 2 weeks"
@@ -138,32 +138,32 @@ class TestContinuityOfCareDocument:
     @pytest.fixture
     def patient(self):
         """Create test patient."""
-        return TestPatient()
+        return MockPatient()
 
     @pytest.fixture
     def author(self):
         """Create test author."""
-        return TestAuthor()
+        return MockAuthor()
 
     @pytest.fixture
     def custodian(self):
         """Create test custodian."""
-        return TestOrganization()
+        return MockOrganization()
 
     @pytest.fixture
     def problems(self):
         """Create test problems."""
-        return [TestProblem()]
+        return [MockProblem()]
 
     @pytest.fixture
     def medications(self):
         """Create test medications."""
-        return [TestMedication()]
+        return [MockMedication()]
 
     @pytest.fixture
     def allergies(self):
         """Create test allergies."""
-        return [TestAllergy()]
+        return [MockAllergy()]
 
     def test_ccd_basic_creation(self, patient, author, custodian):
         """Test creating basic CCD without sections."""
@@ -314,27 +314,27 @@ class TestDischargeSummary:
     @pytest.fixture
     def patient(self):
         """Create test patient."""
-        return TestPatient()
+        return MockPatient()
 
     @pytest.fixture
     def author(self):
         """Create test author."""
-        return TestAuthor()
+        return MockAuthor()
 
     @pytest.fixture
     def custodian(self):
         """Create test custodian."""
-        return TestOrganization()
+        return MockOrganization()
 
     @pytest.fixture
     def discharge_medications(self):
         """Create test discharge medications."""
-        return [TestMedication()]
+        return [MockMedication()]
 
     @pytest.fixture
     def discharge_instructions(self):
         """Create test discharge instructions."""
-        return [TestDischargeInstruction()]
+        return [MockDischargeInstruction()]
 
     def test_discharge_summary_basic_creation(self, patient, author, custodian):
         """Test creating basic Discharge Summary."""

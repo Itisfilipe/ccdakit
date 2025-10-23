@@ -1,6 +1,6 @@
 """Example: Using Test Data Generators
 
-This example demonstrates how to use the TestDataGenerator class to create
+This example demonstrates how to use the SampleDataGenerator class to create
 realistic test data for C-CDA documents. The generator can create individual
 data elements or complete patient records with all clinical sections.
 
@@ -10,7 +10,7 @@ To run this example, first install the test-data optional dependency:
     uv pip install 'ccdakit[test-data]'
 """
 
-from ccdakit.utils.test_data import TestDataGenerator
+from ccdakit.utils.test_data import SampleDataGenerator
 
 
 def example_basic_generation():
@@ -20,7 +20,7 @@ def example_basic_generation():
     print("=" * 80)
 
     # Create generator (without seed for random data each time)
-    gen = TestDataGenerator()
+    gen = SampleDataGenerator()
 
     # Generate patient demographics
     patient = gen.generate_patient()
@@ -73,8 +73,8 @@ def example_reproducible_data():
     print("=" * 80)
 
     # Using a seed ensures the same data is generated each time
-    gen1 = TestDataGenerator(seed=42)
-    gen2 = TestDataGenerator(seed=42)
+    gen1 = SampleDataGenerator(seed=42)
+    gen2 = SampleDataGenerator(seed=42)
 
     patient1 = gen1.generate_patient()
     patient2 = gen2.generate_patient()
@@ -84,7 +84,7 @@ def example_reproducible_data():
     print(f"Are they the same? {patient1['first_name'] == patient2['first_name']}")
 
     # Different seeds produce different data
-    gen3 = TestDataGenerator(seed=100)
+    gen3 = SampleDataGenerator(seed=100)
     patient3 = gen3.generate_patient()
     print(
         f"\nGenerator 3 Patient (different seed): {patient3['first_name']} {patient3['last_name']}"
@@ -97,7 +97,7 @@ def example_complete_patient_record():
     print("Example 3: Complete Patient Record Generation")
     print("=" * 80)
 
-    gen = TestDataGenerator(seed=42)
+    gen = SampleDataGenerator(seed=42)
 
     # Generate complete patient record with default counts
     record = gen.generate_complete_patient_record()
@@ -128,7 +128,7 @@ def example_custom_counts():
     print("Example 4: Custom Data Counts")
     print("=" * 80)
 
-    gen = TestDataGenerator(seed=123)
+    gen = SampleDataGenerator(seed=123)
 
     # Generate patient with specific counts for each section
     record = gen.generate_complete_patient_record(
@@ -156,7 +156,7 @@ def example_bulk_generation():
     # Generate 5 different patients
     patients = []
     for i in range(5):
-        gen = TestDataGenerator(seed=i)  # Different seed for each
+        gen = SampleDataGenerator(seed=i)  # Different seed for each
         record = gen.generate_complete_patient_record()
         patients.append(record)
 
@@ -180,7 +180,7 @@ def example_integration_with_ccda():
     print("\nNote: This example shows how test data can be used with C-CDA builders.")
     print("The generated dictionaries match the protocol interfaces expected by the builders.")
 
-    gen = TestDataGenerator(seed=42)
+    gen = SampleDataGenerator(seed=42)
 
     # Generate test data
     patient_data = gen.generate_patient()

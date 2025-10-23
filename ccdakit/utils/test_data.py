@@ -5,7 +5,7 @@ documents using the Faker library. The generators produce clinically realistic
 data with proper medical codes (SNOMED, RxNorm, CVX, LOINC, etc.).
 
 Example:
-    generator = TestDataGenerator(seed=42)  # Reproducible data
+    generator = SampleDataGenerator(seed=42)  # Reproducible data
     patient = generator.generate_patient()
     problems = [generator.generate_problem() for _ in range(3)]
     full_record = generator.generate_complete_patient_record()
@@ -24,8 +24,8 @@ except ImportError as e:
     ) from e
 
 
-class TestDataGenerator:
-    """Generate realistic test data for C-CDA documents.
+class SampleDataGenerator:
+    """Generate realistic sample data for C-CDA documents.
 
     This class provides methods to generate various types of clinical data
     including patient demographics, problems, medications, allergies, vital signs,
@@ -37,8 +37,8 @@ class TestDataGenerator:
         seed: Random seed for reproducibility (optional)
 
     Example:
-        # Generate reproducible test data
-        gen = TestDataGenerator(seed=42)
+        # Generate reproducible sample data
+        gen = SampleDataGenerator(seed=42)
         patient = gen.generate_patient()
         print(f"Patient: {patient['first_name']} {patient['last_name']}")
 

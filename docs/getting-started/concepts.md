@@ -57,7 +57,7 @@ CDAVersion.R2_0  # C-CDA R2.0 (2014)
 
 ## Clinical Sections
 
-29 complete sections available (9 core sections shown below, see guides/sections.md for all):
+39 complete sections available (9 core sections shown below, see guides/sections.md for all):
 
 - ProblemsSection (SNOMED, ICD-10)
 - MedicationsSection (RxNorm)

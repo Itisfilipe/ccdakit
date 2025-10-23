@@ -13,9 +13,9 @@ Utility classes and helpers.
 
 ::: ccdakit.utils.value_sets.ValueSetRegistry
 
-## Test Data Generator
+## Sample Data Generator
 
-::: ccdakit.utils.test_data.TestDataGenerator
+::: ccdakit.utils.test_data.SampleDataGenerator
 
 ## Builders Utilities
 

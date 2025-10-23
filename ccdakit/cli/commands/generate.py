@@ -235,10 +235,10 @@ def _generate_document(document_type: str, sections_to_include: list[str]):
         Problem,
         VitalSignsOrganizer,
     )
-    from ccdakit.utils.test_data import TestDataGenerator
+    from ccdakit.utils.test_data import SampleDataGenerator
 
     # Initialize test data generator
-    generator = TestDataGenerator()
+    generator = SampleDataGenerator()
 
     # Generate patient record
     record = generator.generate_complete_patient_record()

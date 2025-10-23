@@ -2,7 +2,7 @@
 
 All notable changes to ccdakit will be documented here.
 
-## [0.1.0-alpha] - 2024
+## [0.1.0-alpha] - 2025-10-23
 
 ### Added - Hospital & Surgical Sections (October 2025)
 

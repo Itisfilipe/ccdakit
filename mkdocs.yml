@@ -136,6 +136,17 @@ nav:
         - Admission Medications: guides/hl7-guide/sections/admission-medications-section.md
         - Interventions Section: guides/hl7-guide/sections/interventions-section.md
         - Health Status Evaluations: guides/hl7-guide/sections/health-status-evaluations-section.md
+      - Hospital and Surgical Sections:
+        - Admission Diagnosis: guides/hl7-guide/sections/admission-diagnosis-section.md
+        - Discharge Diagnosis: guides/hl7-guide/sections/discharge-diagnosis-section.md
+        - Hospital Course: guides/hl7-guide/sections/hospital-course-section.md
+        - Instructions: guides/hl7-guide/sections/instructions-section.md
+        - Anesthesia: guides/hl7-guide/sections/anesthesia-section.md
+        - Postoperative Diagnosis: guides/hl7-guide/sections/postoperative-diagnosis-section.md
+        - Preoperative Diagnosis: guides/hl7-guide/sections/preoperative-diagnosis-section.md
+        - Complications: guides/hl7-guide/sections/complications-section.md
+        - Hospital Discharge Studies: guides/hl7-guide/sections/hospital-discharge-studies-section.md
+        - Medications Administered: guides/hl7-guide/sections/medications-administered-section.md
     - Appendices:
       - OID Reference: guides/hl7-guide/appendices/oid-reference.md
       - Conformance Verbs: guides/hl7-guide/appendices/conformance-verbs.md

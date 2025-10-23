@@ -2,28 +2,28 @@
 
 from datetime import date, datetime
 
-from ccdakit.utils.test_data import TestDataGenerator
+from ccdakit.utils.test_data import SampleDataGenerator
 
 
-class TestTestDataGenerator:
-    """Tests for TestDataGenerator class."""
+class TestSampleDataGenerator:
+    """Tests for SampleDataGenerator class."""
 
     def test_init_without_seed(self):
         """Test generator initialization without seed."""
-        gen = TestDataGenerator()
+        gen = SampleDataGenerator()
         assert gen.faker is not None
         assert gen.seed is None
 
     def test_init_with_seed(self):
         """Test generator initialization with seed for reproducibility."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         assert gen.faker is not None
         assert gen.seed == 42
 
     def test_different_seeds_produce_different_data(self):
         """Test that different seeds produce different data."""
-        gen1 = TestDataGenerator(seed=42)
-        gen2 = TestDataGenerator(seed=43)
+        gen1 = SampleDataGenerator(seed=42)
+        gen2 = SampleDataGenerator(seed=43)
 
         patient1 = gen1.generate_patient()
         patient2 = gen2.generate_patient()
@@ -40,7 +40,7 @@ class TestGenerateAddress:
 
     def test_generate_address_structure(self):
         """Test that generated address has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         address = gen.generate_address()
 
         assert "street_lines" in address
@@ -52,7 +52,7 @@ class TestGenerateAddress:
 
     def test_generate_address_types(self):
         """Test that generated address has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         address = gen.generate_address()
 
         assert isinstance(address["street_lines"], list)
@@ -69,7 +69,7 @@ class TestGenerateTelecom:
 
     def test_generate_telecom_structure(self):
         """Test that generated telecom has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         telecom = gen.generate_telecom()
 
         assert "type" in telecom
@@ -78,7 +78,7 @@ class TestGenerateTelecom:
 
     def test_generate_telecom_types(self):
         """Test that generated telecom has correct types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
 
         # Generate multiple to test both phone and email
         telecoms = [gen.generate_telecom() for _ in range(10)]
@@ -103,7 +103,7 @@ class TestGeneratePatient:
 
     def test_generate_patient_structure(self):
         """Test that generated patient has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         patient = gen.generate_patient()
 
         required_fields = [
@@ -126,7 +126,7 @@ class TestGeneratePatient:
 
     def test_generate_patient_types(self):
         """Test that generated patient has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         patient = gen.generate_patient()
 
         assert isinstance(patient["first_name"], str)
@@ -141,7 +141,7 @@ class TestGeneratePatient:
 
     def test_generate_patient_age_range(self):
         """Test that generated patients are within expected age range."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         today = date.today()
 
         for _ in range(10):
@@ -155,7 +155,7 @@ class TestGenerateProblem:
 
     def test_generate_problem_structure(self):
         """Test that generated problem has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         problem = gen.generate_problem()
 
         required_fields = [
@@ -173,7 +173,7 @@ class TestGenerateProblem:
 
     def test_generate_problem_types(self):
         """Test that generated problem has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         problem = gen.generate_problem()
 
         assert isinstance(problem["name"], str)
@@ -185,7 +185,7 @@ class TestGenerateProblem:
 
     def test_generate_problem_resolved_logic(self):
         """Test that resolved problems have resolved_date."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
 
         # Generate many to get some resolved ones
         problems = [gen.generate_problem() for _ in range(20)]
@@ -198,10 +198,10 @@ class TestGenerateProblem:
 
     def test_generate_problem_from_common_list(self):
         """Test that generated problems are from the common list."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         problem = gen.generate_problem()
 
-        problem_names = [p[0] for p in TestDataGenerator.COMMON_PROBLEMS]
+        problem_names = [p[0] for p in SampleDataGenerator.COMMON_PROBLEMS]
         assert problem["name"] in problem_names
 
 
@@ -210,7 +210,7 @@ class TestGenerateMedication:
 
     def test_generate_medication_structure(self):
         """Test that generated medication has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         medication = gen.generate_medication()
 
         required_fields = [
@@ -230,7 +230,7 @@ class TestGenerateMedication:
 
     def test_generate_medication_types(self):
         """Test that generated medication has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         medication = gen.generate_medication()
 
         assert isinstance(medication["name"], str)
@@ -245,7 +245,7 @@ class TestGenerateMedication:
 
     def test_generate_medication_completed_has_end_date(self):
         """Test that completed medications have end_date."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
 
         # Generate many to get some completed ones
         medications = [gen.generate_medication() for _ in range(20)]
@@ -262,7 +262,7 @@ class TestGenerateAllergy:
 
     def test_generate_allergy_structure(self):
         """Test that generated allergy has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         allergy = gen.generate_allergy()
 
         required_fields = [
@@ -281,7 +281,7 @@ class TestGenerateAllergy:
 
     def test_generate_allergy_types(self):
         """Test that generated allergy has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         allergy = gen.generate_allergy()
 
         assert isinstance(allergy["allergen"], str)
@@ -299,7 +299,7 @@ class TestGenerateVitalSigns:
 
     def test_generate_vital_signs_structure(self):
         """Test that generated vital signs has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         vital_signs = gen.generate_vital_signs()
 
         assert "date" in vital_signs
@@ -309,7 +309,7 @@ class TestGenerateVitalSigns:
 
     def test_generate_vital_signs_observation_structure(self):
         """Test that each vital sign observation has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         vital_signs = gen.generate_vital_signs()
 
         for sign in vital_signs["vital_signs"]:
@@ -322,7 +322,7 @@ class TestGenerateVitalSigns:
 
     def test_generate_vital_signs_types(self):
         """Test that vital signs have correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         vital_signs = gen.generate_vital_signs()
 
         assert isinstance(vital_signs["date"], datetime)
@@ -341,17 +341,17 @@ class TestGenerateVitalSigns:
 
     def test_generate_vital_signs_with_count(self):
         """Test generating specific number of vital signs."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         vital_signs = gen.generate_vital_signs(count=3)
 
         assert len(vital_signs["vital_signs"]) == 3
 
     def test_generate_vital_signs_loinc_codes(self):
         """Test that vital signs use valid LOINC codes."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         vital_signs = gen.generate_vital_signs()
 
-        valid_codes = [v[1] for v in TestDataGenerator.VITAL_SIGNS_TYPES]
+        valid_codes = [v[1] for v in SampleDataGenerator.VITAL_SIGNS_TYPES]
         for sign in vital_signs["vital_signs"]:
             assert sign["code"] in valid_codes
 
@@ -361,7 +361,7 @@ class TestGenerateImmunization:
 
     def test_generate_immunization_structure(self):
         """Test that generated immunization has correct structure."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         immunization = gen.generate_immunization()
 
         required_fields = [
@@ -381,7 +381,7 @@ class TestGenerateImmunization:
 
     def test_generate_immunization_types(self):
         """Test that generated immunization has correct data types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         immunization = gen.generate_immunization()
 
         assert isinstance(immunization["vaccine_name"], str)
@@ -398,7 +398,7 @@ class TestGenerateImmunization:
 
     def test_generate_immunization_completed_has_details(self):
         """Test that completed immunizations have more details."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
 
         # Generate many to get some completed ones with details
         immunizations = [gen.generate_immunization() for _ in range(20)]
@@ -414,7 +414,7 @@ class TestGenerateCompletePatientRecord:
 
     def test_generate_complete_record_structure(self):
         """Test that complete record has all required sections."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record()
 
         required_sections = [
@@ -431,7 +431,7 @@ class TestGenerateCompletePatientRecord:
 
     def test_generate_complete_record_types(self):
         """Test that complete record sections have correct types."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record()
 
         assert isinstance(record["patient"], dict)
@@ -443,7 +443,7 @@ class TestGenerateCompletePatientRecord:
 
     def test_generate_complete_record_default_counts(self):
         """Test that complete record uses default counts."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record()
 
         assert len(record["problems"]) == 3
@@ -454,7 +454,7 @@ class TestGenerateCompletePatientRecord:
 
     def test_generate_complete_record_custom_counts(self):
         """Test that complete record respects custom counts."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record(
             num_problems=5,
             num_medications=4,
@@ -471,7 +471,7 @@ class TestGenerateCompletePatientRecord:
 
     def test_generate_complete_record_integration(self):
         """Test that all sections are properly generated with valid data."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record()
 
         # Verify patient
@@ -508,7 +508,7 @@ class TestEdgeCases:
 
     def test_generate_empty_patient_record(self):
         """Test generating a patient record with no clinical data."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record(
             num_problems=0,
             num_medications=0,
@@ -526,7 +526,7 @@ class TestEdgeCases:
 
     def test_generate_large_patient_record(self):
         """Test generating a patient record with many entries."""
-        gen = TestDataGenerator(seed=42)
+        gen = SampleDataGenerator(seed=42)
         record = gen.generate_complete_patient_record(
             num_problems=20,
             num_medications=15,

@@ -145,12 +145,12 @@ print("✅ All core sections included!")
 Easier approach using built-in test data:
 
 ```python
-from ccdakit.utils import TestDataGenerator
+from ccdakit.utils import SampleDataGenerator
 from ccdakit import ClinicalDocument, CDAVersion
 from ccdakit.builders.sections import *
 
 # Generate test data
-gen = TestDataGenerator()
+gen = SampleDataGenerator()
 
 patient = gen.generate_patient()
 problems = gen.generate_problems(count=3)
