@@ -1,7 +1,7 @@
 site_name: ccdakit Documentation
 site_description: Python library for generating HL7 C-CDA clinical documents
 site_author: Filipe Amaral
-site_url: https://Itisfilipe.github.io/ccdakit
+site_url: https://docs.ccdakit.com
 
 repo_name: Itisfilipe/ccdakit
 repo_url: https://github.com/Itisfilipe/ccdakit
@@ -73,6 +73,9 @@ plugins:
             show_symbol_type_toc: true
             members_order: source
             heading_level: 2
+
+hooks:
+  - docs/hooks.py
 
 nav:
   - Home: index.md
