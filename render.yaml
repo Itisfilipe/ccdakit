@@ -2,12 +2,10 @@ services:
   - type: web
     name: ccdakit
     runtime: python
-    repo: https://github.com/Itisfilipe/ccdakit
-    branch: main
-    buildCommand: pip install uv && uv sync
-    startCommand: uv run gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 ccdakit.wsgi:app
+    plan: free
+    buildCommand: pip install uv && uv sync --frozen && uv cache prune --ci && python scripts/setup_schematron.py
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 wsgi:app
+    healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
-        value: "3.11"
-    healthCheckPath: /
-    autoDeploy: true
+        value: "3.11.0"

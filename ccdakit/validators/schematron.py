@@ -8,6 +8,7 @@ from lxml import etree, isoschematron
 
 from ..core.validation import ValidationIssue, ValidationLevel, ValidationResult
 from .base import BaseValidator
+from .error_parser import SchematronErrorParser
 from .schematron_downloader import SchematronDownloader
 
 
@@ -182,9 +183,26 @@ class SchematronValidator(BaseValidator):
             etree.SchematronParseError: If schematron is invalid
         """
         try:
-            # Parse Schematron document
-            with open(self.schematron_path, "rb") as f:
-                schematron_doc = etree.parse(f)
+            # Create custom resolver for voc.xml and other includes
+            class SchematronResolver(etree.Resolver):
+                def __init__(self, base_path: Path):
+                    self.base_path = base_path.parent
+                    super().__init__()
+
+                def resolve(self, url, id, context):
+                    # Handle voc.xml and other relative references
+                    if url and not url.startswith(("http://", "https://", "file://")):
+                        resolved_path = self.base_path / url
+                        if resolved_path.exists():
+                            return self.resolve_filename(str(resolved_path), context)
+                    return None
+
+            # Parse Schematron document with custom resolver
+            parser = etree.XMLParser()
+            parser.resolvers.add(SchematronResolver(self.schematron_path))
+
+            # Parse with file path to set base URL
+            schematron_doc = etree.parse(str(self.schematron_path), parser)
 
             # Create Schematron validator
             # store_schematron=True keeps the compiled schematron for inspection
@@ -334,11 +352,18 @@ class SchematronValidator(BaseValidator):
         # Build error code from rule ID
         code = f"SCHEMATRON_{rule_id}" if rule_id else "SCHEMATRON_ERROR"
 
+        # Format full error message for parser
+        full_message = f"ERROR at {location}: {message}" if location else f"ERROR: {message}"
+
+        # Parse error for enhanced display
+        parsed_error = SchematronErrorParser.parse_error(full_message)
+
         return ValidationIssue(
             level=ValidationLevel.ERROR,
             message=message,
             location=location,
             code=code,
+            parsed_data=parsed_error.to_dict(),
         )
 
     def _parse_successful_report(self, element: etree._Element) -> Optional[ValidationIssue]:
@@ -378,11 +403,23 @@ class SchematronValidator(BaseValidator):
 
         code = f"SCHEMATRON_{rule_id}" if rule_id else "SCHEMATRON_INFO"
 
+        # Format full message for parser
+        severity_label = "WARNING" if level == ValidationLevel.WARNING else "INFO"
+        full_message = (
+            f"{severity_label} at {location}: {message}"
+            if location
+            else f"{severity_label}: {message}"
+        )
+
+        # Parse for enhanced display
+        parsed_error = SchematronErrorParser.parse_error(full_message)
+
         return ValidationIssue(
             level=level,
             message=message,
             location=location,
             code=code,
+            parsed_data=parsed_error.to_dict(),
         )
 
     def _extract_text_content(self, element: etree._Element) -> str:

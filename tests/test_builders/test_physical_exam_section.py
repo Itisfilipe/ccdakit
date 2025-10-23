@@ -1,12 +1,11 @@
 """Tests for PhysicalExamSection builder."""
 
 from datetime import datetime
-from typing import Optional, Sequence
 
 from lxml import etree
 
-from ccdakit.builders.sections.physical_exam import PhysicalExamSection
 from ccdakit.builders.entries.physical_exam import LongitudinalCareWoundObservation
+from ccdakit.builders.sections.physical_exam import PhysicalExamSection
 from ccdakit.core.base import CDAVersion
 
 

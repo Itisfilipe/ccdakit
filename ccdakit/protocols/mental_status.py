@@ -154,7 +154,7 @@ class MentalStatusOrganizerProtocol(Protocol):
         ...
 
     @property
-    def observations(self) -> list[MentalStatusObservationProtocol]:
+    def observations(self) -> "list[MentalStatusObservationProtocol]":
         """
         List of mental status observations in this category.
 

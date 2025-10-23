@@ -2,48 +2,57 @@
 
 All clinical section builders.
 
-## ProblemsSection
+## AdmissionDiagnosisSection
 
-::: ccdakit.builders.sections.problems.ProblemsSection
-    options:
-      show_root_heading: true
-      show_source: false
+::: ccdakit.builders.sections.admission_diagnosis.AdmissionDiagnosisSection
 
-## MedicationsSection
+## AdmissionMedicationsSection
 
-::: ccdakit.builders.sections.medications.MedicationsSection
+::: ccdakit.builders.sections.admission_medications.AdmissionMedicationsSection
+
+## AdvanceDirectivesSection
+
+::: ccdakit.builders.sections.advance_directives.AdvanceDirectivesSection
 
 ## AllergiesSection
 
 ::: ccdakit.builders.sections.allergies.AllergiesSection
 
-## ImmunizationsSection
+## AnesthesiaSection
 
-::: ccdakit.builders.sections.immunizations.ImmunizationsSection
+::: ccdakit.builders.sections.anesthesia.AnesthesiaSection
 
-## VitalSignsSection
+## AssessmentAndPlanSection
 
-::: ccdakit.builders.sections.vital_signs.VitalSignsSection
+::: ccdakit.builders.sections.assessment_and_plan.AssessmentAndPlanSection
 
-## ProceduresSection
+## ChiefComplaintAndReasonForVisitSection
 
-::: ccdakit.builders.sections.procedures.ProceduresSection
+::: ccdakit.builders.sections.chief_complaint_reason_for_visit.ChiefComplaintAndReasonForVisitSection
 
-## ResultsSection
+## ComplicationsSection
 
-::: ccdakit.builders.sections.results.ResultsSection
+::: ccdakit.builders.sections.complications.ComplicationsSection
 
-## SocialHistorySection
+## DischargeDiagnosisSection
 
-::: ccdakit.builders.sections.social_history.SocialHistorySection
+::: ccdakit.builders.sections.discharge_diagnosis.DischargeDiagnosisSection
+
+## DischargeMedicationsSection
+
+::: ccdakit.builders.sections.discharge_medications.DischargeMedicationsSection
 
 ## EncountersSection
 
 ::: ccdakit.builders.sections.encounters.EncountersSection
 
-## PastMedicalHistorySection
+## FamilyHistorySection
 
-::: ccdakit.builders.sections.past_medical_history.PastMedicalHistorySection
+::: ccdakit.builders.sections.family_history.FamilyHistorySection
+
+## FunctionalStatusSection
+
+::: ccdakit.builders.sections.functional_status.FunctionalStatusSection
 
 ## GoalsSection
 
@@ -53,70 +62,101 @@ All clinical section builders.
 
 ::: ccdakit.builders.sections.health_concerns.HealthConcernsSection
 
-## FunctionalStatusSection
+## HealthStatusEvaluationsSection
 
-::: ccdakit.builders.sections.functional_status.FunctionalStatusSection
+::: ccdakit.builders.sections.health_status_evaluations.HealthStatusEvaluationsAndOutcomesSection
 
-## MentalStatusSection
+## HospitalCourseSection
 
-::: ccdakit.builders.sections.mental_status.MentalStatusSection
-
-## AssessmentAndPlanSection
-
-::: ccdakit.builders.sections.assessment_and_plan.AssessmentAndPlanSection
-
-## AdvanceDirectivesSection
-
-::: ccdakit.builders.sections.advance_directives.AdvanceDirectivesSection
-
-## FamilyHistorySection
-
-::: ccdakit.builders.sections.family_history.FamilyHistorySection
-
-## MedicalEquipmentSection
-
-::: ccdakit.builders.sections.medical_equipment.MedicalEquipmentSection
-
-## PlanOfTreatmentSection
-
-::: ccdakit.builders.sections.plan_of_treatment.PlanOfTreatmentSection
+::: ccdakit.builders.sections.hospital_course.HospitalCourseSection
 
 ## HospitalDischargeInstructionsSection
 
 ::: ccdakit.builders.sections.hospital_discharge_instructions.HospitalDischargeInstructionsSection
 
-## DischargeMedicationsSection
+## HospitalDischargeStudiesSummarySection
 
-::: ccdakit.builders.sections.discharge_medications.DischargeMedicationsSection
+::: ccdakit.builders.sections.discharge_studies.HospitalDischargeStudiesSummarySection
 
-## PhysicalExamSection
+## ImmunizationsSection
 
-::: ccdakit.builders.sections.physical_exam.PhysicalExamSection
+::: ccdakit.builders.sections.immunizations.ImmunizationsSection
 
-## ReasonForVisitSection
+## InstructionsSection
 
-::: ccdakit.builders.sections.reason_for_visit.ReasonForVisitSection
-
-## ChiefComplaintAndReasonForVisitSection
-
-::: ccdakit.builders.sections.chief_complaint_reason_for_visit.ChiefComplaintAndReasonForVisitSection
-
-## NutritionSection
-
-::: ccdakit.builders.sections.nutrition.NutritionSection
-
-## PayersSection
-
-::: ccdakit.builders.sections.payers.PayersSection
-
-## AdmissionMedicationsSection
-
-::: ccdakit.builders.sections.admission_medications.AdmissionMedicationsSection
+::: ccdakit.builders.sections.instructions.InstructionsSection
 
 ## InterventionsSection
 
 ::: ccdakit.builders.sections.interventions.InterventionsSection
 
-## HealthStatusEvaluationsSection
+## MedicalEquipmentSection
 
-::: ccdakit.builders.sections.health_status_evaluations.HealthStatusEvaluationsAndOutcomesSection
+::: ccdakit.builders.sections.medical_equipment.MedicalEquipmentSection
+
+## MedicationsAdministeredSection
+
+::: ccdakit.builders.sections.medications_administered.MedicationsAdministeredSection
+
+## MedicationsSection
+
+::: ccdakit.builders.sections.medications.MedicationsSection
+
+## MentalStatusSection
+
+::: ccdakit.builders.sections.mental_status.MentalStatusSection
+
+## NutritionSection
+
+::: ccdakit.builders.sections.nutrition.NutritionSection
+
+## PastMedicalHistorySection
+
+::: ccdakit.builders.sections.past_medical_history.PastMedicalHistorySection
+
+## PayersSection
+
+::: ccdakit.builders.sections.payers.PayersSection
+
+## PhysicalExamSection
+
+::: ccdakit.builders.sections.physical_exam.PhysicalExamSection
+
+## PlanOfTreatmentSection
+
+::: ccdakit.builders.sections.plan_of_treatment.PlanOfTreatmentSection
+
+## PostoperativeDiagnosisSection
+
+::: ccdakit.builders.sections.postoperative_diagnosis.PostoperativeDiagnosisSection
+
+## PreoperativeDiagnosisSection
+
+::: ccdakit.builders.sections.preoperative_diagnosis.PreoperativeDiagnosisSection
+
+## ProblemsSection
+
+::: ccdakit.builders.sections.problems.ProblemsSection
+    options:
+      show_root_heading: true
+      show_source: false
+
+## ProceduresSection
+
+::: ccdakit.builders.sections.procedures.ProceduresSection
+
+## ReasonForVisitSection
+
+::: ccdakit.builders.sections.reason_for_visit.ReasonForVisitSection
+
+## ResultsSection
+
+::: ccdakit.builders.sections.results.ResultsSection
+
+## SocialHistorySection
+
+::: ccdakit.builders.sections.social_history.SocialHistorySection
+
+## VitalSignsSection
+
+::: ccdakit.builders.sections.vital_signs.VitalSignsSection

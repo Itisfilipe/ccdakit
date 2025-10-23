@@ -330,6 +330,35 @@ class TestDocumentTemplates:
         assert result["date_of_birth"] == "invalid-date"
         assert result["regular_field"] == "value"
 
+    def test_convert_dates_datetime_invalid_format(self):
+        """Test datetime conversion with invalid format."""
+        data = {
+            "time": "not-a-valid-datetime",
+            "administration_date": "also-invalid",
+        }
+
+        result = DocumentTemplates._convert_dates(data)
+
+        # Should keep original values when conversion fails
+        assert result["time"] == "not-a-valid-datetime"
+        assert result["administration_date"] == "also-invalid"
+
+    def test_convert_dates_datetime_non_string(self):
+        """Test datetime conversion with non-string value."""
+        from datetime import datetime
+
+        dt = datetime(2024, 1, 15, 10, 30)
+        data = {
+            "time": dt,
+            "date": None,
+        }
+
+        result = DocumentTemplates._convert_dates(data)
+
+        # Should keep original values
+        assert result["time"] == dt
+        assert result["date"] is None
+
     def test_create_simple_class(self):
         """Test creating simple class from dictionary."""
         data = {

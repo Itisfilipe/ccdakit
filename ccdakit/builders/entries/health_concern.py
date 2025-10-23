@@ -221,9 +221,7 @@ class HealthConcernAct(CDAElement):
             status_elem = StatusCode("completed").to_element()
             obs.append(status_elem)
 
-    def _add_observation_template(
-        self, observation: etree._Element, obs_type: str
-    ) -> None:
+    def _add_observation_template(self, observation: etree._Element, obs_type: str) -> None:
         """
         Add appropriate template ID based on observation type.
 

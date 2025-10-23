@@ -147,9 +147,7 @@ class TestHospitalDischargeInstructionsSection:
     def test_narrative_with_categorized_instructions(self):
         """Test narrative with categorized instructions."""
         instructions = [
-            MockDischargeInstruction(
-                "Take aspirin 81mg daily", instruction_category="Medications"
-            ),
+            MockDischargeInstruction("Take aspirin 81mg daily", instruction_category="Medications"),
             MockDischargeInstruction(
                 "Take lisinopril 10mg daily", instruction_category="Medications"
             ),
@@ -159,9 +157,7 @@ class TestHospitalDischargeInstructionsSection:
             MockDischargeInstruction(
                 "Walk 15 minutes twice daily", instruction_category="Activity"
             ),
-            MockDischargeInstruction(
-                "Low sodium diet", instruction_category="Diet"
-            ),
+            MockDischargeInstruction("Low sodium diet", instruction_category="Diet"),
         ]
         section = HospitalDischargeInstructionsSection(instructions=instructions)
         elem = section.to_element()
@@ -190,9 +186,7 @@ class TestHospitalDischargeInstructionsSection:
     def test_narrative_mixed_categorized_uncategorized(self):
         """Test narrative with both categorized and uncategorized instructions."""
         instructions = [
-            MockDischargeInstruction(
-                "Take aspirin 81mg daily", instruction_category="Medications"
-            ),
+            MockDischargeInstruction("Take aspirin 81mg daily", instruction_category="Medications"),
             MockDischargeInstruction("Call doctor if fever develops"),
             MockDischargeInstruction("Keep wound clean and dry"),
         ]
@@ -265,9 +259,7 @@ class TestHospitalDischargeInstructionsSection:
 
     def test_section_structure_order(self):
         """Test that section elements are in correct order."""
-        section = HospitalDischargeInstructionsSection(
-            narrative_text="Test instructions"
-        )
+        section = HospitalDischargeInstructionsSection(narrative_text="Test instructions")
         elem = section.to_element()
 
         children = list(elem)
@@ -288,9 +280,7 @@ class TestHospitalDischargeInstructionsSection:
 
     def test_section_to_string(self):
         """Test section serialization."""
-        section = HospitalDischargeInstructionsSection(
-            narrative_text="Follow up with your doctor."
-        )
+        section = HospitalDischargeInstructionsSection(narrative_text="Follow up with your doctor.")
         xml = section.to_string(pretty=False)
 
         assert "<section" in xml or ":section" in xml
@@ -345,18 +335,10 @@ class TestHospitalDischargeInstructionsSection:
     def test_multiple_categories_sorted(self):
         """Test categorized instructions are sorted alphabetically."""
         instructions = [
-            MockDischargeInstruction(
-                "Walk daily", instruction_category="Activity"
-            ),
-            MockDischargeInstruction(
-                "Low sodium", instruction_category="Diet"
-            ),
-            MockDischargeInstruction(
-                "Take aspirin", instruction_category="Medications"
-            ),
-            MockDischargeInstruction(
-                "Follow up", instruction_category="Follow-up Care"
-            ),
+            MockDischargeInstruction("Walk daily", instruction_category="Activity"),
+            MockDischargeInstruction("Low sodium", instruction_category="Diet"),
+            MockDischargeInstruction("Take aspirin", instruction_category="Medications"),
+            MockDischargeInstruction("Follow up", instruction_category="Follow-up Care"),
         ]
         section = HospitalDischargeInstructionsSection(instructions=instructions)
         elem = section.to_element()
@@ -425,9 +407,7 @@ class TestHospitalDischargeInstructionsSectionIntegration:
                 instruction_category="Follow-up Care",
             ),
             MockDischargeInstruction("Call 911 if you experience chest pain"),
-            MockDischargeInstruction(
-                "Keep surgical wound clean and dry until follow-up visit"
-            ),
+            MockDischargeInstruction("Keep surgical wound clean and dry until follow-up visit"),
         ]
 
         section = HospitalDischargeInstructionsSection(
@@ -544,9 +524,7 @@ class TestHospitalDischargeInstructionsSectionIntegration:
                 "INR check in 3 days at the anticoagulation clinic",
                 instruction_category="Follow-up Care",
             ),
-            MockDischargeInstruction(
-                "Monitor weight daily and report gain of >2 lbs in 24 hours"
-            ),
+            MockDischargeInstruction("Monitor weight daily and report gain of >2 lbs in 24 hours"),
             MockDischargeInstruction(
                 "Call 911 immediately if you experience chest pain, shortness of breath, or severe dizziness"
             ),
@@ -617,9 +595,7 @@ class TestHospitalDischargeInstructionsSectionIntegration:
     def test_category_with_multiple_instructions(self):
         """Test category with multiple instructions are all included."""
         instructions = [
-            MockDischargeInstruction(
-                "Aspirin 81mg once daily", instruction_category="Medications"
-            ),
+            MockDischargeInstruction("Aspirin 81mg once daily", instruction_category="Medications"),
             MockDischargeInstruction(
                 "Metoprolol 25mg twice daily", instruction_category="Medications"
             ),

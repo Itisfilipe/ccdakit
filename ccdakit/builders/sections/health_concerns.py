@@ -194,9 +194,7 @@ class HealthConcernsSection(CDAElement):
             td_type = etree.SubElement(tr, f"{{{NS}}}td")
             td_type.text = "Patient" if concern.author_is_patient else "Provider"
 
-    def _add_entry(
-        self, section: etree._Element, health_concern: HealthConcernProtocol
-    ) -> None:
+    def _add_entry(self, section: etree._Element, health_concern: HealthConcernProtocol) -> None:
         """
         Add entry element with Health Concern Act.
 

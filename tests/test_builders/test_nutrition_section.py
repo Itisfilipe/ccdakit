@@ -68,7 +68,7 @@ class MockNutritionalStatus:
         self._status = status
         self._status_code = status_code
         self._date = date
-        self._assessments = assessments or [MockNutritionAssessment()]
+        self._assessments = assessments if assessments is not None else [MockNutritionAssessment()]
 
     @property
     def status(self):
@@ -799,3 +799,51 @@ class TestNutritionSectionIntegration:
         assert elem_r20.find(f"{{{NS}}}title") is not None
         assert elem_r21.find(f"{{{NS}}}text") is not None
         assert elem_r20.find(f"{{{NS}}}text") is not None
+
+    def test_narrative_status_without_assessments(self):
+        """Test narrative with status without assessments."""
+        # Using existing MockNutritionalStatus without assessments
+        status = MockNutritionalStatus(
+            status="Adequate nutrition",
+            date=date(2023, 6, 15),
+            assessments=[],
+        )
+        section = NutritionSection([status])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Status column should have content
+        content = tds[0].find(f"{{{NS}}}content")
+        assert content.text == "Adequate nutrition"
+
+        # Date should be formatted
+        assert tds[1].text == "2023-06-15"
+
+        # Assessment and value should be dashes
+        assert tds[2].text == "-"
+        assert tds[3].text == "-"
+
+    def test_narrative_status_without_assessments_datetime(self):
+        """Test narrative with status without assessments and datetime (not date)."""
+        # Using existing MockNutritionalStatus with datetime
+        status = MockNutritionalStatus(
+            status="Overweight",
+            date=datetime(2023, 6, 15, 10, 30),
+            assessments=[],
+        )
+        section = NutritionSection([status])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Date column should show datetime with time
+        assert tds[1].text == "2023-06-15 10:30"

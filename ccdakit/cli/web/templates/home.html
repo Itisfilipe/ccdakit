@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>C-CDA Document Tools</h1>
+    <p>Web interface for validating, generating, converting, and comparing C-CDA documents</p>
+</div>
+
+<div class="tools-grid">
+    <a href="/validate" class="tool-card-link">
+        <div class="tool-card">
+            <h2>🔍 Validate</h2>
+            <p>Validate C-CDA documents against XSD schemas and Schematron rules</p>
+        </div>
+    </a>
+
+    <a href="/generate" class="tool-card-link">
+        <div class="tool-card">
+            <h2>📝 Generate</h2>
+            <p>Generate sample C-CDA documents with realistic test data</p>
+        </div>
+    </a>
+
+    <a href="/convert" class="tool-card-link">
+        <div class="tool-card">
+            <h2>🔄 Convert</h2>
+            <p>Convert C-CDA XML documents to human-readable HTML format</p>
+        </div>
+    </a>
+
+    <a href="/compare" class="tool-card-link">
+        <div class="tool-card">
+            <h2>⚖️ Compare</h2>
+            <p>Compare two C-CDA documents and see the differences</p>
+        </div>
+    </a>
+</div>
+{% endblock %}

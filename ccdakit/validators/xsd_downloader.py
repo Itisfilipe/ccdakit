@@ -18,9 +18,9 @@ class XSDDownloader:
     This utility downloads them from the official HL7 repository.
     """
 
-    # Official HL7 CDA core schema repository
+    # Official HL7 CDA core schema repository (CDA 2.0 normative schemas)
     # Note: Using codeload.github.com for direct zip downloads
-    BASE_URL = "https://codeload.github.com/HL7/CDA-core-sd/zip/refs/heads"
+    BASE_URL = "https://codeload.github.com/HL7/CDA-core-2.0/zip/refs/heads"
 
     # Using the master branch which contains all necessary XSD files
     SCHEMA_ZIP_URL = f"{BASE_URL}/master"
@@ -65,8 +65,7 @@ class XSDDownloader:
                 return True, "XSD schemas already installed"
 
             logger.info("Downloading C-CDA XSD schemas from HL7 repository...")
-            print("Downloading C-CDA XSD schemas...")
-            print("This is a one-time download (~2MB). Please wait...")
+            logger.info("This is a one-time download (~2MB). Please wait...")
 
             # Download zip file
             zip_path = self.target_dir / "schemas_temp.zip"
@@ -83,14 +82,34 @@ class XSDDownloader:
                     zip_ref.extractall(self.target_dir / "temp")
 
                 # Move files from the extracted directory to target
-                extracted_dir = self.target_dir / "temp" / "CDA-core-sd-master"
+                extracted_dir = self.target_dir / "temp" / "CDA-core-2.0-master"
 
                 if extracted_dir.exists():
-                    # Copy XSD files to target directory
-                    for xsd_file in extracted_dir.glob("**/*.xsd"):
-                        target_file = self.target_dir / xsd_file.name
-                        target_file.write_bytes(xsd_file.read_bytes())
-                        logger.info(f"Installed: {xsd_file.name}")
+                    # Use the normative schemas (official published version)
+                    # These are in: schema/normative/processable/coreschemas/ and schema/normative/infrastructure/cda/
+                    schema_dirs = [
+                        extracted_dir / "schema" / "normative" / "processable" / "coreschemas",
+                        extracted_dir / "schema" / "normative" / "infrastructure" / "cda",
+                    ]
+
+                    copied_count = 0
+                    for schema_dir in schema_dirs:
+                        if schema_dir.exists():
+                            for xsd_file in schema_dir.glob("*.xsd"):
+                                # Read content and fix relative paths
+                                content = xsd_file.read_text(encoding="utf-8")
+                                # Fix paths like ../../processable/coreschemas/file.xsd to just file.xsd
+                                content = content.replace(
+                                    '../../processable/coreschemas/', ''
+                                )
+                                # Write fixed content
+                                target_file = self.target_dir / xsd_file.name
+                                target_file.write_text(content, encoding="utf-8")
+                                logger.debug("Installed: %s", xsd_file.name)
+                                copied_count += 1
+
+                    if copied_count == 0:
+                        return False, "No XSD files found in extracted archive"
                 else:
                     return False, "Failed to find extracted schema files"
 
@@ -124,6 +143,7 @@ class XSDDownloader:
 
         try:
             import shutil
+
             shutil.rmtree(temp_dir)
         except Exception as e:
             logger.warning(f"Failed to clean up temp directory: {e}")
@@ -192,4 +212,4 @@ After installation, verify schemas are available:
     >>> print(f"Installed: {{info['installed']}}")
     >>> print(f"Schema count: {{info['schema_count']}}")
 """
-        print(instructions)
+        logger.info(instructions)

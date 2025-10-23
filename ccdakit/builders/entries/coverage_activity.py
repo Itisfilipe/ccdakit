@@ -6,7 +6,7 @@ from typing import Optional
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier
+from ccdakit.builders.common import Code, Identifier
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.payer import PayerProtocol
 
@@ -108,7 +108,7 @@ class CoverageActivity(CDAElement):
         act.append(code_elem)
 
         # Add statusCode (CONF:1198-8875, CONF:1198-19094)
-        status_elem = etree.SubElement(act, f"{{{NS}}}statusCode", code="completed")
+        etree.SubElement(act, f"{{{NS}}}statusCode", code="completed")
 
         # Add effectiveTime if provided (CONF:4537-33064, CONF:4537-33065)
         # Records when coverage was checked
@@ -248,7 +248,7 @@ class PolicyActivity(CDAElement):
         self._add_code(act)
 
         # Add statusCode (CONF:1198-8902, CONF:1198-19109)
-        status_elem = etree.SubElement(act, f"{{{NS}}}statusCode", code="completed")
+        etree.SubElement(act, f"{{{NS}}}statusCode", code="completed")
 
         # Add performer - the payer (CONF:1198-8906)
         self._add_payer_performer(act)

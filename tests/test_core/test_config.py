@@ -147,3 +147,43 @@ def test_config_with_id_generator():
     result = config.id_generator("problem", "123")
     assert result["root"] == "custom.oid"
     assert result["extension"] == "123"
+
+
+def test_configure_overwrites_existing_config():
+    """Test that configure() overwrites existing configuration."""
+    reset_config()
+
+    org1 = OrganizationInfo(name="First Org")
+    config1 = CDAConfig(organization=org1, version=CDAVersion.R2_0)
+    configure(config1)
+
+    # Get first config
+    retrieved1 = get_config()
+    assert retrieved1.organization.name == "First Org"
+    assert retrieved1.version == CDAVersion.R2_0
+
+    # Configure with new config
+    org2 = OrganizationInfo(name="Second Org")
+    config2 = CDAConfig(organization=org2, version=CDAVersion.R2_1)
+    configure(config2)
+
+    # Get second config - should be different
+    retrieved2 = get_config()
+    assert retrieved2.organization.name == "Second Org"
+    assert retrieved2.version == CDAVersion.R2_1
+
+    reset_config()
+
+
+def test_get_config_error_message():
+    """Test get_config() error message when not configured."""
+    reset_config()
+
+    try:
+        get_config()
+        assert False, "Should have raised RuntimeError"
+    except RuntimeError as e:
+        assert "not configured" in str(e)
+        assert "configure()" in str(e)
+
+    reset_config()

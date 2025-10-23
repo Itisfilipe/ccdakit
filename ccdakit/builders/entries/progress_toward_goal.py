@@ -154,7 +154,10 @@ class ProgressTowardGoalObservation(CDAElement):
         value.set("{http://www.w3.org/2001/XMLSchema-instance}type", "CD")
 
         # Determine code system OID
-        if hasattr(self.progress, "achievement_code_system") and self.progress.achievement_code_system:
+        if (
+            hasattr(self.progress, "achievement_code_system")
+            and self.progress.achievement_code_system
+        ):
             code_system = self.progress.achievement_code_system
             # If it's a name like "SNOMED", convert to OID
             if "SNOMED" in code_system.upper():
@@ -175,5 +178,8 @@ class ProgressTowardGoalObservation(CDAElement):
         if code_system_name:
             value.set("codeSystemName", code_system_name)
 
-        if hasattr(self.progress, "achievement_display_name") and self.progress.achievement_display_name:
+        if (
+            hasattr(self.progress, "achievement_display_name")
+            and self.progress.achievement_display_name
+        ):
             value.set("displayName", self.progress.achievement_display_name)

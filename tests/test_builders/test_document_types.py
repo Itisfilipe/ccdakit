@@ -3,7 +3,6 @@
 from datetime import datetime
 
 import pytest
-from lxml import etree
 
 from ccdakit.builders.documents import ContinuityOfCareDocument, DischargeSummary
 from ccdakit.builders.sections.allergies import AllergiesSection
@@ -285,7 +284,7 @@ class TestContinuityOfCareDocument:
         xml_string = doc.to_xml_string()
 
         # Check for XML declaration (may use single or double quotes)
-        assert xml_string.startswith('<?xml version=')
+        assert xml_string.startswith("<?xml version=")
         assert 'encoding="UTF-8"' in xml_string or "encoding='UTF-8'" in xml_string
         assert "<ClinicalDocument" in xml_string
         assert "Continuity of Care Document" in xml_string
@@ -490,7 +489,7 @@ class TestDischargeSummary:
         xml_string = doc.to_xml_string()
 
         # Check for XML declaration (may use single or double quotes)
-        assert xml_string.startswith('<?xml version=')
+        assert xml_string.startswith("<?xml version=")
         assert 'encoding="UTF-8"' in xml_string or "encoding='UTF-8'" in xml_string
         assert "<ClinicalDocument" in xml_string
         assert "Discharge Summary" in xml_string

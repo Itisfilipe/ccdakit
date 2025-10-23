@@ -156,9 +156,7 @@ class FamilyHistorySection(CDAElement):
             observations = family_member.observations
             if not observations:
                 # Add row for family member with no observations
-                self._add_family_member_row(
-                    tbody, idx, family_member, None, first_row=True
-                )
+                self._add_family_member_row(tbody, idx, family_member, None, first_row=True)
             else:
                 # Add row for each observation
                 for obs_idx, observation in enumerate(observations):
@@ -247,13 +245,13 @@ class FamilyHistorySection(CDAElement):
         if first_row:
             if family_member.subject and family_member.subject.deceased_ind:
                 if family_member.subject.deceased_time:
-                    td_status.text = f"Deceased ({family_member.subject.deceased_time.strftime('%Y-%m-%d')})"
+                    td_status.text = (
+                        f"Deceased ({family_member.subject.deceased_time.strftime('%Y-%m-%d')})"
+                    )
                 else:
                     td_status.text = "Deceased"
-            elif first_row:
-                td_status.text = "Living"
             else:
-                td_status.text = ""
+                td_status.text = "Living"
         else:
             td_status.text = ""
 

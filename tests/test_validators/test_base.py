@@ -130,3 +130,47 @@ class TestBaseValidator:
         """Test validating with Path input."""
         result = validator.validate(temp_xml_file)
         assert result.is_valid is True
+
+    def test_parse_document_path_not_found(self, validator):
+        """Test parsing with Path object that doesn't exist."""
+        nonexistent = Path("/definitely/does/not/exist.xml")
+        with pytest.raises(FileNotFoundError, match="File not found"):
+            validator._parse_document(nonexistent)
+
+    def test_parse_document_string_as_xml(self, validator):
+        """Test parsing string that starts with XML declaration."""
+        xml_str = '<?xml version="1.0"?><test>content</test>'
+        result = validator._parse_document(xml_str)
+        assert result.tag == "test"
+        assert result.text == "content"
+
+    def test_parse_document_string_with_whitespace(self, validator):
+        """Test parsing string with leading whitespace."""
+        xml_str = '  \n  <test>data</test>'
+        result = validator._parse_document(xml_str)
+        assert result.tag == "test"
+
+    def test_parse_document_string_as_file_path(self, validator, temp_xml_file):
+        """Test parsing string as file path."""
+        result = validator._parse_document(str(temp_xml_file))
+        assert isinstance(result, etree._Element)
+        assert result.tag == "root"
+
+    def test_parse_document_string_nonexistent_path_as_xml(self, validator):
+        """Test parsing string that's not a path - try as XML."""
+        # String doesn't start with < and path doesn't exist - will try as XML and fail
+        with pytest.raises(etree.XMLSyntaxError):
+            validator._parse_document("not_xml_and_not_a_path")
+
+    def test_parse_document_bytes_valid(self, validator):
+        """Test parsing valid bytes."""
+        xml_bytes = b'<?xml version="1.0"?><root><item>test</item></root>'
+        result = validator._parse_document(xml_bytes)
+        assert result.tag == "root"
+        assert result.find("item").text == "test"
+
+    def test_parse_document_element_passthrough(self, validator, sample_xml_element):
+        """Test that Element is returned as-is."""
+        result = validator._parse_document(sample_xml_element)
+        # Should be the same object
+        assert result is sample_xml_element

@@ -267,3 +267,94 @@ def test_problem_lifecycle():
 
     assert resolved_problem.status == "resolved"
     assert resolved_problem.resolved_date == date(2023, 12, 15)
+
+
+def test_problem_protocol_property_access():
+    """Test accessing all problem properties."""
+    problem = MockProblem()
+
+    # Access all properties to ensure protocol coverage
+    assert isinstance(problem.name, str)
+    assert isinstance(problem.code, str)
+    assert isinstance(problem.code_system, str)
+    assert problem.onset_date is None or isinstance(problem.onset_date, date)
+    assert problem.resolved_date is None or isinstance(problem.resolved_date, date)
+    assert isinstance(problem.status, str)
+    assert problem.persistent_id is None or hasattr(problem.persistent_id, "root")
+
+
+def test_persistent_id_protocol_property_access():
+    """Test accessing all persistent ID properties."""
+    pid = MockPersistentID("2.16.840.1.113883.3.TEST", "PROB-123")
+
+    # Access all properties to ensure protocol coverage
+    assert isinstance(pid.root, str)
+    assert isinstance(pid.extension, str)
+
+
+def test_problem_different_code_systems():
+    """Test problem with different code systems."""
+    snomed = MockProblem(code_system="SNOMED")
+    icd10 = MockProblem(code_system="ICD-10")
+
+    assert snomed.code_system == "SNOMED"
+    assert icd10.code_system == "ICD-10"
+
+
+def test_problem_multiple_conditions():
+    """Test creating multiple problem instances."""
+    problems = [
+        MockProblem(name="Diabetes", code="44054006", status="active"),
+        MockProblem(name="Hypertension", code="38341003", status="active"),
+        MockProblem(name="Asthma", code="195967001", status="inactive"),
+    ]
+
+    assert len(problems) == 3
+    assert problems[0].status == "active"
+    assert problems[1].status == "active"
+    assert problems[2].status == "inactive"
+
+
+def test_problem_onset_without_resolved():
+    """Test problem with onset but no resolution."""
+    problem = MockProblem(
+        onset_date=date(2020, 1, 1),
+        resolved_date=None,
+        status="active",
+    )
+
+    assert problem.onset_date == date(2020, 1, 1)
+    assert problem.resolved_date is None
+    assert problem.status == "active"
+
+
+def test_problem_chronic_condition():
+    """Test chronic condition problem."""
+    problem = MockProblem(
+        name="Chronic Kidney Disease",
+        code="709044004",
+        code_system="SNOMED",
+        onset_date=date(2015, 6, 1),
+        resolved_date=None,
+        status="active",
+    )
+
+    assert problem.name == "Chronic Kidney Disease"
+    assert problem.onset_date is not None
+    assert problem.resolved_date is None
+
+
+def test_problem_acute_resolved():
+    """Test acute resolved problem."""
+    problem = MockProblem(
+        name="Pneumonia",
+        code="233604007",
+        code_system="SNOMED",
+        onset_date=date(2024, 1, 1),
+        resolved_date=date(2024, 1, 14),
+        status="resolved",
+    )
+
+    assert problem.onset_date == date(2024, 1, 1)
+    assert problem.resolved_date == date(2024, 1, 14)
+    assert problem.status == "resolved"

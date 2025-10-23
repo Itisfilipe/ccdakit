@@ -1,7 +1,7 @@
 """Intervention-related protocols for C-CDA documents."""
 
 from datetime import date, datetime
-from typing import Optional, Protocol, Sequence, Union
+from typing import Optional, Protocol, Union
 
 
 class InterventionProtocol(Protocol):

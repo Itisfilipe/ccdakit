@@ -4,11 +4,11 @@ from datetime import date, datetime
 
 from lxml import etree
 
-from ccdakit.builders.sections.mental_status import MentalStatusSection
 from ccdakit.builders.entries.mental_status import (
     MentalStatusObservation,
     MentalStatusOrganizer,
 )
+from ccdakit.builders.sections.mental_status import MentalStatusSection
 from ccdakit.core.base import CDAVersion
 
 
@@ -235,9 +235,7 @@ class TestMentalStatusObservation:
 
     def test_observation_effective_time_datetime(self):
         """Test observation includes effectiveTime with datetime."""
-        obs = MockMentalStatusObservation(
-            observation_date=datetime(2023, 6, 15, 14, 30, 0)
-        )
+        obs = MockMentalStatusObservation(observation_date=datetime(2023, 6, 15, 14, 30, 0))
         builder = MentalStatusObservation(obs)
         elem = builder.to_element()
 

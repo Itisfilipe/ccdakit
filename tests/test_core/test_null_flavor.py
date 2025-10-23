@@ -101,3 +101,27 @@ def test_null_flavor_invalid_value_raises():
     """Test that invalid value raises ValueError."""
     with pytest.raises(ValueError):
         NullFlavor("INVALID")
+
+
+def test_get_null_flavor_for_missing_explicit_asked():
+    """Test get_null_flavor_for_missing with explicit asked=True."""
+    flavor = get_null_flavor_for_missing(asked=True)
+    assert flavor == NullFlavor.ASKU
+    assert flavor.value == "ASKU"
+
+
+def test_is_null_flavor_all_valid_codes():
+    """Test is_null_flavor with all valid null flavor codes."""
+    valid_codes = ["NI", "INV", "DER", "OTH", "NINF", "PINF", "UNK", "ASKU", "NAV", "NASK", "MSK", "NA", "NAVU"]
+
+    for code in valid_codes:
+        assert is_null_flavor(code) is True, f"Expected {code} to be recognized as valid null flavor"
+
+
+def test_is_null_flavor_exception_handling():
+    """Test is_null_flavor handles ValueError gracefully."""
+    # These should all return False without raising exceptions
+    assert is_null_flavor("INVALID_CODE") is False
+    assert is_null_flavor("xyz") is False
+    assert is_null_flavor("123") is False
+    assert is_null_flavor(" ") is False

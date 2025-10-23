@@ -2,7 +2,6 @@
 
 from datetime import datetime
 
-import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.assessment_and_plan import AssessmentAndPlanSection
@@ -279,7 +278,11 @@ class TestAssessmentAndPlanSection:
         paragraphs = text.findall(f"{{{NS}}}paragraph")
 
         # Should have both headings
-        heading_texts = [p.find(f"{{{NS}}}content").text for p in paragraphs if p.find(f"{{{NS}}}content") is not None]
+        heading_texts = [
+            p.find(f"{{{NS}}}content").text
+            for p in paragraphs
+            if p.find(f"{{{NS}}}content") is not None
+        ]
         assert "Assessment" in heading_texts
         assert "Plan" in heading_texts
 

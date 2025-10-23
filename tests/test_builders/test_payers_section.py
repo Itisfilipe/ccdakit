@@ -1,6 +1,6 @@
 """Tests for PayersSection builder."""
 
-from datetime import date, datetime
+from datetime import date
 
 from lxml import etree
 

@@ -218,16 +218,12 @@ class AdvanceDirectivesSection(CDAElement):
                     verification_text = directive.verifier_name
                 if directive.verification_date:
                     date_str = directive.verification_date.strftime("%Y-%m-%d")
-                    verification_text += (
-                        f" on {date_str}" if verification_text else date_str
-                    )
+                    verification_text += f" on {date_str}" if verification_text else date_str
                 td_verification.text = verification_text
             else:
                 td_verification.text = "Not verified"
 
-    def _add_entry(
-        self, section: etree._Element, directive: AdvanceDirectiveProtocol
-    ) -> None:
+    def _add_entry(self, section: etree._Element, directive: AdvanceDirectiveProtocol) -> None:
         """
         Add entry element with Advance Directive Observation.
 
@@ -244,7 +240,5 @@ class AdvanceDirectivesSection(CDAElement):
         entry = etree.SubElement(section, f"{{{NS}}}entry")
 
         # Create and add Advance Directive Observation (CONF:1198-30236)
-        directive_builder = AdvanceDirectiveObservation(
-            directive, version=self.version
-        )
+        directive_builder = AdvanceDirectiveObservation(directive, version=self.version)
         entry.append(directive_builder.to_element())

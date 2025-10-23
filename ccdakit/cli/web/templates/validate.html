@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Validate - ccdakit{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🔍 Validate C-CDA Document</h1>
+    <p>Validate your C-CDA document against XSD schemas and Schematron rules</p>
+</div>
+
+<div class="feature-container">
+    <form id="validateForm" onsubmit="validateDocument(event)">
+        <div class="input-tabs">
+            <button type="button" class="tab-button active" onclick="switchTab(event, 'file')">Upload File</button>
+            <button type="button" class="tab-button" onclick="switchTab(event, 'paste')">Paste XML</button>
+        </div>
+
+        <div id="file-input" class="tab-content active">
+            <div class="form-group">
+                <label>Select C-CDA XML File</label>
+                <input type="file" name="file" accept=".xml">
+            </div>
+        </div>
+
+        <div id="paste-input" class="tab-content">
+            <div class="form-group">
+                <label>Paste C-CDA XML Content</label>
+                <textarea name="content" rows="10" placeholder="Paste your C-CDA XML content here..."></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="checkbox-inline">
+                <input type="checkbox" name="xsd" checked> XSD Schema Validation
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" name="schematron" checked> Schematron Validation
+            </label>
+        </div>
+
+        <button type="submit" class="btn-primary">Validate Document</button>
+    </form>
+
+    <div id="validateResult"></div>
+</div>
+{% endblock %}

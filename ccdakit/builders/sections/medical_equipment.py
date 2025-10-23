@@ -1,13 +1,13 @@
 """Medical Equipment Section builder for C-CDA documents."""
 
-from typing import Sequence, Optional
+from typing import Optional, Sequence
 
 from lxml import etree
 
 from ccdakit.builders.common import Code
 from ccdakit.builders.entries.medical_equipment import (
-    NonMedicinalSupplyActivity,
     MedicalEquipmentOrganizer,
+    NonMedicinalSupplyActivity,
 )
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.medical_equipment import MedicalEquipmentProtocol

@@ -5,6 +5,7 @@ import urllib.request
 from pathlib import Path
 from typing import Optional, Tuple
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -126,11 +127,7 @@ class SchematronDownloader:
         cleaned_path = self.get_cleaned_schematron_path()
         vocabulary_path = self.get_vocabulary_path()
 
-        return (
-            schematron_path.exists()
-            and cleaned_path.exists()
-            and vocabulary_path.exists()
-        )
+        return schematron_path.exists() and cleaned_path.exists() and vocabulary_path.exists()
 
     def _download_file(self, file_type: str, force: bool = False) -> Tuple[bool, str]:
         """
@@ -152,9 +149,9 @@ class SchematronDownloader:
 
         try:
             # Download file
-            print(f"Downloading {file_info['filename']} (~{file_info['size_mb']} MB)...")
-            print(f"Source: {file_info['url']}")
-            print(f"Target: {target_path}")
+            logger.info("Downloading %s (~%d MB)...", file_info["filename"], file_info["size_mb"])
+            logger.info("Source: %s", file_info["url"])
+            logger.info("Target: %s", target_path)
 
             urllib.request.urlretrieve(file_info["url"], target_path)
 
@@ -200,9 +197,7 @@ class SchematronDownloader:
             cleaned_path = self.get_cleaned_schematron_path()
 
             # Clean the file
-            output_path, stats = clean_schematron_file(
-                schematron_path, output_path=cleaned_path, quiet=True
-            )
+            _, stats = clean_schematron_file(schematron_path, output_path=cleaned_path, quiet=True)
 
             msg = (
                 f"✓ Cleaned Schematron file: removed {stats['invalid_references']} "
@@ -240,13 +235,13 @@ def download_schematron_files(
     # Check if already present
     if downloader.are_files_present() and not force:
         if not quiet:
-            print("✓ Schematron files already present")
+            logger.info("Schematron files already present")
         return True
 
     # Download
     success, message = downloader.download_all(force)
 
     if not quiet:
-        print(message)
+        logger.info(message)
 
     return success

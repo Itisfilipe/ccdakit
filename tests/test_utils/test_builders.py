@@ -11,11 +11,22 @@ from ccdakit.utils.builders import (
     SimpleProblemBuilder,
     SimpleProcedureBuilder,
     SimpleResultObservationBuilder,
+    SimpleResultOrganizerBuilder,
     SimpleSmokingStatusBuilder,
     SimpleVitalSignBuilder,
+    SimpleVitalSignsOrganizerBuilder,
+    allergy_builder,
+    encounter_builder,
+    immunization_builder,
     medication_builder,
     patient_builder,
     problem_builder,
+    procedure_builder,
+    result_observation_builder,
+    result_organizer_builder,
+    smoking_status_builder,
+    vital_sign_builder,
+    vital_signs_organizer_builder,
 )
 
 
@@ -81,6 +92,47 @@ class TestSimpleProblemBuilder:
         assert problem["code_system"] == "SNOMED"
         assert problem["status"] == "active"
 
+    def test_problem_with_onset_date(self):
+        """Test building problem with onset date."""
+        problem = (
+            SimpleProblemBuilder()
+            .name("Type 2 Diabetes")
+            .code("44054006", "SNOMED")
+            .status("active")
+            .onset_date(date(2020, 1, 15))
+            .build()
+        )
+
+        assert problem["onset_date"] == date(2020, 1, 15)
+
+    def test_problem_with_resolved_date(self):
+        """Test building problem with resolved date."""
+        problem = (
+            SimpleProblemBuilder()
+            .name("Pneumonia")
+            .code("233604007", "SNOMED")
+            .status("resolved")
+            .onset_date(date(2022, 3, 1))
+            .resolved_date(date(2022, 3, 15))
+            .build()
+        )
+
+        assert problem["resolved_date"] == date(2022, 3, 15)
+
+    def test_problem_with_persistent_id(self):
+        """Test building problem with persistent ID."""
+        problem = (
+            SimpleProblemBuilder()
+            .name("Asthma")
+            .code("195967001", "SNOMED")
+            .status("active")
+            .persistent_id("2.16.840.1.113883.19", "prob-12345")
+            .build()
+        )
+
+        assert problem["persistent_id"]["root"] == "2.16.840.1.113883.19"
+        assert problem["persistent_id"]["extension"] == "prob-12345"
+
 
 class TestSimpleMedicationBuilder:
     """Test cases for SimpleMedicationBuilder."""
@@ -102,6 +154,40 @@ class TestSimpleMedicationBuilder:
         assert medication["name"] == "Lisinopril 10mg oral tablet"
         assert medication["code"] == "314076"
         assert medication["dosage"] == "10 mg"
+
+    def test_medication_with_end_date(self):
+        """Test building medication with end date."""
+        medication = (
+            SimpleMedicationBuilder()
+            .name("Amoxicillin 500mg")
+            .code("308182")
+            .dosage("500 mg")
+            .route("oral")
+            .frequency("three times daily")
+            .start_date(date(2023, 1, 1))
+            .end_date(date(2023, 1, 10))
+            .status("completed")
+            .build()
+        )
+
+        assert medication["end_date"] == date(2023, 1, 10)
+
+    def test_medication_with_instructions(self):
+        """Test building medication with patient instructions."""
+        medication = (
+            SimpleMedicationBuilder()
+            .name("Metformin 500mg")
+            .code("860975")
+            .dosage("500 mg")
+            .route("oral")
+            .frequency("twice daily")
+            .start_date(date(2023, 5, 1))
+            .status("active")
+            .instructions("Take with food to reduce stomach upset")
+            .build()
+        )
+
+        assert medication["instructions"] == "Take with food to reduce stomach upset"
 
 
 class TestSimpleAllergyBuilder:
@@ -167,6 +253,38 @@ class TestSimpleVitalSignBuilder:
         assert vital_sign["interpretation"] == "Normal"
 
 
+class TestSimpleVitalSignsOrganizerBuilder:
+    """Test cases for SimpleVitalSignsOrganizerBuilder."""
+
+    def test_vital_signs_organizer_with_date(self):
+        """Test building vital signs organizer with date."""
+        organizer = (
+            SimpleVitalSignsOrganizerBuilder()
+            .date(datetime(2023, 10, 15, 10, 30))
+            .build()
+        )
+
+        assert organizer["date"] == datetime(2023, 10, 15, 10, 30)
+        assert organizer["vital_signs"] == []
+
+    def test_vital_signs_organizer_with_vital_signs(self):
+        """Test building vital signs organizer with vital signs."""
+        vital_sign1 = {"type": "Heart Rate", "code": "8867-4", "value": "72", "unit": "bpm"}
+        vital_sign2 = {"type": "Blood Pressure", "code": "55284-4", "value": "120/80", "unit": "mmHg"}
+
+        organizer = (
+            SimpleVitalSignsOrganizerBuilder()
+            .date(datetime(2023, 10, 15, 10, 30))
+            .add_vital_sign(vital_sign1)
+            .add_vital_sign(vital_sign2)
+            .build()
+        )
+
+        assert len(organizer["vital_signs"]) == 2
+        assert organizer["vital_signs"][0]["type"] == "Heart Rate"
+        assert organizer["vital_signs"][1]["type"] == "Blood Pressure"
+
+
 class TestSimpleProcedureBuilder:
     """Test cases for SimpleProcedureBuilder."""
 
@@ -210,6 +328,45 @@ class TestSimpleResultObservationBuilder:
         assert result["reference_range_low"] == "70"
 
 
+class TestSimpleResultOrganizerBuilder:
+    """Test cases for SimpleResultOrganizerBuilder."""
+
+    def test_result_organizer_with_panel(self):
+        """Test building result organizer with panel information."""
+        organizer = (
+            SimpleResultOrganizerBuilder()
+            .panel("Comprehensive Metabolic Panel", "24323-8")
+            .status("final")
+            .effective_time(datetime(2023, 10, 15, 8, 0))
+            .build()
+        )
+
+        assert organizer["panel_name"] == "Comprehensive Metabolic Panel"
+        assert organizer["panel_code"] == "24323-8"
+        assert organizer["status"] == "final"
+        assert organizer["effective_time"] == datetime(2023, 10, 15, 8, 0)
+        assert organizer["results"] == []
+
+    def test_result_organizer_with_results(self):
+        """Test building result organizer with results."""
+        result1 = {"test_name": "Glucose", "test_code": "2339-0", "value": "95", "unit": "mg/dL"}
+        result2 = {"test_name": "Sodium", "test_code": "2951-2", "value": "140", "unit": "mmol/L"}
+
+        organizer = (
+            SimpleResultOrganizerBuilder()
+            .panel("Basic Metabolic Panel", "51990-0")
+            .status("final")
+            .effective_time(datetime(2023, 10, 15, 8, 0))
+            .add_result(result1)
+            .add_result(result2)
+            .build()
+        )
+
+        assert len(organizer["results"]) == 2
+        assert organizer["results"][0]["test_name"] == "Glucose"
+        assert organizer["results"][1]["test_name"] == "Sodium"
+
+
 class TestSimpleEncounterBuilder:
     """Test cases for SimpleEncounterBuilder."""
 
@@ -227,6 +384,21 @@ class TestSimpleEncounterBuilder:
 
         assert encounter["encounter_type"] == "Office Visit"
         assert encounter["location"] == "Community Health Hospital"
+
+    def test_encounter_with_discharge_disposition(self):
+        """Test building encounter with discharge disposition."""
+        encounter = (
+            SimpleEncounterBuilder()
+            .encounter_type("Inpatient", "IMP", "ActCode")
+            .date(datetime(2023, 10, 10, 8, 0))
+            .end_date(datetime(2023, 10, 15, 14, 0))
+            .location("General Hospital")
+            .performer("Dr. Jane Doe")
+            .discharge_disposition("Home")
+            .build()
+        )
+
+        assert encounter["discharge_disposition"] == "Home"
 
 
 class TestSimpleSmokingStatusBuilder:
@@ -262,3 +434,48 @@ class TestConvenienceFunctions:
         """Test medication_builder() convenience function."""
         builder = medication_builder()
         assert isinstance(builder, SimpleMedicationBuilder)
+
+    def test_allergy_builder_function(self):
+        """Test allergy_builder() convenience function."""
+        builder = allergy_builder()
+        assert isinstance(builder, SimpleAllergyBuilder)
+
+    def test_immunization_builder_function(self):
+        """Test immunization_builder() convenience function."""
+        builder = immunization_builder()
+        assert isinstance(builder, SimpleImmunizationBuilder)
+
+    def test_vital_sign_builder_function(self):
+        """Test vital_sign_builder() convenience function."""
+        builder = vital_sign_builder()
+        assert isinstance(builder, SimpleVitalSignBuilder)
+
+    def test_vital_signs_organizer_builder_function(self):
+        """Test vital_signs_organizer_builder() convenience function."""
+        builder = vital_signs_organizer_builder()
+        assert isinstance(builder, SimpleVitalSignsOrganizerBuilder)
+
+    def test_procedure_builder_function(self):
+        """Test procedure_builder() convenience function."""
+        builder = procedure_builder()
+        assert isinstance(builder, SimpleProcedureBuilder)
+
+    def test_result_observation_builder_function(self):
+        """Test result_observation_builder() convenience function."""
+        builder = result_observation_builder()
+        assert isinstance(builder, SimpleResultObservationBuilder)
+
+    def test_result_organizer_builder_function(self):
+        """Test result_organizer_builder() convenience function."""
+        builder = result_organizer_builder()
+        assert isinstance(builder, SimpleResultOrganizerBuilder)
+
+    def test_encounter_builder_function(self):
+        """Test encounter_builder() convenience function."""
+        builder = encounter_builder()
+        assert isinstance(builder, SimpleEncounterBuilder)
+
+    def test_smoking_status_builder_function(self):
+        """Test smoking_status_builder() convenience function."""
+        builder = smoking_status_builder()
+        assert isinstance(builder, SimpleSmokingStatusBuilder)

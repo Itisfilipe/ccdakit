@@ -296,3 +296,215 @@ def test_patient_with_multiple_telecoms():
     assert patient.telecoms[0].type == "phone"
     assert patient.telecoms[1].type == "email"
     assert patient.telecoms[2].use == "WP"
+
+
+def test_address_protocol_property_access():
+    """Test accessing all address properties."""
+    address = MockAddress()
+
+    # Access all properties to ensure protocol coverage
+    assert isinstance(address.street_lines, Sequence)
+    assert isinstance(address.city, str)
+    assert isinstance(address.state, str)
+    assert isinstance(address.postal_code, str)
+    assert isinstance(address.country, str)
+
+
+def test_telecom_protocol_property_access():
+    """Test accessing all telecom properties."""
+    telecom = MockTelecom("phone", "555-1234", "HP")
+
+    # Access all properties to ensure protocol coverage
+    assert isinstance(telecom.type, str)
+    assert isinstance(telecom.value, str)
+    assert telecom.use is None or isinstance(telecom.use, str)
+
+
+def test_patient_protocol_property_access():
+    """Test accessing all patient properties."""
+    patient = MockPatient()
+
+    # Access all properties to ensure protocol coverage
+    assert isinstance(patient.first_name, str)
+    assert isinstance(patient.last_name, str)
+    assert patient.middle_name is None or isinstance(patient.middle_name, str)
+    assert isinstance(patient.date_of_birth, date)
+    assert isinstance(patient.sex, str)
+    assert patient.race is None or isinstance(patient.race, str)
+    assert patient.ethnicity is None or isinstance(patient.ethnicity, str)
+    assert patient.language is None or isinstance(patient.language, str)
+    assert patient.ssn is None or isinstance(patient.ssn, str)
+    assert isinstance(patient.addresses, Sequence)
+    assert isinstance(patient.telecoms, Sequence)
+    assert patient.marital_status is None or isinstance(patient.marital_status, str)
+
+
+def test_patient_different_sex_values():
+    """Test patient with different sex values."""
+
+    class MalePatient(MockPatient):
+        @property
+        def sex(self):
+            return "M"
+
+    class FemalePatient(MockPatient):
+        @property
+        def sex(self):
+            return "F"
+
+    class UnknownSexPatient(MockPatient):
+        @property
+        def sex(self):
+            return "UN"
+
+    male = MalePatient()
+    female = FemalePatient()
+    unknown = UnknownSexPatient()
+
+    assert male.sex == "M"
+    assert female.sex == "F"
+    assert unknown.sex == "UN"
+
+
+def test_patient_different_marital_statuses():
+    """Test patient with different marital status values."""
+
+    class MarriedPatient(MockPatient):
+        @property
+        def marital_status(self):
+            return "M"
+
+    class SinglePatient(MockPatient):
+        @property
+        def marital_status(self):
+            return "S"
+
+    class DivorcedPatient(MockPatient):
+        @property
+        def marital_status(self):
+            return "D"
+
+    married = MarriedPatient()
+    single = SinglePatient()
+    divorced = DivorcedPatient()
+
+    assert married.marital_status == "M"
+    assert single.marital_status == "S"
+    assert divorced.marital_status == "D"
+
+
+def test_telecom_different_types():
+    """Test telecom with different types."""
+    phone = MockTelecom("phone", "555-1234")
+    email = MockTelecom("email", "test@example.com")
+    fax = MockTelecom("fax", "555-5678")
+    url = MockTelecom("url", "https://example.com")
+
+    assert phone.type == "phone"
+    assert email.type == "email"
+    assert fax.type == "fax"
+    assert url.type == "url"
+
+
+def test_telecom_different_uses():
+    """Test telecom with different use codes."""
+    home = MockTelecom("phone", "555-1234", "HP")
+    work = MockTelecom("phone", "555-5678", "WP")
+    mobile = MockTelecom("phone", "555-9999", "MC")
+
+    assert home.use == "HP"
+    assert work.use == "WP"
+    assert mobile.use == "MC"
+
+
+def test_address_single_street_line():
+    """Test address with single street line."""
+
+    class SingleLineAddress:
+        @property
+        def street_lines(self):
+            return ["123 Main St"]
+
+        @property
+        def city(self):
+            return "Boston"
+
+        @property
+        def state(self):
+            return "MA"
+
+        @property
+        def postal_code(self):
+            return "02101"
+
+        @property
+        def country(self):
+            return "US"
+
+    address = SingleLineAddress()
+    assert len(address.street_lines) == 1
+
+
+def test_address_multiple_street_lines():
+    """Test address with multiple street lines."""
+
+    class MultiLineAddress:
+        @property
+        def street_lines(self):
+            return ["123 Main St", "Suite 400", "Building A", "Floor 2"]
+
+        @property
+        def city(self):
+            return "Boston"
+
+        @property
+        def state(self):
+            return "MA"
+
+        @property
+        def postal_code(self):
+            return "02101"
+
+        @property
+        def country(self):
+            return "US"
+
+    address = MultiLineAddress()
+    assert len(address.street_lines) == 4
+
+
+def test_patient_with_race_and_ethnicity():
+    """Test patient with race and ethnicity codes."""
+
+    class PatientWithDemographics(MockPatient):
+        @property
+        def race(self):
+            return "2106-3"  # White
+
+        @property
+        def ethnicity(self):
+            return "2186-5"  # Not Hispanic or Latino
+
+    patient = PatientWithDemographics()
+    assert patient.race == "2106-3"
+    assert patient.ethnicity == "2186-5"
+
+
+def test_patient_with_language():
+    """Test patient with preferred language."""
+
+    class SpanishSpeakingPatient(MockPatient):
+        @property
+        def language(self):
+            return "spa"
+
+    class FrenchSpeakingPatient(MockPatient):
+        @property
+        def language(self):
+            return "fra"
+
+    spanish = SpanishSpeakingPatient()
+    french = FrenchSpeakingPatient()
+
+    assert spanish.language == "spa"
+    assert french.language == "fra"

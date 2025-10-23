@@ -327,7 +327,9 @@ class TestHealthStatusEvaluationsAndOutcomesSection:
         """Test narrative with multiple outcomes."""
         outcomes = [
             MockOutcomeObservation(display_name="Body weight", value="180", value_unit="lbs"),
-            MockOutcomeObservation(display_name="Blood pressure", value="120/80", value_unit="mmHg"),
+            MockOutcomeObservation(
+                display_name="Blood pressure", value="120/80", value_unit="mmHg"
+            ),
             MockOutcomeObservation(display_name="HbA1c", value="6.8", value_unit="%"),
         ]
         section = HealthStatusEvaluationsAndOutcomesSection(outcomes)
@@ -592,7 +594,9 @@ class TestHealthStatusEvaluationsAndOutcomesSection:
 
     def test_section_observation_with_intervention_references(self):
         """Test observation with intervention references."""
-        outcome = MockOutcomeObservation(intervention_reference_ids=["intervention-1", "intervention-2"])
+        outcome = MockOutcomeObservation(
+            intervention_reference_ids=["intervention-1", "intervention-2"]
+        )
         section = HealthStatusEvaluationsAndOutcomesSection([outcome])
         elem = section.to_element()
 
@@ -652,7 +656,9 @@ class TestHealthStatusEvaluationsAndOutcomesSection:
         """Test section with multiple outcomes."""
         outcomes = [
             MockOutcomeObservation(display_name="Body weight", value="180", value_unit="lbs"),
-            MockOutcomeObservation(display_name="Blood pressure", value="120/80", value_unit="mmHg"),
+            MockOutcomeObservation(
+                display_name="Blood pressure", value="120/80", value_unit="mmHg"
+            ),
         ]
         section = HealthStatusEvaluationsAndOutcomesSection(outcomes)
         elem = section.to_element()
@@ -1020,11 +1026,6 @@ class TestHealthStatusEvaluationsAndOutcomesSectionIntegration:
     def test_progress_without_explicit_id(self):
         """Test progress toward goal auto-generates ID when not provided."""
         # Create progress without ID
-        progress_dict = {
-            "_achievement_code": "385641008",
-            "_achievement_code_system": "2.16.840.1.113883.6.96",
-            "_achievement_display_name": "Improving",
-        }
 
         class ProgressWithoutId:
             def __init__(self):
@@ -1119,3 +1120,23 @@ class TestHealthStatusEvaluationsAndOutcomesSectionIntegration:
 
         content = tds[0].find(f"{{{NS}}}content")
         assert content.text == "Outcome observation"
+
+    def test_narrative_effective_time_as_string(self):
+        """Test narrative with effective_time as a string instead of date object."""
+        outcome = MockOutcomeObservation(
+            display_name="Pain Level",
+            value="3",
+            value_unit="scale 0-10",
+            effective_time="2023-06-15",  # String instead of date
+        )
+        section = HealthStatusEvaluationsAndOutcomesSection([outcome])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Time column should show string value (index 2)
+        assert tds[2].text == "2023-06-15"

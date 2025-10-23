@@ -279,6 +279,8 @@ uv run pytest -n auto
 1. **Update documentation** - If you've changed APIs, update the relevant documentation
 2. **Add tests** - Ensure your changes are covered by tests
 3. **Update CHANGELOG.md** - Add a brief description of your changes under "Unreleased"
+   - Note: `CHANGELOG.md` in the root is a symlink to `docs/about/changelog.md`
+   - Only edit `docs/about/changelog.md` - the root file will automatically reflect changes
 4. **Run the full test suite** - Make sure all tests pass
 5. **Create the Pull Request** - Provide a clear description of the changes
 

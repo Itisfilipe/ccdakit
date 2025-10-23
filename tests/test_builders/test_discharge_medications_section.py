@@ -566,9 +566,7 @@ class TestDischargeMedicationsSectionIntegration:
             ),
         ]
 
-        section = DischargeMedicationsSection(
-            medications, title="Discharge Medications"
-        )
+        section = DischargeMedicationsSection(medications, title="Discharge Medications")
         elem = section.to_element()
 
         # Verify structure

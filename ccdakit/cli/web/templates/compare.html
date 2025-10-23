@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Compare - ccdakit{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>⚖️ Compare C-CDA Documents</h1>
+    <p>Compare two C-CDA documents and see the differences</p>
+</div>
+
+<div class="feature-container">
+    <form id="compareForm" onsubmit="compareDocuments(event)">
+        <div class="compare-inputs">
+            <div class="compare-column">
+                <h3>First Document</h3>
+                <div class="input-tabs">
+                    <button type="button" class="tab-button active" onclick="switchTab(event, 'file', 1)">Upload File</button>
+                    <button type="button" class="tab-button" onclick="switchTab(event, 'paste', 1)">Paste XML</button>
+                </div>
+
+                <div id="file-input-1" class="tab-content active">
+                    <div class="form-group">
+                        <label>Select C-CDA XML File</label>
+                        <input type="file" name="file1" accept=".xml">
+                    </div>
+                </div>
+
+                <div id="paste-input-1" class="tab-content">
+                    <div class="form-group">
+                        <label>Paste C-CDA XML Content</label>
+                        <textarea name="content1" rows="8" placeholder="Paste first document XML here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compare-column">
+                <h3>Second Document</h3>
+                <div class="input-tabs">
+                    <button type="button" class="tab-button active" onclick="switchTab(event, 'file', 2)">Upload File</button>
+                    <button type="button" class="tab-button" onclick="switchTab(event, 'paste', 2)">Paste XML</button>
+                </div>
+
+                <div id="file-input-2" class="tab-content active">
+                    <div class="form-group">
+                        <label>Select C-CDA XML File</label>
+                        <input type="file" name="file2" accept=".xml">
+                    </div>
+                </div>
+
+                <div id="paste-input-2" class="tab-content">
+                    <div class="form-group">
+                        <label>Paste C-CDA XML Content</label>
+                        <textarea name="content2" rows="8" placeholder="Paste second document XML here..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Compare Documents</button>
+    </form>
+
+    <div id="compareResult"></div>
+</div>
+{% endblock %}

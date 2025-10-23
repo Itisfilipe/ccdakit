@@ -15,6 +15,7 @@ from typing import Optional, Set, Tuple
 
 from lxml import etree
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,9 +42,7 @@ class SchematronCleaner:
         if not self.schematron_path.exists():
             raise FileNotFoundError(f"Schematron file not found: {schematron_path}")
 
-    def clean(
-        self, output_path: Optional[Path] = None, quiet: bool = False
-    ) -> Tuple[Path, dict]:
+    def clean(self, output_path: Optional[Path] = None, quiet: bool = False) -> Tuple[Path, dict]:
         """
         Clean the Schematron file by removing invalid pattern references.
 
@@ -94,9 +93,7 @@ class SchematronCleaner:
                 stats["warnings_phase_cleaned"] = removed
 
             if not quiet and removed > 0:
-                logger.info(
-                    f"Removed {removed} invalid pattern references from phase '{phase_id}'"
-                )
+                logger.info(f"Removed {removed} invalid pattern references from phase '{phase_id}'")
 
         # Count remaining references
         for phase in root.findall(f".//{{{self.SCH_NS}}}phase"):

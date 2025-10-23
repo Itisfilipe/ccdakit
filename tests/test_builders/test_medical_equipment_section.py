@@ -2,14 +2,14 @@
 
 from datetime import date, datetime
 
-from lxml import etree
 import pytest
+from lxml import etree
 
-from ccdakit.builders.sections.medical_equipment import MedicalEquipmentSection
 from ccdakit.builders.entries.medical_equipment import (
-    NonMedicinalSupplyActivity,
     MedicalEquipmentOrganizer,
+    NonMedicinalSupplyActivity,
 )
+from ccdakit.builders.sections.medical_equipment import MedicalEquipmentSection
 from ccdakit.core.base import CDAVersion
 
 
@@ -179,9 +179,7 @@ class TestNonMedicinalSupplyActivity:
 
     def test_supply_with_effective_time_range(self):
         """Test supply with date range."""
-        equipment = MockEquipment(
-            date_supplied=date(2023, 6, 15), date_end=date(2023, 12, 31)
-        )
+        equipment = MockEquipment(date_supplied=date(2023, 6, 15), date_end=date(2023, 12, 31))
         supply = NonMedicinalSupplyActivity(equipment)
         elem = supply.to_element()
 
@@ -200,7 +198,7 @@ class TestNonMedicinalSupplyActivity:
         """Test supply with datetime range."""
         equipment = MockEquipment(
             date_supplied=datetime(2023, 6, 15, 9, 30, 0),
-            date_end=datetime(2023, 12, 31, 17, 45, 0)
+            date_end=datetime(2023, 12, 31, 17, 45, 0),
         )
         supply = NonMedicinalSupplyActivity(equipment)
         elem = supply.to_element()
@@ -303,9 +301,7 @@ class TestNonMedicinalSupplyActivity:
 
     def test_product_instance_playing_device(self):
         """Test product instance has playingDevice."""
-        equipment = MockEquipment(
-            code="58938008", code_system="SNOMED CT", manufacturer="Acme"
-        )
+        equipment = MockEquipment(code="58938008", code_system="SNOMED CT", manufacturer="Acme")
         supply = NonMedicinalSupplyActivity(equipment)
         elem = supply.to_element()
 

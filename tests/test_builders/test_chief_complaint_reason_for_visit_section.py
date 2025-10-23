@@ -42,9 +42,7 @@ class TestChiefComplaintAndReasonForVisitSection:
     def test_section_has_template_id_r21(self):
         """Test section includes R2.1 template ID (CONF:81-7840, CONF:81-10383)."""
         complaints = [MockChiefComplaint()]
-        section = ChiefComplaintAndReasonForVisitSection(
-            complaints, version=CDAVersion.R2_1
-        )
+        section = ChiefComplaintAndReasonForVisitSection(complaints, version=CDAVersion.R2_1)
         elem = section.to_element()
 
         template = elem.find(f"{{{NS}}}templateId")
@@ -56,9 +54,7 @@ class TestChiefComplaintAndReasonForVisitSection:
     def test_section_has_template_id_r20(self):
         """Test section includes R2.0 template ID (CONF:81-7840, CONF:81-10383)."""
         complaints = [MockChiefComplaint()]
-        section = ChiefComplaintAndReasonForVisitSection(
-            complaints, version=CDAVersion.R2_0
-        )
+        section = ChiefComplaintAndReasonForVisitSection(complaints, version=CDAVersion.R2_0)
         elem = section.to_element()
 
         template = elem.find(f"{{{NS}}}templateId")
@@ -167,9 +163,7 @@ class TestChiefComplaintAndReasonForVisitSection:
         # Should have paragraph, not list
         paragraph = text.find(f"{{{NS}}}paragraph")
         assert paragraph is not None
-        assert (
-            paragraph.text == "No chief complaint or reason for visit documented"
-        )
+        assert paragraph.text == "No chief complaint or reason for visit documented"
 
         # Should not have list
         list_elem = text.find(f"{{{NS}}}list")
@@ -183,9 +177,7 @@ class TestChiefComplaintAndReasonForVisitSection:
         text = elem.find(f"{{{NS}}}text")
         paragraph = text.find(f"{{{NS}}}paragraph")
         assert paragraph is not None
-        assert (
-            paragraph.text == "No chief complaint or reason for visit documented"
-        )
+        assert paragraph.text == "No chief complaint or reason for visit documented"
 
     def test_section_no_entries(self):
         """Test section does not include entry elements.
@@ -264,9 +256,7 @@ class TestChiefComplaintAndReasonForVisitSection:
     def test_section_with_special_characters(self):
         """Test section handles special characters in complaint text."""
         complaints = [
-            MockChiefComplaint(
-                text='Patient reports "stabbing" pain in lower abdomen'
-            ),
+            MockChiefComplaint(text='Patient reports "stabbing" pain in lower abdomen'),
         ]
         section = ChiefComplaintAndReasonForVisitSection(complaints)
         elem = section.to_element()
@@ -275,8 +265,8 @@ class TestChiefComplaintAndReasonForVisitSection:
         paragraph = text.find(f"{{{NS}}}paragraph")
         content = paragraph.find(f"{{{NS}}}content")
 
-        assert 'stabbing' in content.text
-        assert 'abdomen' in content.text
+        assert "stabbing" in content.text
+        assert "abdomen" in content.text
 
     def test_section_with_long_complaint_text(self):
         """Test section handles long complaint text."""
@@ -323,9 +313,7 @@ class TestChiefComplaintAndReasonForVisitSectionIntegration:
 
     def test_complete_section_single_complaint(self):
         """Test creating a complete section with single complaint."""
-        complaints = [
-            MockChiefComplaint(text="Patient complains of severe headache")
-        ]
+        complaints = [MockChiefComplaint(text="Patient complains of severe headache")]
 
         section = ChiefComplaintAndReasonForVisitSection(
             complaints,
@@ -391,9 +379,7 @@ class TestChiefComplaintAndReasonForVisitSectionIntegration:
     def test_section_r20_version(self):
         """Test section with R2.0 version."""
         complaints = [MockChiefComplaint()]
-        section = ChiefComplaintAndReasonForVisitSection(
-            complaints, version=CDAVersion.R2_0
-        )
+        section = ChiefComplaintAndReasonForVisitSection(complaints, version=CDAVersion.R2_0)
         elem = section.to_element()
 
         # Check template ID
@@ -409,9 +395,7 @@ class TestChiefComplaintAndReasonForVisitSectionIntegration:
     def test_section_r21_version(self):
         """Test section with R2.1 version."""
         complaints = [MockChiefComplaint()]
-        section = ChiefComplaintAndReasonForVisitSection(
-            complaints, version=CDAVersion.R2_1
-        )
+        section = ChiefComplaintAndReasonForVisitSection(complaints, version=CDAVersion.R2_1)
         elem = section.to_element()
 
         # Check template ID
@@ -446,9 +430,7 @@ class TestChiefComplaintAndReasonForVisitSectionIntegration:
 
     def test_section_with_reason_for_visit_text(self):
         """Test section with provider's reason for visit (not patient's complaint)."""
-        complaints = [
-            MockChiefComplaint(text="Follow-up visit for diabetes management")
-        ]
+        complaints = [MockChiefComplaint(text="Follow-up visit for diabetes management")]
 
         section = ChiefComplaintAndReasonForVisitSection(
             complaints,
@@ -501,9 +483,7 @@ class TestChiefComplaintAndReasonForVisitSectionIntegration:
     def test_section_conforms_to_all_conformance_rules(self):
         """Test that section conforms to all CONF rules from spec."""
         complaints = [MockChiefComplaint(text="Test complaint")]
-        section = ChiefComplaintAndReasonForVisitSection(
-            complaints, version=CDAVersion.R2_1
-        )
+        section = ChiefComplaintAndReasonForVisitSection(complaints, version=CDAVersion.R2_1)
         elem = section.to_element()
 
         # CONF:81-7840: SHALL contain exactly one [1..1] templateId

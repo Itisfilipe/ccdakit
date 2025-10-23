@@ -250,12 +250,8 @@ class TestFunctionalStatusSection:
     def test_functional_status_section_narrative_multiple_observations(self):
         """Test narrative with multiple observations in one organizer."""
         observations = [
-            MockFunctionalStatusObservation(
-                type="Ambulation", value="Walks independently"
-            ),
-            MockFunctionalStatusObservation(
-                type="Bathing", value="Requires minimal assistance"
-            ),
+            MockFunctionalStatusObservation(type="Ambulation", value="Walks independently"),
+            MockFunctionalStatusObservation(type="Bathing", value="Requires minimal assistance"),
             MockFunctionalStatusObservation(type="Feeding", value="Independent"),
         ]
         organizer = MockFunctionalStatusOrganizer(observations=observations)
@@ -355,12 +351,8 @@ class TestFunctionalStatusSection:
     def test_functional_status_section_multiple_entries(self):
         """Test FunctionalStatusSection with multiple organizers."""
         organizers = [
-            MockFunctionalStatusOrganizer(
-                observations=[MockFunctionalStatusObservation()]
-            ),
-            MockFunctionalStatusOrganizer(
-                observations=[MockFunctionalStatusObservation()]
-            ),
+            MockFunctionalStatusOrganizer(observations=[MockFunctionalStatusObservation()]),
+            MockFunctionalStatusOrganizer(observations=[MockFunctionalStatusObservation()]),
         ]
         section = FunctionalStatusSection(organizers)
         elem = section.to_element()
@@ -466,10 +458,8 @@ class TestFunctionalStatusOrganizer:
         """Test organizer has code element (CONF:1098-14364)."""
         from ccdakit.builders.entries.functional_status import FunctionalStatusOrganizer
 
-        observations = [MockFunctionalStatusObservation()]
-        organizer = MockFunctionalStatusOrganizer(
-            category="Mobility", category_code="d4"
-        )
+        [MockFunctionalStatusObservation()]
+        organizer = MockFunctionalStatusOrganizer(category="Mobility", category_code="d4")
         builder = FunctionalStatusOrganizer(organizer)
         elem = builder.to_element()
 
@@ -482,7 +472,7 @@ class TestFunctionalStatusOrganizer:
         """Test organizer code defaults to ICF code system (CONF:1098-31417)."""
         from ccdakit.builders.entries.functional_status import FunctionalStatusOrganizer
 
-        observations = [MockFunctionalStatusObservation()]
+        [MockFunctionalStatusObservation()]
         organizer = MockFunctionalStatusOrganizer(category_code="d4")
         builder = FunctionalStatusOrganizer(organizer)
         elem = builder.to_element()
@@ -494,7 +484,7 @@ class TestFunctionalStatusOrganizer:
         """Test organizer code can use custom code system."""
         from ccdakit.builders.entries.functional_status import FunctionalStatusOrganizer
 
-        observations = [MockFunctionalStatusObservation()]
+        [MockFunctionalStatusObservation()]
         organizer = MockFunctionalStatusOrganizer(
             category_code="74465-6", category_code_system="2.16.840.1.113883.6.1"
         )
@@ -638,9 +628,7 @@ class TestFunctionalStatusObservation:
             FunctionalStatusObservation,
         )
 
-        observation = MockFunctionalStatusObservation(
-            date=datetime(2023, 10, 15, 10, 30)
-        )
+        observation = MockFunctionalStatusObservation(date=datetime(2023, 10, 15, 10, 30))
         builder = FunctionalStatusObservation(observation)
         elem = builder.to_element()
 
@@ -662,9 +650,7 @@ class TestFunctionalStatusObservation:
 
         value = elem.find(f"{{{NS}}}value")
         assert value is not None
-        assert (
-            value.get("{http://www.w3.org/2001/XMLSchema-instance}type") == "CD"
-        )
+        assert value.get("{http://www.w3.org/2001/XMLSchema-instance}type") == "CD"
         assert value.get("code") == "165245003"
         assert value.get("displayName") == "Walks independently"
 

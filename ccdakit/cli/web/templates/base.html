@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ccdakit - C-CDA Document Tools{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="site-wrapper">
+    <div class="site-content">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="/">ccdakit</a>
+                </div>
+                <div class="nav-menu">
+                    <a href="/" class="nav-link {% if active_page == 'home' %}active{% endif %}">Home</a>
+                    <a href="/validate" class="nav-link {% if active_page == 'validate' %}active{% endif %}">Validate</a>
+                    <a href="/generate" class="nav-link {% if active_page == 'generate' %}active{% endif %}">Generate</a>
+                    <a href="/convert" class="nav-link {% if active_page == 'convert' %}active{% endif %}">Convert</a>
+                    <a href="/compare" class="nav-link {% if active_page == 'compare' %}active{% endif %}">Compare</a>
+                    <a href="https://docs.ccdakit.com/" class="nav-link" target="_blank" rel="noopener noreferrer">Docs</a>
+                    <a href="https://docs.ccdakit.com/guides/hl7-guide/" class="nav-link" target="_blank" rel="noopener noreferrer">HL7 Guide</a>
+                    <a href="https://github.com/Itisfilipe/ccdakit" class="nav-link" target="_blank" rel="noopener noreferrer">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: text-bottom;">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div id="warningBanner" class="warning-banner" style="display: none;">
+            <div class="banner-container">
+                <div class="banner-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <div class="banner-content">
+                    <strong>Important:</strong> This is not an official HL7 publication. Independent project developed with AI assistance. Not affiliated with HL7 International. Validate before production use. See <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492" target="_blank" rel="noopener noreferrer">official HL7 specs</a>. HL7® and C-CDA® are registered trademarks of Health Level Seven International.
+                </div>
+                <button class="banner-close" onclick="dismissBanner()" aria-label="Dismiss warning">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>ccdakit is a Python library for generating and validating HL7 C-CDA clinical documents.</p>
+                <div class="footer-badges">
+                    <a href="https://github.com/Itisfilipe/ccdakit" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/github/stars/Itisfilipe/ccdakit?style=flat-square" alt="GitHub stars">
+                    </a>
+                    <a href="https://pypi.org/project/ccdakit/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/pypi/v/ccdakit?style=flat-square" alt="PyPI version">
+                    </a>
+                    <a href="https://pypi.org/project/ccdakit/" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/pypi/dm/ccdakit?style=flat-square" alt="Downloads">
+                    </a>
+                    <a href="https://github.com/Itisfilipe/ccdakit/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+                        <img src="https://img.shields.io/github/license/Itisfilipe/ccdakit?style=flat-square" alt="License">
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="https://docs.ccdakit.com/" target="_blank" rel="noopener noreferrer">Documentation</a></li>
+                    <li><a href="https://github.com/Itisfilipe/ccdakit" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+                    <li><a href="https://github.com/Itisfilipe/ccdakit/issues" target="_blank" rel="noopener noreferrer">Report Issues</a></li>
+                    <li><a href="https://pypi.org/project/ccdakit/" target="_blank" rel="noopener noreferrer">PyPI Package</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Developer</h3>
+                <p>Created by <a href="https://github.com/Itisfilipe" target="_blank" rel="noopener noreferrer">Filipe Amaral</a></p>
+                <p class="footer-license">Released under the MIT License</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 ccdakit. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

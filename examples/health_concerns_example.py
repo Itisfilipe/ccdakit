@@ -145,9 +145,7 @@ def main():
     elem = section.to_element()
 
     # Pretty print the XML
-    xml_string = etree.tostring(
-        elem, pretty_print=True, encoding="unicode", xml_declaration=False
-    )
+    xml_string = etree.tostring(elem, pretty_print=True, encoding="unicode", xml_declaration=False)
 
     print("Health Concerns Section (C-CDA 2.1):")
     print("=" * 80)
@@ -156,10 +154,10 @@ def main():
     # Show validation info
     print("\n" + "=" * 80)
     print("Summary:")
-    print(f"  - Template ID: 2.16.840.1.113883.10.20.22.2.58")
-    print(f"  - Extension: 2015-08-01")
-    print(f"  - Number of concerns: 3")
-    print(f"  - Total observations: 3")
+    print("  - Template ID: 2.16.840.1.113883.10.20.22.2.58")
+    print("  - Extension: 2015-08-01")
+    print("  - Number of concerns: 3")
+    print("  - Total observations: 3")
     print("\nConformance:")
     print("  - CONF:1198-28804: Template ID present")
     print("  - CONF:1198-28806: Code 75310-3 (Health concerns document)")

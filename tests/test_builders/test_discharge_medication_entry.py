@@ -212,9 +212,7 @@ class TestDischargeMedication:
         assert consumable is not None
 
         manufactured_product = consumable.find(f"{{{NS}}}manufacturedProduct")
-        manufactured_material = manufactured_product.find(
-            f"{{{NS}}}manufacturedMaterial"
-        )
+        manufactured_material = manufactured_product.find(f"{{{NS}}}manufacturedMaterial")
         code_elem = manufactured_material.find(f"{{{NS}}}code")
 
         assert code_elem.get("code") == "860975"
@@ -304,9 +302,7 @@ class TestDischargeMedicationIntegration:
         # Verify medication details in Medication Activity
         consumable = sub_admin.find(f"{{{NS}}}consumable")
         manufactured_product = consumable.find(f"{{{NS}}}manufacturedProduct")
-        manufactured_material = manufactured_product.find(
-            f"{{{NS}}}manufacturedMaterial"
-        )
+        manufactured_material = manufactured_product.find(f"{{{NS}}}manufacturedMaterial")
         med_code = manufactured_material.find(f"{{{NS}}}code")
 
         assert med_code.get("code") == "314076"

@@ -218,6 +218,33 @@ class TestDocumentDateRule:
         assert len(issues) == 1
         assert "invalid" in issues[0].message.lower()
 
+    def test_document_date_too_old(self):
+        """Test document date exceeds max years past."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <effectiveTime value="19000101" />
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = DocumentDateRule(max_years_past=50)
+        issues = rule.validate(doc)
+        assert len(issues) >= 1
+        old_issues = [i for i in issues if "years old" in i.message.lower()]
+        assert len(old_issues) == 1
+
+    def test_invalid_date_format_too_short(self):
+        """Test date string that's too short."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <effectiveTime value="2020" />
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = DocumentDateRule()
+        issues = rule.validate(doc)
+        assert len(issues) == 1
+        assert "too short" in issues[0].message.lower()
+
 
 class TestAuthorPresenceRule:
     """Test suite for AuthorPresenceRule."""
@@ -306,6 +333,46 @@ class TestCustodianPresenceRule:
         issues = rule.validate(doc)
         assert len(issues) == 1
         assert "custodian" in issues[0].message.lower()
+
+    def test_custodian_without_name(self):
+        """Test custodian without organization name."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <custodian>
+                <assignedCustodian>
+                    <representedCustodianOrganization>
+                        <id root="1.2.3.4" />
+                    </representedCustodianOrganization>
+                </assignedCustodian>
+            </custodian>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = CustodianPresenceRule(require_organization_name=True)
+        issues = rule.validate(doc)
+        assert len(issues) == 1
+        assert issues[0].level == ValidationLevel.WARNING
+        assert "name" in issues[0].message.lower()
+
+    def test_custodian_with_empty_name(self):
+        """Test custodian with empty organization name."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <custodian>
+                <assignedCustodian>
+                    <representedCustodianOrganization>
+                        <name>   </name>
+                    </representedCustodianOrganization>
+                </assignedCustodian>
+            </custodian>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = CustodianPresenceRule(require_organization_name=True)
+        issues = rule.validate(doc)
+        assert len(issues) == 1
+        assert issues[0].level == ValidationLevel.WARNING
+        assert "empty" in issues[0].message.lower()
 
 
 class TestSectionCountRule:
@@ -427,6 +494,88 @@ class TestVitalSignRangeRule:
         rule = VitalSignRangeRule(ranges={"TEST-1": (0, 100)})
         issues = rule.validate(doc)
         assert len(issues) == 0
+
+    def test_vital_sign_no_code(self):
+        """Test vital sign without code attribute."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <component>
+                <section>
+                    <entry>
+                        <observation>
+                            <value value="120" />
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = VitalSignRangeRule()
+        issues = rule.validate(doc)
+        assert len(issues) == 0  # Should skip observations without code
+
+    def test_vital_sign_unknown_code(self):
+        """Test vital sign with code not in range dict."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <component>
+                <section>
+                    <entry>
+                        <observation>
+                            <code code="UNKNOWN-123" />
+                            <value value="120" />
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = VitalSignRangeRule()
+        issues = rule.validate(doc)
+        assert len(issues) == 0  # Should skip unknown codes
+
+    def test_vital_sign_no_value(self):
+        """Test vital sign without value attribute."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <component>
+                <section>
+                    <entry>
+                        <observation>
+                            <code code="8480-6" />
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = VitalSignRangeRule()
+        issues = rule.validate(doc)
+        assert len(issues) == 0  # Should skip observations without value
+
+    def test_vital_sign_invalid_numeric_value(self):
+        """Test vital sign with non-numeric value."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <component>
+                <section>
+                    <entry>
+                        <observation>
+                            <code code="8480-6" displayName="Blood Pressure" />
+                            <value value="not-a-number" />
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = VitalSignRangeRule()
+        issues = rule.validate(doc)
+        assert len(issues) == 0  # Should skip invalid numeric values
 
 
 class TestAllergyStatusRule:

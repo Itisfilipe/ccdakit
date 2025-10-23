@@ -1,9 +1,10 @@
 """Mental Status Section builder for C-CDA documents."""
 
 from typing import Sequence
+
 from lxml import etree
 
-from ccdakit.builders.common import Code, StatusCode
+from ccdakit.builders.common import Code
 from ccdakit.builders.entries.mental_status import (
     MentalStatusObservation,
     MentalStatusOrganizer,

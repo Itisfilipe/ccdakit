@@ -866,8 +866,7 @@ class TestInterventionsSectionIntegration:
     def test_large_number_of_interventions(self):
         """Test section with many interventions."""
         interventions = [
-            MockIntervention(id=f"INT-{i:03d}", description=f"Intervention {i}")
-            for i in range(20)
+            MockIntervention(id=f"INT-{i:03d}", description=f"Intervention {i}") for i in range(20)
         ]
         section = InterventionsSection(interventions=interventions)
         elem = section.to_element()

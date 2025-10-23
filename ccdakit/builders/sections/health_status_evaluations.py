@@ -196,7 +196,9 @@ class HealthStatusEvaluationsAndOutcomesSection(CDAElement):
                 and outcome.progress_toward_goal
                 and hasattr(outcome.progress_toward_goal, "achievement_display_name")
             ):
-                td_progress.text = outcome.progress_toward_goal.achievement_display_name or "Progress documented"
+                td_progress.text = (
+                    outcome.progress_toward_goal.achievement_display_name or "Progress documented"
+                )
             else:
                 td_progress.text = "Not specified"
 

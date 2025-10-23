@@ -818,9 +818,7 @@ class TestAdvanceDirectivesSectionIntegration:
             ),
         ]
 
-        section = AdvanceDirectivesSection(
-            directives, title="Patient Advance Directives"
-        )
+        section = AdvanceDirectivesSection(directives, title="Patient Advance Directives")
         elem = section.to_element()
 
         # Verify structure

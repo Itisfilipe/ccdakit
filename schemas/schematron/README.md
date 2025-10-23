@@ -32,6 +32,12 @@ This directory contains Schematron validation files for C-CDA document validatio
 
 **Good news!** You don't need to manually download these files anymore.
 
+### During Deployment
+
+When deploying to cloud platforms (like Render, Heroku, etc.), Schematron files are automatically downloaded during the build process. The `scripts/setup_schematron.py` script runs as part of the deployment pipeline.
+
+### During Development
+
 Starting with ccdakit v0.1.0, Schematron files are automatically downloaded on first use:
 
 ```python

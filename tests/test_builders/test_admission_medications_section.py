@@ -552,9 +552,7 @@ class TestAdmissionMedicationsSectionIntegration:
             ),
         ]
 
-        section = AdmissionMedicationsSection(
-            medications, title="Medications on Admission"
-        )
+        section = AdmissionMedicationsSection(medications, title="Medications on Admission")
         elem = section.to_element()
 
         # Verify structure

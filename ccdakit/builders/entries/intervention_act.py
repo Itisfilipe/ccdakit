@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode
+from ccdakit.builders.common import Code, Identifier, StatusCode
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.intervention import InterventionProtocol
 

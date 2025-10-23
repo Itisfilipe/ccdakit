@@ -844,9 +844,7 @@ class TestFamilyHistorySectionIntegration:
             ),
         ]
 
-        section = FamilyHistorySection(
-            family_members, title="Family Medical History"
-        )
+        section = FamilyHistorySection(family_members, title="Family Medical History")
         elem = section.to_element()
 
         # Verify structure

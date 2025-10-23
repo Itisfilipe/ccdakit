@@ -213,7 +213,7 @@ class DischargeSummary(ClinicalDocument):
         else:
             doc.append(documentation_of)
 
-    def validate_discharge_sections(self) -> tuple[bool, list[str]]:
+    def validate_discharge_sections(self) -> "tuple[bool, list[str]]":
         """
         Validate that recommended discharge-specific sections are present.
 

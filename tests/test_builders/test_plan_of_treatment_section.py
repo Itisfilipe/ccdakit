@@ -450,7 +450,7 @@ class TestPlanOfTreatmentSection:
         template = elem.find(f"{{{NS}}}templateId")
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.2.10"
-        assert template.get("extension") == "2014-06-09"
+        assert template.get("extension") == "2015-08-01"
 
     def test_plan_of_treatment_section_has_template_id_r20(self):
         """Test PlanOfTreatmentSection includes R2.0 template ID."""
@@ -860,9 +860,7 @@ class TestPlanOfTreatmentSectionIntegration:
             vaccine_code="33",
         )
 
-        instruction = MockInstruction(
-            instruction_text="Monitor blood glucose daily before meals"
-        )
+        instruction = MockInstruction(instruction_text="Monitor blood glucose daily before meals")
 
         section = PlanOfTreatmentSection(
             planned_observations=[obs1, obs2],
@@ -907,9 +905,7 @@ class TestPlanOfTreatmentSectionIntegration:
             code_system="SNOMED",
         )
 
-        section = PlanOfTreatmentSection(
-            planned_observations=[obs_loinc, obs_snomed]
-        )
+        section = PlanOfTreatmentSection(planned_observations=[obs_loinc, obs_snomed])
         elem = section.to_element()
 
         entries = elem.findall(f"{{{NS}}}entry")
@@ -929,9 +925,7 @@ class TestPlanOfTreatmentSectionIntegration:
 
     def test_narrative_with_instruction_text(self):
         """Test narrative properly displays instruction text."""
-        instruction = MockInstruction(
-            instruction_text="Take medication 30 minutes before meals"
-        )
+        instruction = MockInstruction(instruction_text="Take medication 30 minutes before meals")
 
         section = PlanOfTreatmentSection(instructions=[instruction])
         elem = section.to_element()

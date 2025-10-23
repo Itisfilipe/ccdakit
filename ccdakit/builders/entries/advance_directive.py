@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, Identifier, StatusCode
+from ccdakit.builders.common import Identifier, StatusCode
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.advance_directive import AdvanceDirectiveProtocol
 
@@ -155,9 +155,7 @@ class AdvanceDirectiveObservation(CDAElement):
         # If we have a coded directive type, use it
         if self.directive.directive_type_code and self.directive.directive_type_code_system:
             code_elem.set("code", self.directive.directive_type_code)
-            code_system_oid = self._get_code_system_oid(
-                self.directive.directive_type_code_system
-            )
+            code_system_oid = self._get_code_system_oid(self.directive.directive_type_code_system)
             code_elem.set("codeSystem", code_system_oid)
             code_elem.set("displayName", self.directive.directive_type)
         else:
@@ -216,9 +214,7 @@ class AdvanceDirectiveObservation(CDAElement):
 
         # If we have a coded value, use it (preferably SNOMED-CT per CONF:1198-32493)
         if self.directive.directive_value_code and self.directive.directive_value_code_system:
-            code_system_oid = self._get_code_system_oid(
-                self.directive.directive_value_code_system
-            )
+            code_system_oid = self._get_code_system_oid(self.directive.directive_value_code_system)
             value_elem.set("code", self.directive.directive_value_code)
             value_elem.set("codeSystem", code_system_oid)
             value_elem.set("displayName", self.directive.directive_value)

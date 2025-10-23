@@ -5,8 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests](https://img.shields.io/badge/tests-1%2C903-brightgreen)](https://github.com/Itisfilipe/ccdakit)
-[![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+[![Tests](https://img.shields.io/badge/tests-2%2C222-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/Itisfilipe/ccdakit)
 
 ccdakit is a Python library for programmatic generation of HL7 C-CDA (Consolidated Clinical Document Architecture) documents. Built with type safety, protocol-oriented design, and multi-version support for healthcare interoperability.
 
@@ -165,7 +165,7 @@ else:
 
 ### Comprehensive Section Support
 
-29 complete C-CDA sections organized by clinical purpose:
+39 complete C-CDA sections organized by clinical purpose:
 
 **Core Clinical Sections (9)**
 - Problems, Medications, Allergies, Immunizations, Vital Signs, Procedures, Results, Social History, Encounters
@@ -175,6 +175,9 @@ else:
 
 **Specialized/Administrative Sections (11)**
 - Plan of Treatment, Advance Directives, Medical Equipment, Admission/Discharge Medications, Hospital Discharge Instructions, Payers, Nutrition, Reason for Visit, Chief Complaint, Interventions
+
+**Hospital and Surgical Sections (10)**
+- Admission/Discharge Diagnosis, Hospital Course, Instructions, Anesthesia, Pre/Postoperative Diagnosis, Complications, Hospital Discharge Studies, Medications Administered
 
 See [complete section documentation](./docs/api/sections.md) for details.
 
@@ -300,9 +303,9 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 
 | Metric | Status |
 |--------|--------|
-| **Sections** | 29 of 82 C-CDA sections implemented (35%) |
-| **Test Suite** | 1,903 comprehensive tests |
-| **Code Coverage** | 94% |
+| **Sections** | 39 of 82 C-CDA sections implemented (47.6%) |
+| **Test Suite** | 2,222 comprehensive tests |
+| **Code Coverage** | 95% |
 | **Documentation** | Complete API reference + 40-page HL7 guide |
 | **Validation** | XSD validation complete, Schematron validation complete (with auto-cleaning) |
 
@@ -316,12 +319,15 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 - [x] Comprehensive test coverage
 - [x] Complete documentation
 
-**Phase 2: Additional Sections** (In Progress)
-- [ ] Care Plan Section
-- [ ] Hospital Course Section
-- [ ] Admission/Discharge Diagnosis Sections
-- [ ] Instructions Section
-- [ ] Additional document-specific sections
+**Phase 2: Hospital & Surgical Sections** ✓ Complete
+- [x] Admission/Discharge Diagnosis Sections
+- [x] Hospital Course Section
+- [x] Instructions Section
+- [x] Anesthesia Section
+- [x] Pre/Postoperative Diagnosis Sections
+- [x] Complications Section
+- [x] Hospital Discharge Studies Section
+- [x] Medications Administered Section
 
 **Phase 3: Enhanced Validation** (In Progress)
 - [x] Schematron validation with auto-download and IDREF error fixing
@@ -399,7 +405,7 @@ ccdakit is designed for:
 
 ## Testing
 
-Comprehensive test suite with 1,903 tests and 94% coverage:
+Comprehensive test suite with 2,222 tests and 95% coverage:
 
 ```bash
 # Run all tests
@@ -442,21 +448,44 @@ See [Development Setup Guide](./docs/development/setup.md) for complete instruct
 
 ---
 
-## Important Disclaimers
+## ⚠️ Important Disclaimers
 
-**Independent Project**
+### Not an Official HL7 Publication
 
-This is an independent, community-driven project and is NOT an official HL7 product.
+**This is NOT an official HL7 product.** ccdakit is an independent, community-driven project that is not affiliated with, endorsed by, or officially recognized by HL7 International.
 
-- **Not affiliated with HL7 International**: This library is not endorsed by or officially recognized by HL7 International
-- **AI-assisted development**: This project was developed extensively with AI assistance (Claude Code)
-- **Validation required**: Thoroughly test and validate before production use
-- **Not a substitute for official specifications**: Always consult official HL7 documentation for regulatory compliance
-- **No warranty**: See [LICENSE](./LICENSE) for details
+### AI-Assisted Development
 
-**For official HL7 resources:** Visit [HL7.org](https://www.hl7.org/)
+This project was developed extensively with AI assistance using [Claude Code](https://claude.com/claude-code). While we strive for accuracy and standards compliance, this tool should be thoroughly tested and validated before production use.
 
-**Trademarks:** HL7® and C-CDA® are registered trademarks of Health Level Seven International.
+### Validation Required
+
+**⚠️ Do not use in production without thorough validation.** All generated documents must be:
+- Tested against official HL7 specifications
+- Validated using official validators (e.g., [NIST C-CDA Validator](https://sitenv.org/ccda-validator))
+- Reviewed by qualified healthcare IT professionals
+- Verified for regulatory compliance requirements
+
+### Not a Substitute for Official Specifications
+
+This library complements but does **not replace** official HL7 documentation. For authoritative guidance, regulatory compliance, and certification requirements, always consult:
+- [Official HL7 C-CDA Release 2.1 Implementation Guide](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492)
+- [C-CDA 2.1 Companion Guide](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=447)
+- [HL7 CDA Release 2 Standard](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=7)
+
+### No Warranty
+
+See [LICENSE](./LICENSE) for complete warranty disclaimer and terms of use.
+
+### Official Resources
+
+- **HL7 International**: [HL7.org](https://www.hl7.org/)
+- **C-CDA Specifications**: [HL7 C-CDA Product Brief](http://www.hl7.org/implement/standards/product_brief.cfm?product_id=492)
+- **ONC Health IT Certification**: [HealthIT.gov](https://www.healthit.gov/topic/certification-ehrs/2015-edition-test-method)
+
+### Trademarks
+
+HL7® and C-CDA® are registered trademarks of Health Level Seven International. This project is not affiliated with or endorsed by Health Level Seven International.
 
 ---
 

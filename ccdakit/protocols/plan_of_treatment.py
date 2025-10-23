@@ -1,6 +1,6 @@
 """Plan of Treatment-related protocols for C-CDA documents."""
 
-from datetime import date, datetime
+from datetime import date
 from typing import Optional, Protocol
 
 

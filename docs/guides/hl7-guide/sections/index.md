@@ -32,9 +32,9 @@ Every C-CDA section follows this pattern:
 </section>
 ```
 
-## All 29 C-CDA Sections
+## All 39 C-CDA Sections
 
-ccdakit implements all 29 sections defined in C-CDA Release 2.1. Sections are organized into three categories based on their clinical purpose and usage patterns.
+ccdakit implements 39 sections from C-CDA Release 2.1. Sections are organized into four categories based on their clinical purpose and usage patterns.
 
 ---
 
@@ -346,6 +346,112 @@ Medications patient was taking at admission.
 
 ---
 
+## Hospital and Surgical Sections
+
+These 10 sections are specifically designed for hospital workflows, surgical documentation, and discharge summaries.
+
+### 30. Admission Diagnosis Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.43
+**LOINC Code:** 46241-6
+
+Diagnoses identified at hospital admission.
+
+**Use Cases:** Hospital admission documentation, diagnosis reconciliation
+**Key Data:** Diagnosis name, SNOMED/ICD-10 codes, admission date, diagnosis date
+**Common In:** Discharge Summaries, Hospital admission notes
+
+### 31. Discharge Diagnosis Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.24
+**LOINC Code:** 11535-2
+
+Final diagnoses at hospital discharge.
+
+**Use Cases:** Discharge documentation, billing, diagnosis reconciliation
+**Key Data:** Diagnosis name, SNOMED/ICD-10 codes, status, discharge disposition, priority
+**Common In:** Discharge Summaries, Hospital discharge notes
+
+### 32. Hospital Course Section
+**Template ID:** 1.3.6.1.4.1.19376.1.5.3.1.3.5
+**LOINC Code:** 8648-8
+
+Narrative description of patient's hospital stay from admission to discharge.
+
+**Use Cases:** Hospital stay documentation, handoff communication
+**Key Data:** Narrative text describing daily hospital course, events, interventions
+**Common In:** Discharge Summaries, Transfer summaries
+
+### 33. Instructions Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.45
+**LOINC Code:** 69730-0
+
+General patient instructions and education materials.
+
+**Use Cases:** Patient education, instruction documentation
+**Key Data:** Instruction text, instruction type codes, patient education materials
+**Common In:** Discharge Summaries, Procedure notes, Patient education documents
+
+### 34. Anesthesia Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.25
+**LOINC Code:** 59774-0
+
+Anesthesia procedures and medications administered during surgery.
+
+**Use Cases:** Operative documentation, anesthesia records
+**Key Data:** Anesthesia type, agents used, route, start/end times, performer
+**Common In:** Operative Notes, Procedure Notes
+
+### 35. Postoperative Diagnosis Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.35
+**LOINC Code:** 10218-6
+
+Diagnoses identified or confirmed during surgery.
+
+**Use Cases:** Surgical documentation, operative findings
+**Key Data:** Postoperative diagnosis narrative text
+**Common In:** Operative Notes, Surgical procedure notes
+
+### 36. Preoperative Diagnosis Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.34
+**LOINC Code:** 10219-4
+
+Diagnoses assigned before surgery.
+
+**Use Cases:** Surgical planning, operative documentation
+**Key Data:** Diagnosis name, SNOMED/ICD-10 codes, status, diagnosis date
+**Common In:** Operative Notes, Pre-procedure documentation
+
+### 37. Complications Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.37
+**LOINC Code:** 55109-3
+
+Complications that occurred during or after procedures.
+
+**Use Cases:** Complication tracking, quality monitoring
+**Key Data:** Complication name, severity, onset date, status, related procedure
+**Common In:** Operative Notes, Procedure Notes, Discharge Summaries
+
+### 38. Hospital Discharge Studies Summary Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.16
+**LOINC Code:** 11493-4
+
+Summary of diagnostic studies performed during hospitalization.
+
+**Use Cases:** Discharge documentation, test result summary
+**Key Data:** Study panels, individual studies, results, interpretations, reference ranges
+**Common In:** Discharge Summaries, Hospital documentation
+
+### 39. Medications Administered Section
+**Template ID:** 2.16.840.1.113883.10.20.22.2.38
+**LOINC Code:** 29549-3
+
+Medications actually administered during an encounter or procedure.
+
+**Use Cases:** Medication administration records, procedure documentation
+**Key Data:** Medication name, dose, route, administration time, rate, site, performer
+**Common In:** Operative Notes, Procedure Notes, Medication administration records
+
+---
+
 ## Section Categories Explained
 
 ### Core Clinical Sections
@@ -362,6 +468,11 @@ Additional clinical detail that provides comprehensive patient context. Used whe
 Context-specific sections for particular clinical scenarios or administrative requirements. Not all documents need these sections.
 
 **Typical documents:** Discharge Summaries, SOAP notes, Specific note types
+
+### Hospital and Surgical Sections
+Sections specifically designed for hospital workflows, surgical procedures, and discharge documentation. Essential for operative notes and discharge summaries.
+
+**Typical documents:** Discharge Summaries, Operative Notes, Procedure Notes, Hospital documentation
 
 ---
 
@@ -487,7 +598,7 @@ Sections documenting events over time:
 - [Template IDs](../appendices/oid-reference.md) - Complete template directory
 
 **See Complete Examples:**
-- [All Sections Example](../../../examples/all-sections.md) - Working code for all 29 sections
+- [All Sections Example](../../../examples/all-sections.md) - Working code for all 39 sections
 - [Complete Document](../../../examples/complete-document.md) - Full CCD implementation
 
 **Back to Guide Home:**

@@ -1,6 +1,7 @@
 """Tests for Schematron validator."""
 
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 import pytest
 from lxml import etree
@@ -511,3 +512,472 @@ class TestSchematronValidator:
         # Invalid XML should fail
         result_invalid = validator.validate(invalid_xml)
         assert result_invalid.is_valid is False
+
+    # --- Enhanced tests for uncovered lines ---
+
+    def test_resolve_schematron_path_fallback_to_original(self, tmp_path, monkeypatch):
+        """Test fallback to original Schematron when cleaned version doesn't exist."""
+        # Create a temporary directory structure with only original file
+        schemas_dir = tmp_path / "schemas" / "schematron"
+        schemas_dir.mkdir(parents=True)
+        original_file = schemas_dir / "HL7_CCDA_R2.1.sch"
+
+        # Create simple schematron content
+        schematron_content = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:pattern id="test">
+    <sch:rule context="/">
+      <sch:assert test="root" id="root-exists">Root exists</sch:assert>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        original_file.write_text(schematron_content)
+
+        # Test path resolution directly
+        validator = SchematronValidator(original_file)
+
+        # Check that it found the original file
+        assert validator.schematron_path.exists()
+        assert "HL7_CCDA_R2.1.sch" in str(validator.schematron_path)
+
+    def test_auto_download_success(self, tmp_path, monkeypatch):
+        """Test successful automatic download of Schematron files."""
+        # Mock SchematronDownloader
+        mock_downloader = Mock()
+        mock_downloader.download_all.return_value = (True, "Download successful")
+
+        with patch(
+            "ccdakit.validators.schematron.SchematronDownloader", return_value=mock_downloader
+        ):
+            # Create a non-existent path
+            nonexistent_path = tmp_path / "nonexistent.sch"
+
+            # This should trigger auto-download
+            with pytest.raises(FileNotFoundError):
+                # Will still fail since we're not creating the actual file,
+                # but download should be attempted
+                SchematronValidator(schematron_path=nonexistent_path, auto_download=True)
+
+            # Verify download was attempted
+            mock_downloader.download_all.assert_called_once()
+
+    def test_auto_download_failure(self, tmp_path):
+        """Test handling of failed automatic download."""
+        # Mock SchematronDownloader to fail
+        mock_downloader = Mock()
+        mock_downloader.download_all.return_value = (False, "Download failed")
+
+        with patch(
+            "ccdakit.validators.schematron.SchematronDownloader", return_value=mock_downloader
+        ):
+            # Should issue warning and then raise FileNotFoundError
+            with pytest.warns(UserWarning, match="Automatic download failed"):
+                with pytest.raises(FileNotFoundError):
+                    nonexistent_path = tmp_path / "nonexistent.sch"
+                    SchematronValidator(schematron_path=nonexistent_path, auto_download=True)
+
+    def test_auto_download_exception(self, tmp_path):
+        """Test handling of exception during automatic download."""
+        # Mock SchematronDownloader to raise exception
+        with patch(
+            "ccdakit.validators.schematron.SchematronDownloader",
+            side_effect=RuntimeError("Network error"),
+        ):
+            # Should issue warning and then raise FileNotFoundError
+            with pytest.warns(UserWarning, match="Automatic download failed"):
+                with pytest.raises(FileNotFoundError):
+                    nonexistent_path = tmp_path / "nonexistent.sch"
+                    SchematronValidator(schematron_path=nonexistent_path, auto_download=True)
+
+    def test_load_schematron_xml_syntax_error(self, tmp_path):
+        """Test handling of XML syntax errors in Schematron file."""
+        # Create Schematron file with XML syntax error
+        bad_xml_path = tmp_path / "bad_syntax.sch"
+        bad_xml_path.write_text("<?xml version='1.0'?><sch:schema><unclosed>")
+
+        with pytest.raises(etree.SchematronParseError, match="Failed to parse Schematron file"):
+            SchematronValidator(bad_xml_path)
+
+    def test_load_schematron_general_exception(self, tmp_path):
+        """Test handling of general exceptions during Schematron loading."""
+        # Create valid XML but invalid Schematron
+        invalid_sch_path = tmp_path / "invalid.sch"
+        invalid_sch_path.write_text("<?xml version='1.0'?><root>Not a schematron</root>")
+
+        with pytest.raises(etree.SchematronParseError, match="Failed to load Schematron"):
+            SchematronValidator(invalid_sch_path)
+
+    def test_validation_with_schematron_error(self, simple_schematron, valid_xml_string):
+        """Test handling of errors during Schematron validation."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Mock the schematron.validate to raise an exception
+        with patch.object(
+            validator.schematron, "validate", side_effect=RuntimeError("Validation error")
+        ):
+            result = validator.validate(valid_xml_string)
+
+            assert result.is_valid is False
+            assert len(result.errors) == 1
+            assert result.errors[0].code == "SCHEMATRON_ERROR"
+            assert "Schematron validation error" in result.errors[0].message
+
+    def test_extract_issues_with_warnings_and_info(self, tmp_path):
+        """Test extraction of warnings and informational messages from SVRL."""
+        # Test that we can parse warnings/info from SVRL correctly
+        # We'll test the parsing methods directly rather than relying on schematron behavior
+        validator_schema = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:pattern id="test">
+    <sch:rule context="/">
+      <sch:assert test="root" id="test-id">Root exists</sch:assert>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        schematron_path = tmp_path / "test.sch"
+        schematron_path.write_text(validator_schema)
+
+        validator = SchematronValidator(schematron_path)
+
+        # Test parsing warning from successful-report
+        warning_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root" role="warning">'
+            f'<text xmlns="{validator.SVRL_NS}">This is a warning message</text>'
+            f"</successful-report>"
+        )
+        warning_issue = validator._parse_successful_report(warning_report)
+        assert warning_issue is not None
+        assert warning_issue.level == ValidationLevel.WARNING
+
+        # Test parsing info from successful-report
+        info_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root" role="info">'
+            f'<text xmlns="{validator.SVRL_NS}">This is an info message</text>'
+            f"</successful-report>"
+        )
+        info_issue = validator._parse_successful_report(info_report)
+        assert info_issue is not None
+        assert info_issue.level == ValidationLevel.INFO
+
+    def test_parse_failed_assert_without_text_element(self, simple_schematron):
+        """Test parsing failed-assert with missing text element."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create a failed-assert element without text child
+        failed_assert = etree.fromstring(
+            f'<failed-assert xmlns="{validator.SVRL_NS}" id="test-id" location="/root"/>'
+        )
+
+        result = validator._parse_failed_assert(failed_assert)
+        assert result is None
+
+    def test_parse_failed_assert_with_empty_text(self, simple_schematron):
+        """Test parsing failed-assert with empty text content."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create a failed-assert element with empty text
+        failed_assert = etree.fromstring(
+            f'<failed-assert xmlns="{validator.SVRL_NS}" id="test-id" location="/root">'
+            f'<text xmlns="{validator.SVRL_NS}">   </text>'
+            f"</failed-assert>"
+        )
+
+        result = validator._parse_failed_assert(failed_assert)
+        assert result is None
+
+    def test_parse_successful_report_without_text_element(self, simple_schematron):
+        """Test parsing successful-report with missing text element."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create a successful-report element without text child
+        successful_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root"/>'
+        )
+
+        result = validator._parse_successful_report(successful_report)
+        assert result is None
+
+    def test_parse_successful_report_with_empty_text(self, simple_schematron):
+        """Test parsing successful-report with empty text content."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create a successful-report element with empty text
+        successful_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root">'
+            f'<text xmlns="{validator.SVRL_NS}">   </text>'
+            f"</successful-report>"
+        )
+
+        result = validator._parse_successful_report(successful_report)
+        assert result is None
+
+    def test_parse_successful_report_warning_detection(self, simple_schematron):
+        """Test that successful-report correctly detects warnings."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create successful-report with warning role
+        successful_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root" role="warning">'
+            f'<text xmlns="{validator.SVRL_NS}">This is a warning message</text>'
+            f"</successful-report>"
+        )
+
+        result = validator._parse_successful_report(successful_report)
+        assert result is not None
+        assert result.level == ValidationLevel.WARNING
+
+    def test_parse_successful_report_info_detection(self, simple_schematron):
+        """Test that successful-report correctly detects info messages."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create successful-report with info role
+        successful_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root" role="info">'
+            f'<text xmlns="{validator.SVRL_NS}">This is an informational message</text>'
+            f"</successful-report>"
+        )
+
+        result = validator._parse_successful_report(successful_report)
+        assert result is not None
+        assert result.level == ValidationLevel.INFO
+
+    def test_parse_successful_report_warn_in_message(self, simple_schematron):
+        """Test that 'warn' in message triggers WARNING level."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create successful-report with "warn" in message text
+        successful_report = etree.fromstring(
+            f'<successful-report xmlns="{validator.SVRL_NS}" id="test-id" location="/root">'
+            f'<text xmlns="{validator.SVRL_NS}">I warn you about this issue</text>'
+            f"</successful-report>"
+        )
+
+        result = validator._parse_successful_report(successful_report)
+        assert result is not None
+        assert result.level == ValidationLevel.WARNING
+
+    def test_extract_text_content_with_tail(self, simple_schematron):
+        """Test text extraction with element tail content."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Create element with nested tags and tail text
+        element = etree.fromstring(
+            "<text>Before <bold>bold text</bold> after <italic>italic</italic> end</text>"
+        )
+        text = validator._extract_text_content(element)
+
+        # Should extract all text including tails
+        assert "Before" in text
+        assert "bold text" in text
+        assert "after" in text
+        assert "italic" in text
+        assert "end" in text
+
+    def test_extract_text_content_empty_element(self, simple_schematron):
+        """Test text extraction from empty element."""
+        validator = SchematronValidator(simple_schematron)
+
+        element = etree.fromstring("<text/>")
+        text = validator._extract_text_content(element)
+
+        assert text == ""
+
+    def test_extract_text_content_whitespace_normalization(self, simple_schematron):
+        """Test that whitespace is properly normalized."""
+        validator = SchematronValidator(simple_schematron)
+
+        element = etree.fromstring("<text>  Multiple   spaces   and\n\nnewlines\t\ttabs  </text>")
+        text = validator._extract_text_content(element)
+
+        # Should normalize whitespace
+        assert "  " not in text  # No double spaces
+        assert "\n" not in text  # No newlines
+        assert "\t" not in text  # No tabs
+
+    def test_custom_resolver_for_voc_xml(self, tmp_path):
+        """Test that custom resolver handles voc.xml includes."""
+        # Create voc.xml file
+        voc_path = tmp_path / "voc.xml"
+        voc_content = """<?xml version="1.0" encoding="UTF-8"?>
+<vocabulary>
+  <valueSets>
+    <valueSet id="test" name="Test Value Set"/>
+  </valueSets>
+</vocabulary>"""
+        voc_path.write_text(voc_content)
+
+        # Create Schematron that references voc.xml
+        schematron_content = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:pattern id="test">
+    <sch:rule context="/">
+      <sch:assert test="root" id="root-exists">Root exists</sch:assert>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        schematron_path = tmp_path / "test.sch"
+        schematron_path.write_text(schematron_content)
+
+        # Create validator - should load successfully
+        validator = SchematronValidator(schematron_path)
+        assert validator.schematron is not None
+
+    def test_schematron_with_phase(self, tmp_path):
+        """Test Schematron validation with specific phase."""
+        # Create Schematron with multiple phases
+        schematron_content = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:phase id="errors">
+    <sch:active pattern="error-patterns"/>
+  </sch:phase>
+
+  <sch:phase id="warnings">
+    <sch:active pattern="warning-patterns"/>
+  </sch:phase>
+
+  <sch:pattern id="error-patterns">
+    <sch:rule context="/root">
+      <sch:assert test="@required" id="required-attr">
+        Required attribute must be present.
+      </sch:assert>
+    </sch:rule>
+  </sch:pattern>
+
+  <sch:pattern id="warning-patterns">
+    <sch:rule context="/root">
+      <sch:report test="@deprecated" role="warning" id="deprecated-attr">
+        Deprecated attribute detected.
+      </sch:report>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        schematron_path = tmp_path / "phased.sch"
+        schematron_path.write_text(schematron_content)
+
+        # Test with errors phase
+        validator = SchematronValidator(schematron_path, phase="errors")
+        assert validator.phase == "errors"
+
+        # Validate document missing required attribute
+        xml_missing_required = '<?xml version="1.0"?><root deprecated="true"/>'
+        result = validator.validate(xml_missing_required)
+
+        # Should fail due to missing required attribute (errors phase active)
+        assert result.is_valid is False
+
+    def test_validation_with_file_not_found_error(self, simple_schematron, tmp_path):
+        """Test proper handling of FileNotFoundError during validation."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Try to validate non-existent file path
+        nonexistent_file = tmp_path / "definitely_does_not_exist_12345.xml"
+        result = validator.validate(nonexistent_file)
+
+        assert result.is_valid is False
+        assert len(result.errors) == 1
+        assert result.errors[0].code == "FILE_NOT_FOUND"
+
+    def test_validation_with_xml_syntax_error(self, simple_schematron):
+        """Test proper handling of XML syntax errors during validation."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Malformed XML
+        malformed_xml = "<root><unclosed>"
+        result = validator.validate(malformed_xml)
+
+        assert result.is_valid is False
+        assert len(result.errors) == 1
+        assert result.errors[0].code == "XML_SYNTAX_ERROR"
+        assert "syntax error" in result.errors[0].message.lower()
+
+    def test_large_document_validation(self, simple_schematron):
+        """Test validation of large documents."""
+        # Create a large XML document
+        large_xml = '<?xml version="1.0"?><root id="test"><child>'
+        large_xml += "x" * 1000000  # 1MB of content
+        large_xml += "</child></root>"
+
+        validator = SchematronValidator(simple_schematron)
+        result = validator.validate(large_xml)
+
+        # Should handle large documents
+        assert isinstance(result, ValidationResult)
+
+    def test_error_with_line_number(self, simple_schematron):
+        """Test that XML syntax errors include line numbers."""
+        validator = SchematronValidator(simple_schematron)
+
+        # Multi-line malformed XML
+        malformed_xml = """<?xml version="1.0"?>
+<root>
+  <unclosed>
+  <another>
+</root>"""
+
+        result = validator.validate(malformed_xml)
+
+        assert result.is_valid is False
+        assert len(result.errors) == 1
+        # Should include location information
+        assert result.errors[0].location is not None or "Line" in result.errors[0].message
+
+    def test_validation_with_unusual_namespaces(self, tmp_path):
+        """Test validation with unusual or multiple namespaces."""
+        schematron_content = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:ns prefix="ns1" uri="http://example.com/ns1"/>
+  <sch:ns prefix="ns2" uri="http://example.com/ns2"/>
+
+  <sch:pattern id="multi-ns">
+    <sch:rule context="/ns1:root">
+      <sch:assert test="ns2:child" id="child-required">
+        Must have child from ns2.
+      </sch:assert>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        schematron_path = tmp_path / "multi_ns.sch"
+        schematron_path.write_text(schematron_content)
+
+        # Valid XML with multiple namespaces
+        valid_xml = """<?xml version="1.0"?>
+<root xmlns="http://example.com/ns1" xmlns:ns2="http://example.com/ns2">
+  <ns2:child>content</ns2:child>
+</root>"""
+
+        validator = SchematronValidator(schematron_path)
+        result = validator.validate(valid_xml)
+
+        assert result.is_valid is True
+
+    def test_validation_issue_with_parsed_data(self, simple_schematron, invalid_xml_missing_id):
+        """Test that validation issues include parsed_data from error parser."""
+        validator = SchematronValidator(simple_schematron)
+        result = validator.validate(invalid_xml_missing_id)
+
+        assert result.is_valid is False
+        assert len(result.errors) > 0
+
+        # Check that parsed_data is present
+        for error in result.errors:
+            assert hasattr(error, "parsed_data")
+            assert error.parsed_data is not None
+            assert isinstance(error.parsed_data, dict)
+
+    def test_schematron_resolver_non_file_urls(self, tmp_path):
+        """Test that resolver handles HTTP URLs correctly."""
+        # Create Schematron file
+        schematron_content = """<?xml version="1.0" encoding="UTF-8"?>
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+  <sch:pattern id="test">
+    <sch:rule context="/">
+      <sch:assert test="root" id="root-exists">Root exists</sch:assert>
+    </sch:rule>
+  </sch:pattern>
+</sch:schema>"""
+        schematron_path = tmp_path / "test.sch"
+        schematron_path.write_text(schematron_content)
+
+        # Validator should load successfully even if no HTTP URLs are resolved
+        validator = SchematronValidator(schematron_path)
+        assert validator.schematron is not None

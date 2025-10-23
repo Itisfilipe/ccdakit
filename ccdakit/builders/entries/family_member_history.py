@@ -1,6 +1,7 @@
 """Family Member History entry builders for C-CDA documents."""
 
 import uuid
+
 from lxml import etree
 
 from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode

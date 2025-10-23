@@ -134,6 +134,10 @@ venv.bak/
 /schemas/schematron/*.sch
 /schemas/schematron/*.xml
 !/schemas/schematron/README.md
+/schemas/xslt/*.xsl
+/schemas/xslt/*.xml
+!/schemas/xslt/README.md
 /examples/output/
 *.xml
 references/
+.claude/

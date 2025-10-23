@@ -447,3 +447,63 @@ class TestProblemsSectionIntegration:
         section_elem = parent.find(f"{{{NS}}}section")
         assert section_elem is not None
         assert section_elem.find(f"{{{NS}}}title") is not None
+
+    def test_narrative_problem_with_no_onset_date(self):
+        """Test narrative with problem with no onset date."""
+        problem = MockProblem(
+            name="Headache",
+            code="25064002",
+            onset_date=None,
+        )
+        section = ProblemsSection([problem])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Onset date column should show "Unknown" when onset_date is None
+        assert tds[3].text == "Unknown"
+
+    def test_entry_problem_with_no_onset_date_has_null_flavor(self):
+        """Test entry element uses nullFlavor when onset_date is None."""
+        problem = MockProblem(
+            name="Chronic pain",
+            code="82423001",
+            onset_date=None,
+            status="active",
+        )
+        section = ProblemsSection([problem])
+        elem = section.to_element()
+
+        entry = elem.find(f"{{{NS}}}entry")
+        act = entry.find(f"{{{NS}}}act")
+        eff_time = act.find(f"{{{NS}}}effectiveTime")
+        low = eff_time.find(f"{{{NS}}}low")
+
+        # Should have nullFlavor instead of value
+        assert low.get("nullFlavor") == "UNK"
+        assert low.get("value") is None
+
+    def test_entry_completed_problem_with_no_resolved_date_has_null_flavor(self):
+        """Test entry element uses nullFlavor for high when resolved_date is None."""
+        problem = MockProblem(
+            name="Resolved condition",
+            code="123456789",
+            onset_date=date(2023, 1, 1),
+            resolved_date=None,
+            status="inactive",
+        )
+        section = ProblemsSection([problem])
+        elem = section.to_element()
+
+        entry = elem.find(f"{{{NS}}}entry")
+        act = entry.find(f"{{{NS}}}act")
+        eff_time = act.find(f"{{{NS}}}effectiveTime")
+        high = eff_time.find(f"{{{NS}}}high")
+
+        # Should have nullFlavor instead of value for resolved date
+        assert high.get("nullFlavor") == "UNK"
+        assert high.get("value") is None

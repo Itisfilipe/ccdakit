@@ -21,6 +21,12 @@ from ccdakit.utils.templates import DocumentTemplates
 from ccdakit.utils.test_data import TestDataGenerator
 from ccdakit.utils.validators import DataValidator
 from ccdakit.utils.value_sets import ValueSetRegistry
+from ccdakit.utils.xslt import (
+    download_cda_stylesheet,
+    get_default_xslt_path,
+    transform_cda_string_to_html,
+    transform_cda_to_html,
+)
 
 
 __all__ = [
@@ -43,4 +49,8 @@ __all__ = [
     "SimpleVitalSignsOrganizerBuilder",
     "TestDataGenerator",
     "ValueSetRegistry",
+    "download_cda_stylesheet",
+    "get_default_xslt_path",
+    "transform_cda_to_html",
+    "transform_cda_string_to_html",
 ]

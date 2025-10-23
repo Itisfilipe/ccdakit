@@ -1,7 +1,5 @@
 """Reason for Visit Section builder for C-CDA documents."""
 
-from typing import Optional
-
 from lxml import etree
 
 from ccdakit.builders.common import Code

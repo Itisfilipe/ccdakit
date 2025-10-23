@@ -1,9 +1,10 @@
 """Mental Status entry builders for C-CDA documents."""
 
 from datetime import date, datetime
+
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode
+from ccdakit.builders.common import EffectiveTime, Identifier, StatusCode
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.mental_status import (
     MentalStatusObservationProtocol,

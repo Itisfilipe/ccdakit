@@ -220,6 +220,16 @@ class TestRulesEngine:
         result = engine.validate(file_path)
         assert result.is_valid is True
 
+    def test_validate_from_string_file_path(self, engine, simple_rule, tmp_path):
+        """Test validation from string file path."""
+        file_path = tmp_path / "test.xml"
+        file_path.write_text('<?xml version="1.0"?><root></root>')
+
+        engine.add_rule(simple_rule)
+        # Pass as string, not Path object
+        result = engine.validate(str(file_path))
+        assert result.is_valid is True
+
     def test_validate_invalid_xml(self, engine, simple_rule):
         """Test validation with invalid XML."""
         with pytest.raises(etree.XMLSyntaxError):
@@ -437,6 +447,21 @@ class TestDateConsistencyRule:
         assert len(issues) >= 1
         old_issues = [i for i in issues if "years in the past" in i.message]
         assert len(old_issues) == 1
+
+    def test_invalid_date_format_skipped(self):
+        """Test that invalid date formats are skipped."""
+        xml = """<?xml version="1.0"?>
+        <ClinicalDocument xmlns="urn:hl7-org:v3">
+            <effectiveTime value="invalid-date" />
+            <effectiveTime value="2020-01-15" />
+        </ClinicalDocument>"""
+        doc = etree.fromstring(xml.encode("utf-8"))
+
+        rule = DateConsistencyRule()
+        issues = rule.validate(doc)
+        # Should not crash, just skip invalid date
+        # The dash-formatted date is also invalid for HL7 format
+        assert isinstance(issues, list)
 
 
 class TestCodeSystemConsistencyRule:
@@ -777,6 +802,53 @@ class TestRuleBuilder:
 
         issues = composite.validate(sample_document)
         assert len(issues) == 1  # One sub-rule failed
+
+    def test_composite_at_least_one_all_fail(self, sample_document):
+        """Test composite rule where all sub-rules fail."""
+        # Both rules should fail
+        rule1 = RuleBuilder.xpath_exists("has_patient", "//cda:patient")
+        rule2 = RuleBuilder.xpath_count("too_many_sections", "//cda:section", min_count=10)
+
+        composite = RuleBuilder.composite(
+            "flexible_check",
+            "At least one check must pass",
+            rules=[rule1, rule2],
+            all_must_pass=False,
+        )
+
+        issues = composite.validate(sample_document)
+        assert len(issues) == 1  # All rules failed
+        assert "none of the" in issues[0].message.lower()
+
+    def test_xpath_count_description_with_exact(self):
+        """Test xpath_count builds correct description with exact count."""
+        rule = RuleBuilder.xpath_count(
+            "exact_sections",
+            "//cda:section",
+            exact_count=5,
+        )
+
+        assert "exactly 5" in rule.description
+
+    def test_xpath_count_description_with_min_only(self):
+        """Test xpath_count builds correct description with min only."""
+        rule = RuleBuilder.xpath_count(
+            "min_sections",
+            "//cda:section",
+            min_count=3,
+        )
+
+        assert "min 3" in rule.description
+
+    def test_xpath_count_description_with_max_only(self):
+        """Test xpath_count builds correct description with max only."""
+        rule = RuleBuilder.xpath_count(
+            "max_sections",
+            "//cda:section",
+            max_count=10,
+        )
+
+        assert "max 10" in rule.description
 
 
 class TestFunctionBasedRule:

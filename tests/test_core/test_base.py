@@ -128,3 +128,55 @@ def test_cda_element_add_template_ids():
 
     templates = parent.findall(f"{{{NS}}}templateId")
     assert len(templates) == 1
+
+
+def test_cda_element_with_schema_validation():
+    """Test CDAElement with XSD schema validation."""
+    from unittest.mock import Mock
+
+    # Create mock schema
+    mock_schema = Mock()
+    mock_schema.assert_valid = Mock()
+
+    elem_builder = MockElement(version=CDAVersion.R2_1, schema=mock_schema)
+    elem = elem_builder.to_element()
+
+    # Schema validation should have been called
+    mock_schema.assert_valid.assert_called_once()
+    assert elem.tag == "test"
+
+
+def test_cda_element_initialization_with_schema():
+    """Test CDAElement initialization with schema parameter."""
+    from unittest.mock import Mock
+
+    mock_schema = Mock()
+    elem_builder = MockElement(version=CDAVersion.R2_1, schema=mock_schema)
+
+    assert elem_builder.version == CDAVersion.R2_1
+    assert elem_builder.schema == mock_schema
+
+
+def test_template_config_without_extension():
+    """Test TemplateConfig to_element without extension (covers both branches)."""
+    config_no_ext = TemplateConfig(root="2.16.840.1.113883.10.20.22.2.5")
+    elem_no_ext = config_no_ext.to_element()
+
+    # Verify no extension attribute
+    assert elem_no_ext.get("extension") is None
+    assert elem_no_ext.get("root") == "2.16.840.1.113883.10.20.22.2.5"
+
+
+def test_cda_element_to_string_with_encoding():
+    """Test CDAElement to_string with different encoding."""
+    elem_builder = MockElement(version=CDAVersion.R2_1)
+
+    # Test with utf-8 encoding
+    xml_bytes = elem_builder.to_string(encoding="utf-8")
+    assert isinstance(xml_bytes, bytes)
+    assert b"test" in xml_bytes
+
+    # Test with unicode encoding (default)
+    xml_str = elem_builder.to_string(encoding="unicode")
+    assert isinstance(xml_str, str)
+    assert "test" in xml_str

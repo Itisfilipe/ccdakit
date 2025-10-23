@@ -171,9 +171,7 @@ class HospitalDischargeInstructionsSection(CDAElement):
             text: text element
         """
         # Check if any instructions have categories
-        has_categories = any(
-            instr.instruction_category for instr in self.instructions
-        )
+        has_categories = any(instr.instruction_category for instr in self.instructions)
 
         if has_categories:
             self._add_categorized_instructions(text)

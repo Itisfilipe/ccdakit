@@ -293,7 +293,9 @@ class TestAssessmentAndPlanConformance:
         code_system = code.get("codeSystem")
 
         valid_systems = ["2.16.840.1.113883.6.1", "2.16.840.1.113883.6.96"]
-        assert code_system in valid_systems, f"Code system should be LOINC or SNOMED, got: {code_system}"
+        assert code_system in valid_systems, (
+            f"Code system should be LOINC or SNOMED, got: {code_system}"
+        )
 
     def test_conf_1098_30432_act_status_code_required(self):
         """
@@ -339,7 +341,9 @@ class TestAssessmentAndPlanConformance:
 
         act1 = elem1.find(f".//{{{NS}}}act")
         time1 = act1.find(f"{{{NS}}}effectiveTime")
-        assert time1 is not None, "Planned act with effective_time should have effectiveTime element"
+        assert time1 is not None, (
+            "Planned act with effective_time should have effectiveTime element"
+        )
 
         # Test without effectiveTime (set to None)
         planned_act1.effective_time = None
@@ -349,7 +353,9 @@ class TestAssessmentAndPlanConformance:
 
         act2 = elem2.find(f".//{{{NS}}}act")
         time2 = act2.find(f"{{{NS}}}effectiveTime")
-        assert time2 is None, "Planned act without effective_time should not have effectiveTime element"
+        assert time2 is None, (
+            "Planned act without effective_time should not have effectiveTime element"
+        )
 
     def test_conf_1098_32024_instruction_entry_relationship(self):
         """
@@ -375,7 +381,9 @@ class TestAssessmentAndPlanConformance:
 
         act2 = elem2.find(f".//{{{NS}}}act")
         entry_rel2 = act2.find(f"{{{NS}}}entryRelationship[@typeCode='SUBJ']")
-        assert entry_rel2 is None, "Planned act without instructions should not have entryRelationship"
+        assert entry_rel2 is None, (
+            "Planned act without instructions should not have entryRelationship"
+        )
 
     def test_conf_1098_32025_instruction_type_code(self):
         """
@@ -411,7 +419,9 @@ class TestAssessmentAndPlanConformance:
             assert instruction_act is not None
 
             # Check for Instruction (V2) template
-            template = instruction_act.find(f"{{{NS}}}templateId[@root='2.16.840.1.113883.10.20.22.4.20']")
+            template = instruction_act.find(
+                f"{{{NS}}}templateId[@root='2.16.840.1.113883.10.20.22.4.20']"
+            )
             assert template is not None, "Instruction must have Instruction (V2) template"
 
     # Version Compatibility Tests

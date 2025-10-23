@@ -374,3 +374,26 @@ def test_author_time_formatting():
     assert author.time.year == 2023
     assert author.time.month == 12
     assert author.time.day == 25
+
+
+def test_protocol_interfaces():
+    """Test that protocols have expected interfaces."""
+    # Import to ensure coverage
+    from ccdakit.protocols.author import AuthorProtocol, OrganizationProtocol
+
+    # Verify OrganizationProtocol attributes
+    assert hasattr(OrganizationProtocol, 'name')
+    assert hasattr(OrganizationProtocol, 'npi')
+    assert hasattr(OrganizationProtocol, 'tin')
+    assert hasattr(OrganizationProtocol, 'addresses')
+    assert hasattr(OrganizationProtocol, 'telecoms')
+
+    # Verify AuthorProtocol attributes
+    assert hasattr(AuthorProtocol, 'first_name')
+    assert hasattr(AuthorProtocol, 'last_name')
+    assert hasattr(AuthorProtocol, 'time')
+    assert hasattr(AuthorProtocol, 'organization')
+
+    # Verify docstrings exist
+    assert OrganizationProtocol.__doc__ is not None
+    assert AuthorProtocol.__doc__ is not None

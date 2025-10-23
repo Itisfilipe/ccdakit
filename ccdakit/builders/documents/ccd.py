@@ -52,7 +52,7 @@ class ContinuityOfCareDocument(ClinicalDocument):
         ...     sections=[
         ...         ProblemsSection(problems=problems),
         ...         MedicationsSection(medications=meds),
-        ...     ]
+        ...     ],
         ... )
         >>> xml_string = doc.to_xml_string()
     """
@@ -139,7 +139,7 @@ class ContinuityOfCareDocument(ClinicalDocument):
         code_elem = doc_code.to_element()
         doc.append(code_elem)
 
-    def validate_required_sections(self) -> tuple[bool, list[str]]:
+    def validate_required_sections(self) -> "tuple[bool, list[str]]":
         """
         Validate that required sections are present for ONC compliance.
 

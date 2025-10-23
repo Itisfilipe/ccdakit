@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, Identifier, StatusCode
+from ccdakit.builders.common import Identifier, StatusCode
 from ccdakit.builders.entries.entry_reference import EntryReference
 from ccdakit.builders.entries.progress_toward_goal import ProgressTowardGoalObservation
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
@@ -322,7 +322,10 @@ class OutcomeObservation(CDAElement):
         Args:
             observation: observation element
         """
-        if hasattr(self.outcome, "intervention_reference_ids") and self.outcome.intervention_reference_ids:
+        if (
+            hasattr(self.outcome, "intervention_reference_ids")
+            and self.outcome.intervention_reference_ids
+        ):
             for intervention_id in self.outcome.intervention_reference_ids:
                 # Create entryRelationship with typeCode="RSON" (Has reason)
                 entry_rel = etree.SubElement(observation, f"{{{NS}}}entryRelationship")

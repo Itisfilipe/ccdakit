@@ -36,8 +36,7 @@ Basic Usage:
     xml = doc.to_string()
 """
 
-__version__ = "0.1.0a1"
-__author__ = "Filipe Amaral"
+import logging
 
 # Core exports
 # Builder exports
@@ -84,6 +83,14 @@ from ccdakit.protocols import (
     SmokingStatusProtocol,
     TelecomProtocol,
 )
+
+
+__version__ = "0.1.0a1"
+__author__ = "Filipe Amaral"
+
+# Set up null handler by default (library best practice)
+# Applications can configure logging as needed
+logging.getLogger(__name__).addHandler(logging.NullHandler())
 
 
 __all__ = [

@@ -147,7 +147,7 @@ class PhysicalExamSection(CDAElement):
 
                 # Date/Time
                 td_date = etree.SubElement(tr, f"{{{NS}}}td")
-                if hasattr(wound_obs.date, 'strftime'):
+                if hasattr(wound_obs.date, "strftime"):
                     td_date.text = wound_obs.date.strftime("%Y-%m-%d %H:%M")
                 else:
                     td_date.text = str(wound_obs.date)

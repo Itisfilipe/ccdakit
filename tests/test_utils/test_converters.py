@@ -662,6 +662,25 @@ class TestDictToCCDAConverter:
         xml = doc.to_xml_string()
         assert "Test Problem" in xml
 
+    def test_patient_date_of_birth_already_date_object(self, author_data, custodian_data):
+        """Test patient with date_of_birth as date object."""
+        from datetime import date
+
+        data = {
+            "patient": {
+                "first_name": "Jane",
+                "last_name": "Smith",
+                "date_of_birth": date(1985, 6, 15),  # Already a date object
+                "sex": "F",
+                "addresses": [],
+                "telecoms": [],
+            },
+            "author": author_data,
+            "custodian": custodian_data,
+        }
+        doc = DictToCCDAConverter.from_dict(data)
+        assert doc.patient.date_of_birth == date(1985, 6, 15)
+
     def test_datetime_conversion_from_string(
         self, minimal_patient_data, author_data, custodian_data
     ):

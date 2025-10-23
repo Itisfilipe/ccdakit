@@ -520,3 +520,23 @@ class TestEncountersSectionIntegration:
         assert tds[3].text == "-"  # No location
         assert tds[4].text == "-"  # No performer
         assert tds[5].text == "-"  # No discharge disposition
+
+    def test_encounters_section_narrative_no_date(self):
+        """Test narrative with no encounter date."""
+        encounter = MockEncounter(
+            encounter_type="Office Visit",
+            code="99213",
+            code_system="CPT-4",
+            date=None,
+        )
+        section = EncountersSection([encounter])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Date column should show "Unknown" when date is None
+        assert tds[2].text == "Unknown"

@@ -34,6 +34,7 @@ dependencies = [
     "flask>=3.0.0",  # Web server for UI
     "jinja2>=3.1.0",  # Template engine
     "gunicorn>=21.2.0",  # Production WSGI server
+    "faker>=20.0.0",  # Test data generation for web UI
 ]
 
 [project.optional-dependencies]
@@ -51,9 +52,6 @@ docs = [
 ]
 validation = [
     "requests>=2.28.0",  # For ONC validator API
-]
-test-data = [
-    "faker>=20.0.0",  # Generate realistic test data
 ]
 
 [project.urls]

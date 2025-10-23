@@ -1,6 +1,7 @@
 """Medical Equipment entry builders for C-CDA documents."""
 
 from typing import Optional, Sequence
+
 from lxml import etree
 
 from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Convert - ccdakit{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🔄 Convert C-CDA to HTML</h1>
+    <p>Convert C-CDA XML documents to human-readable HTML format</p>
+</div>
+
+<div class="feature-container">
+    <form id="convertForm" onsubmit="convertDocument(event)">
+        <div class="input-tabs">
+            <button type="button" class="tab-button active" onclick="switchTab(event, 'file')">Upload File</button>
+            <button type="button" class="tab-button" onclick="switchTab(event, 'paste')">Paste XML</button>
+        </div>
+
+        <div id="file-input" class="tab-content active">
+            <div class="form-group">
+                <label>Select C-CDA XML File</label>
+                <input type="file" name="file" accept=".xml">
+            </div>
+        </div>
+
+        <div id="paste-input" class="tab-content">
+            <div class="form-group">
+                <label>Paste C-CDA XML Content</label>
+                <textarea name="content" rows="10" placeholder="Paste your C-CDA XML content here..."></textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Convert to HTML</button>
+    </form>
+
+    <div id="convertResult"></div>
+</div>
+{% endblock %}

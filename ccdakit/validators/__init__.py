@@ -15,11 +15,13 @@ from .utils import (
     print_schema_installation_help,
 )
 from .xsd import XSDValidator
+from .xsd_downloader import XSDDownloader
 
 
 __all__ = [
     "BaseValidator",
     "XSDValidator",
+    "XSDDownloader",
     "SchematronValidator",
     "SchematronDownloader",
     "download_schematron_files",

@@ -1,6 +1,6 @@
 # C-CDA 2.1 Sections Reference
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-22
 **Reference Source**: `references/C-CDA_2.1/`
 **Total Sections**: 82
 **Upstream Repository**: https://github.com/jddamore/ccda-search
@@ -52,16 +52,16 @@ When implementing any section, you MUST:
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ **COMPLETE** | 29 | Fully implemented with tests |
+| ✅ **COMPLETE** | 39 | Fully implemented with tests |
 | 🔄 **IN PROGRESS** | 0 | Currently being worked on |
 | 📋 **PLANNED** | 0 | High priority, planned next |
-| ⏳ **FUTURE** | 53 | To be implemented |
+| ⏳ **FUTURE** | 43 | To be implemented |
 
-**Total Progress**: 29/82 sections (35.4%)
+**Total Progress**: 39/82 sections (47.6%)
 
 ---
 
-## ✅ Implemented Sections (29)
+## ✅ Implemented Sections (39)
 
 ### Core Clinical Sections (8/8 ONC Requirements - 100% Complete!)
 
@@ -107,8 +107,23 @@ When implementing any section, you MUST:
 | **Plan of Treatment Section** | 2.16.840.1.113883.10.20.22.2.10 | ✅ Complete | 91% | 32 | `ccdakit/builders/sections/plan_of_treatment.py` |
 | **Reason for Visit Section** | 2.16.840.1.113883.10.20.22.2.12 | ✅ Complete | 100% | 32 | `ccdakit/builders/sections/reason_for_visit.py` |
 
-**Total Tests**: 1,109 comprehensive tests across all sections
-**Average Coverage**: 98.6%
+### Hospital and Surgical Sections
+
+| Section Name | Template ID | Status | Coverage | Tests | File |
+|--------------|-------------|--------|----------|-------|------|
+| **Admission Diagnosis Section** | 2.16.840.1.113883.10.20.22.2.43 | ✅ Complete | 100% | 35 | `ccdakit/builders/sections/admission_diagnosis.py` |
+| **Anesthesia Section** | 2.16.840.1.113883.10.20.22.2.25 | ✅ Complete | 100% | 29 | `ccdakit/builders/sections/anesthesia.py` |
+| **Complications Section** | 2.16.840.1.113883.10.20.22.2.37 | ✅ Complete | 100% | 31 | `ccdakit/builders/sections/complications.py` |
+| **Discharge Diagnosis Section** | 2.16.840.1.113883.10.20.22.2.24 | ✅ Complete | 100% | 35 | `ccdakit/builders/sections/discharge_diagnosis.py` |
+| **Hospital Course Section** | 1.3.6.1.4.1.19376.1.5.3.1.3.5 | ✅ Complete | 100% | 34 | `ccdakit/builders/sections/hospital_course.py` |
+| **Hospital Discharge Studies Summary Section** | 2.16.840.1.113883.10.20.22.2.16 | ✅ Complete | 100% | 32 | `ccdakit/builders/sections/discharge_studies.py` |
+| **Instructions Section** | 2.16.840.1.113883.10.20.22.2.45 | ✅ Complete | 100% | 33 | `ccdakit/builders/sections/instructions.py` |
+| **Medications Administered Section** | 2.16.840.1.113883.10.20.22.2.38 | ✅ Complete | 100% | 35 | `ccdakit/builders/sections/medications_administered.py` |
+| **Postoperative Diagnosis Section** | 2.16.840.1.113883.10.20.22.2.35 | ✅ Complete | 100% | 28 | `ccdakit/builders/sections/postoperative_diagnosis.py` |
+| **Preoperative Diagnosis Section** | 2.16.840.1.113883.10.20.22.2.34 | ✅ Complete | 100% | 27 | `ccdakit/builders/sections/preoperative_diagnosis.py` |
+
+**Total Tests**: 1,428 comprehensive tests across all sections
+**Average Coverage**: 99.1%
 
 ---
 
@@ -129,13 +144,13 @@ All commonly required C-CDA sections have been implemented:
 
 ### A
 
-- ⏳ **Admission Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.43`
+- ✅ **Admission Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.43` ✅
 - ✅ **Admission Medications Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.44` ✅
 - ⏳ **Advance Directives Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.21`
 - ✅ **Advance Directives Section (entries required)** - `2.16.840.1.113883.10.20.22.2.21.1` ✅
 - ⏳ **Allergies and Intolerances Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.6`
 - ✅ **Allergies and Intolerances Section (entries required)** - `2.16.840.1.113883.10.20.22.2.6.1` ✅
-- ⏳ **Anesthesia Section** - `2.16.840.1.113883.10.20.22.2.25`
+- ✅ **Anesthesia Section** - `2.16.840.1.113883.10.20.22.2.25` ✅
 - ⏳ **Assessment Section** - `2.16.840.1.113883.10.20.22.2.8`
 - ✅ **Assessment and Plan Section** - `2.16.840.1.113883.10.20.22.2.9` ✅
 
@@ -144,13 +159,13 @@ All commonly required C-CDA sections have been implemented:
 - ⏳ **Care Teams Section (Companion Guide)** - `2.16.840.1.113883.10.20.22.2.500`
 - ⏳ **Chief Complaint Section** - `1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1`
 - ✅ **Chief Complaint and Reason for Visit Section** - `2.16.840.1.113883.10.20.22.2.13` ✅
-- ⏳ **Complications Section** - `2.16.840.1.113883.10.20.22.2.37`
+- ✅ **Complications Section** - `2.16.840.1.113883.10.20.22.2.37` ✅
 - ⏳ **Course of Care Section** - `2.16.840.1.113883.10.20.22.2.64`
 
 ### D
 
 - ⏳ **DICOM Object Catalog Section - DCM 121181** - `2.16.840.1.113883.10.20.6.1.1`
-- ⏳ **Discharge Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.24`
+- ✅ **Discharge Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.24` ✅
 - ⏳ **Discharge Diet Section (DEPRECATED)** - `1.3.6.1.4.1.19376.1.5.3.1.3.33`
 - ⏳ **Discharge Medications Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.11`
 - ✅ **Discharge Medications Section (entries required)** - `2.16.840.1.113883.10.20.22.2.11.1` ✅
@@ -178,24 +193,24 @@ All commonly required C-CDA sections have been implemented:
 - ✅ **Health Status Evaluations and Outcomes Section** - `2.16.840.1.113883.10.20.22.2.61` ✅
 - ⏳ **History of Present Illness Section** - `1.3.6.1.4.1.19376.1.5.3.1.3.4`
 - ⏳ **Hospital Consultations Section** - `2.16.840.1.113883.10.20.22.2.42`
-- ⏳ **Hospital Course Section** - `1.3.6.1.4.1.19376.1.5.3.1.3.5`
+- ✅ **Hospital Course Section** - `1.3.6.1.4.1.19376.1.5.3.1.3.5` ✅
 - ✅ **Hospital Discharge Instructions Section** - `2.16.840.1.113883.10.20.22.2.41` ✅
 - ⏳ **Hospital Discharge Physical Section** - `1.3.6.1.4.1.19376.1.5.3.1.3.26`
-- ⏳ **Hospital Discharge Studies Summary Section** - `2.16.840.1.113883.10.20.22.2.16`
+- ✅ **Hospital Discharge Studies Summary Section** - `2.16.840.1.113883.10.20.22.2.16` ✅
 
 ### I
 
 - ⏳ **Immunizations Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.2`
 - ✅ **Immunizations Section (entries required)** - `2.16.840.1.113883.10.20.22.2.2.1` ✅
 - ⏳ **Implants Section (DEPRECATED)** - `2.16.840.1.113883.10.20.22.2.33`
-- ⏳ **Instructions Section** - `2.16.840.1.113883.10.20.22.2.45`
+- ✅ **Instructions Section** - `2.16.840.1.113883.10.20.22.2.45` ✅
 - ✅ **Interventions Section** - `2.16.840.1.113883.10.20.21.2.3` ✅
 
 ### M
 
 - ⏳ **Medical (General) History Section** - `2.16.840.1.113883.10.20.22.2.39`
 - ✅ **Medical Equipment Section** - `2.16.840.1.113883.10.20.22.2.23` ✅
-- ⏳ **Medications Administered Section** - `2.16.840.1.113883.10.20.22.2.38`
+- ✅ **Medications Administered Section** - `2.16.840.1.113883.10.20.22.2.38` ✅
 - ⏳ **Medications Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.1`
 - ✅ **Medications Section (entries required)** - `2.16.840.1.113883.10.20.22.2.1.1` ✅
 - ✅ **Mental Status Section** - `2.16.840.1.113883.10.20.22.2.56` ✅
@@ -219,9 +234,9 @@ All commonly required C-CDA sections have been implemented:
 - ✅ **Physical Exam Section** - `2.16.840.1.113883.10.20.2.10` ✅
 - ✅ **Plan of Treatment Section** - `2.16.840.1.113883.10.20.22.2.10` ✅
 - ⏳ **Planned Procedure Section** - `2.16.840.1.113883.10.20.22.2.30`
-- ⏳ **Postoperative Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.35`
+- ✅ **Postoperative Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.35` ✅
 - ⏳ **Postprocedure Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.36`
-- ⏳ **Preoperative Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.34`
+- ✅ **Preoperative Diagnosis Section** - `2.16.840.1.113883.10.20.22.2.34` ✅
 - ⏳ **Problem Section (entries optional)** - `2.16.840.1.113883.10.20.22.2.5`
 - ✅ **Problem Section (entries required)** - `2.16.840.1.113883.10.20.22.2.5.1` ✅
 - ⏳ **Procedure Description Section** - `2.16.840.1.113883.10.20.22.2.27`
@@ -468,30 +483,38 @@ C-CDA template IDs follow these patterns:
 
 ```bash
 # Current Stats
-Implemented: 29/82 (35.4%)
+Implemented: 39/82 (47.6%)
 High Priority Remaining: 0 (ALL DONE!)
-Total Remaining: 53
+Total Remaining: 43
 
 # Milestones Achieved:
-✅ Phase 12: Core Clinical Sections (8/8 - 100%)
-✅ Phase 13: Extended Clinical Sections (8/8 - 100%)
-✅ Phase 14: Specialized Sections (8/8 - 100%)
-✅ Phase 15: Document-Specific Sections (5/5 - 100%)
+✅ Phase 1: Core Clinical Sections (9/9 - 100%)
+✅ Phase 2: Extended Clinical Sections (9/9 - 100%)
+✅ Phase 3: Specialized Sections (11/11 - 100%)
+✅ Phase 4: Hospital and Surgical Sections (10/10 - 100%)
 
-# Next Milestone: 40 sections (48.8%)
-Target: End of Phase 16
+# Next Milestone: 50 sections (61.0%)
+Target: End of Phase 5
 ```
 
-## 📈 Recent Implementation Wave
+## 📈 Recent Implementation Waves
 
-**Date**: 2025-10-18
-**Sections Added**: 20 sections implemented in parallel
-**Total Tests Added**: 829 tests
-**Average Coverage**: 98.6%
-**All ONC Requirements**: ✅ COMPLETE
+**Wave 2 - Hospital & Surgical Sections**
+- **Date**: 2025-10-22
+- **Sections Added**: 10 hospital and surgical sections
+- **Total Tests Added**: 319 tests
+- **Average Coverage**: 100%
+- **Focus**: Discharge summaries, operative notes, anesthesia records
+
+**Wave 1 - Core Clinical Foundation**
+- **Date**: 2025-10-18
+- **Sections Added**: 29 sections implemented
+- **Total Tests Added**: 1,109 tests
+- **Average Coverage**: 98.6%
+- **All ONC Requirements**: ✅ COMPLETE
 
 ---
 
 **Last updated by**: Claude Code
 **Version**: ccdakit v0.1.0-alpha
-**Date**: 2025-10-18
+**Date**: 2025-10-22

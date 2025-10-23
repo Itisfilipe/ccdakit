@@ -1,6 +1,6 @@
 """Tests for ProceduresSection builder."""
 
-from datetime import date
+from datetime import date, datetime
 
 from lxml import etree
 
@@ -93,7 +93,7 @@ class TestProceduresSection:
         template = elem.find(f"{{{NS}}}templateId")
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.2.7.1"
-        assert template.get("extension") == "2014-06-09"
+        assert template.get("extension") == "2015-08-01"
 
     def test_procedures_section_has_code(self):
         """Test ProceduresSection includes section code."""
@@ -283,3 +283,41 @@ class TestProceduresSectionIntegration:
         # Verify 2 entries
         entries = elem.findall(f"{{{NS}}}entry")
         assert len(entries) == 2
+
+    def test_narrative_procedure_with_datetime(self):
+        """Test narrative with procedure using datetime instead of date."""
+        procedure = MockProcedure(
+            name="Appendectomy",
+            code="80146002",
+            date=datetime(2023, 5, 15, 14, 30),
+        )
+        section = ProceduresSection([procedure])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Date column should include time (index 2)
+        assert tds[2].text == "2023-05-15 14:30"
+
+    def test_narrative_procedure_with_no_date(self):
+        """Test narrative with procedure with no date."""
+        procedure = MockProcedure(
+            name="Colonoscopy",
+            code="73761001",
+            date=None,
+        )
+        section = ProceduresSection([procedure])
+        elem = section.to_element()
+
+        text = elem.find(f"{{{NS}}}text")
+        table = text.find(f"{{{NS}}}table")
+        tbody = table.find(f"{{{NS}}}tbody")
+        tr = tbody.find(f"{{{NS}}}tr")
+        tds = tr.findall(f"{{{NS}}}td")
+
+        # Date column should show "Unknown" when date is None
+        assert tds[2].text == "Unknown"

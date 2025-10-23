@@ -19,7 +19,7 @@ class ProceduresSection(CDAElement):
     Builder for C-CDA Procedures Section.
 
     Includes narrative (HTML table) and structured entries.
-    Supports both R2.1 (2014-06-09) and R2.0 (2014-06-09) versions.
+    Supports both R2.1 (2015-08-01) and R2.0 (2014-06-09) versions.
     """
 
     # Template IDs for different versions
@@ -27,7 +27,7 @@ class ProceduresSection(CDAElement):
         CDAVersion.R2_1: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.7.1",
-                extension="2014-06-09",
+                extension="2015-08-01",
                 description="Procedures Section (entries required) R2.1",
             ),
         ],

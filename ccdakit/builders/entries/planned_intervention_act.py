@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode
+from ccdakit.builders.common import Code, Identifier, StatusCode
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.intervention import PlannedInterventionProtocol
 
@@ -188,7 +188,10 @@ class PlannedInterventionAct(CDAElement):
             act: act element
         """
         # This is REQUIRED for Planned Intervention Act
-        if not hasattr(self.intervention, "goal_reference_id") or not self.intervention.goal_reference_id:
+        if (
+            not hasattr(self.intervention, "goal_reference_id")
+            or not self.intervention.goal_reference_id
+        ):
             # If no goal reference, create a placeholder with nullFlavor
             entry_rel = etree.SubElement(act, f"{{{NS}}}entryRelationship")
             entry_rel.set("typeCode", "RSON")

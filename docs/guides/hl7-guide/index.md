@@ -50,7 +50,7 @@ You should have:
 1. **C-CDA Document Structure** - Understand header vs. body, sections, and entries
 2. **Templates and Conformance** - Learn template IDs and conformance requirements
 3. **Code Systems** - Master required terminologies (LOINC, SNOMED CT, RxNorm)
-4. **Sections Overview** - Survey all 29 available sections
+4. **Sections Overview** - Survey all 39 available sections
 5. **Specific Sections** - Deep dive into sections relevant to your use case
 
 ## Guide Contents
@@ -67,12 +67,13 @@ Core concepts essential for C-CDA implementation:
 
 ### Clinical Sections
 
-Comprehensive coverage of all 29 C-CDA sections:
+Comprehensive coverage of all 39 C-CDA sections:
 
 See the [Sections Overview](sections/index.md) for:
 - Core Clinical Sections (9 sections)
 - Extended Clinical Sections (9 sections)
 - Specialized/Administrative Sections (11 sections)
+- Hospital and Surgical Sections (10 sections)
 
 Each section includes:
 - Clinical purpose and use cases
@@ -163,7 +164,7 @@ Always consult official specifications for:
 
 ---
 
-**Ready to get started?** Jump to the [Sections Overview](sections/index.md) to explore the 29 clinical sections available in ccdakit.
+**Ready to get started?** Jump to the [Sections Overview](sections/index.md) to explore the 39 clinical sections available in ccdakit.
 
 ---
 

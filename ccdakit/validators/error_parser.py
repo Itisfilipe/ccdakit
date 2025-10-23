@@ -272,19 +272,13 @@ class SchematronErrorParser:
 
         # Add documentation link if available
         if parsed_error.template_id:
-            template_info = SchematronErrorParser.TEMPLATE_INFO.get(
-                parsed_error.template_id
-            )
+            template_info = SchematronErrorParser.TEMPLATE_INFO.get(parsed_error.template_id)
             if template_info and template_info.get("doc_url"):
-                suggestions.append(
-                    f"See documentation: {template_info['doc_url']}"
-                )
+                suggestions.append(f"See documentation: {template_info['doc_url']}")
 
         # Fallback to docs home if no specific link
         if not any("docs.ccdakit.com" in s for s in suggestions):
-            suggestions.append(
-                "See C-CDA guide: https://docs.ccdakit.com/guides/hl7-guide/"
-            )
+            suggestions.append("See C-CDA guide: https://docs.ccdakit.com/guides/hl7-guide/")
 
         return suggestions
 

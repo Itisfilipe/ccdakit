@@ -47,7 +47,7 @@ class PlanOfTreatmentSection(CDAElement):
     Builder for C-CDA Plan of Treatment Section (V2).
 
     Includes narrative (HTML table) and structured entries for planned activities.
-    Supports both R2.1 (2014-06-09) and R2.0 (2014-06-09) versions.
+    Supports both R2.1 (2015-08-01) and R2.0 (2014-06-09) versions.
     Template ID: 2.16.840.1.113883.10.20.22.2.10
 
     This section contains pending orders, interventions, encounters, services,
@@ -60,7 +60,7 @@ class PlanOfTreatmentSection(CDAElement):
         CDAVersion.R2_1: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.10",
-                extension="2014-06-09",
+                extension="2015-08-01",
                 description="Plan of Treatment Section (V2) R2.1",
             ),
         ],

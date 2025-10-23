@@ -85,7 +85,7 @@ def validate_document_with_schematron(xml_file: Path):
         validator = SchematronValidator()
         print("    ✓ Validator initialized successfully")
         print(f"    Schematron: {validator.schematron_location.name}")
-        print(f"    (Cleaned version - IDREF errors fixed automatically)")
+        print("    (Cleaned version - IDREF errors fixed automatically)")
     except FileNotFoundError as e:
         print(f"    ✗ Error: {e}")
         print("\n    Schematron files not found.")

@@ -438,3 +438,4 @@ class TestSocialHistorySectionIntegration:
         assert "8517006" in codes  # Former smoker
         assert "266919005" in codes  # Never smoker
         assert "266927001" in codes  # Unknown if ever smoked
+

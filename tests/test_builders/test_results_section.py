@@ -566,3 +566,29 @@ class TestResultsSection:
 
         components = organizer_elem.findall(f"{{{NS}}}component")
         assert len(components) == 2
+
+    def test_results_section_narrative_with_only_high_reference(self):
+        """Test ResultsSection narrative with only high reference range."""
+        results = [
+            MockResult(
+                test_name="Glucose",
+                test_code="2345-7",
+                value="250",
+                unit="mg/dL",
+                reference_range_low=None,
+                reference_range_high="140",
+                reference_range_unit="mg/dL",
+            )
+        ]
+        organizer = MockResultOrganizer(results=results)
+        section = ResultsSection([organizer])
+        elem = section.to_element()
+
+        tbody = elem.find(f".//{{{NS}}}tbody")
+        row = tbody.find(f"{{{NS}}}tr")
+        cells = row.findall(f"{{{NS}}}td")
+
+        # Reference range should show "< high" format (index 5)
+        range_cell = cells[5]
+        assert "< 140" in range_cell.text
+        assert "mg/dL" in range_cell.text

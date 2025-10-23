@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Generate - ccdakit{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📝 Generate C-CDA Document</h1>
+    <p>Generate sample C-CDA documents with realistic test data</p>
+</div>
+
+<div class="feature-container">
+    <form id="generateForm" onsubmit="generateDocument(event)">
+        <div class="form-group">
+            <label>Document Type</label>
+            <select name="document_type">
+                <option value="ccd">Continuity of Care Document (CCD)</option>
+                <option value="discharge-summary">Discharge Summary</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Sections to Include</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="problems" checked> Problems</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="medications" checked> Medications</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="allergies" checked> Allergies</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="immunizations"> Immunizations</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="vital-signs"> Vital Signs</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="procedures"> Procedures</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="results"> Results</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="social-history"> Social History</label>
+                <label class="checkbox-label"><input type="checkbox" name="sections" value="encounters"> Encounters</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Generate Document</button>
+    </form>
+
+    <div id="generateResult"></div>
+</div>
+{% endblock %}

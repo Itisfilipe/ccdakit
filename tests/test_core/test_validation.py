@@ -169,3 +169,95 @@ def test_validation_levels():
     assert ValidationLevel.ERROR.value == "error"
     assert ValidationLevel.WARNING.value == "warning"
     assert ValidationLevel.INFO.value == "info"
+
+
+def test_validation_issue_str_no_code():
+    """Test string representation without code."""
+    issue = ValidationIssue(level=ValidationLevel.ERROR, message="Test error", location="/test")
+
+    str_repr = str(issue)
+    assert "ERROR" in str_repr
+    assert "Test error" in str_repr
+    # Should not have brackets when no code
+    assert "[" not in str_repr or "]" not in str_repr
+
+
+def test_validation_issue_str_minimal():
+    """Test string representation with minimal data (no location, no code)."""
+    issue = ValidationIssue(level=ValidationLevel.INFO, message="Information message")
+
+    str_repr = str(issue)
+    assert "INFO" in str_repr
+    assert "Information message" in str_repr
+
+
+def test_validation_issue_with_parsed_data():
+    """Test validation issue with parsed data."""
+    parsed_data = {
+        "rule": "SHALL_RULE",
+        "context": "/ClinicalDocument",
+        "test": "count(component) = 1",
+    }
+    issue = ValidationIssue(
+        level=ValidationLevel.ERROR,
+        message="Component is required",
+        location="/ClinicalDocument",
+        code="ERR001",
+        parsed_data=parsed_data,
+    )
+
+    assert issue.parsed_data == parsed_data
+    assert issue.parsed_data["rule"] == "SHALL_RULE"
+
+
+def test_validation_result_to_dict_with_parsed_data():
+    """Test converting validation result to dict includes parsed data."""
+    parsed_data = {"rule": "SHALL_RULE", "context": "/test"}
+    error = ValidationIssue(
+        level=ValidationLevel.ERROR,
+        message="Test error",
+        parsed_data=parsed_data,
+    )
+    result = ValidationResult(errors=[error])
+
+    result_dict = result.to_dict()
+
+    assert "errors" in result_dict
+    assert len(result_dict["errors"]) == 1
+    assert "parsed" in result_dict["errors"][0]
+    assert result_dict["errors"][0]["parsed"]["rule"] == "SHALL_RULE"
+
+
+def test_validation_result_to_dict_without_parsed_data():
+    """Test converting validation result to dict without parsed data."""
+    error = ValidationIssue(level=ValidationLevel.ERROR, message="Test error")
+    result = ValidationResult(errors=[error])
+
+    result_dict = result.to_dict()
+
+    assert "errors" in result_dict
+    # Should not have parsed key when no parsed_data
+    if "parsed" in result_dict["errors"][0]:
+        # If it exists, it should be None or empty
+        assert not result_dict["errors"][0]["parsed"]
+
+
+def test_validation_result_str_no_warnings():
+    """Test string representation without warnings."""
+    error = ValidationIssue(level=ValidationLevel.ERROR, message="Test error")
+    result = ValidationResult(errors=[error])
+
+    str_repr = str(result)
+    assert "FAILED" in str_repr
+    assert "Errors: 1" in str_repr
+    # Should have Errors section but not Warnings section
+    assert "Errors:" in str_repr
+
+
+def test_validation_result_str_empty_infos():
+    """Test string representation with no info messages."""
+    result = ValidationResult()
+
+    str_repr = str(result)
+    assert "PASSED" in str_repr
+    assert "Info: 0" in str_repr
