@@ -1,6 +1,7 @@
 """Utility for downloading C-CDA XSD schema files."""
 
 import logging
+import os
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -31,12 +32,18 @@ class XSDDownloader:
 
         Args:
             target_dir: Directory to download files to.
-                If None, uses schemas/ relative to package root.
+                If None, uses CCDAKIT_SCHEMA_DIR env var or schemas/ relative to package root.
         """
         if target_dir is None:
-            # Default to schemas in package root
-            package_root = Path(__file__).parent.parent.parent
-            target_dir = package_root / "schemas"
+            # Check environment variable first
+            env_schema_dir = os.environ.get("CCDAKIT_SCHEMA_DIR")
+            if env_schema_dir:
+                target_dir = Path(env_schema_dir)
+                logger.info(f"Using schema directory from CCDAKIT_SCHEMA_DIR: {target_dir}")
+            else:
+                # Default to schemas in package root
+                package_root = Path(__file__).parent.parent.parent
+                target_dir = package_root / "schemas"
 
         self.target_dir = Path(target_dir)
         self.target_dir.mkdir(parents=True, exist_ok=True)

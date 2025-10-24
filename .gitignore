@@ -129,6 +129,7 @@ venv.bak/
 .DS_Store
 
 # Project specific
+# Exclude downloaded schemas (they're downloaded during build/runtime)
 /schemas/*.xsd
 !/schemas/README.md
 /schemas/schematron/*.sch
@@ -137,6 +138,9 @@ venv.bak/
 /schemas/xslt/*.xsl
 /schemas/xslt/*.xml
 !/schemas/xslt/README.md
+# Ignore temp directories
+/schemas/temp/
+/schemas/schematron/temp/
 /examples/output/
 *.xml
 references/

@@ -63,19 +63,31 @@ def setup_validation_files() -> bool:
             all_success = False
 
         # 2. Download XSD schemas
-        print("\n" + "-" * 70)
-        print("2/3: Downloading XSD schema files...")
-        print("-" * 70)
+        print("\n" + "-" * 70, flush=True)
+        print("2/3: Downloading XSD schema files...", flush=True)
+        print("-" * 70, flush=True)
         try:
+            import os
             from ccdakit.validators.xsd_downloader import XSDDownloader
 
+            # Force download in build environments
+            is_build_env = os.environ.get('RENDER') or os.environ.get('CI')
+            print(f"Build environment detected: {bool(is_build_env)}", flush=True)
+
             xsd_downloader = XSDDownloader()
-            success, message = xsd_downloader.download_schemas(force=False)
-            print(message)
-            if not success:
+            print(f"Target directory: {xsd_downloader.target_dir}", flush=True)
+
+            success, message = xsd_downloader.download_schemas(force=bool(is_build_env))
+            print(message, flush=True)
+
+            if success:
+                info = xsd_downloader.get_schema_info()
+                print(f"  - Total files: {info['schema_count']}", flush=True)
+                print(f"  - CDA.xsd exists: {info['cda_exists']}", flush=True)
+            else:
                 all_success = False
         except Exception as e:
-            print(f"✗ Error downloading XSD schemas: {e}")
+            print(f"✗ Error downloading XSD schemas: {e}", flush=True)
             all_success = False
 
         # 3. Download XSLT stylesheets
@@ -114,6 +126,9 @@ def setup_validation_files() -> bool:
 
 if __name__ == "__main__":
     success = setup_validation_files()
-    # Don't fail the build if download fails - app can still work with limited functionality
-    # Always exit 0 to not break the deployment
-    sys.exit(0)
+    # Exit with error code if critical downloads failed
+    # This ensures build failures are caught
+    if not success:
+        print("\n⚠ WARNING: Schema download had issues. Validation may not work correctly.", flush=True)
+        print("Check build logs for details.\n", flush=True)
+    sys.exit(0 if success else 1)

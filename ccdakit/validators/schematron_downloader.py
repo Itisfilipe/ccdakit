@@ -1,6 +1,7 @@
 """Utility for downloading C-CDA Schematron validation files."""
 
 import logging
+import os
 import urllib.request
 from pathlib import Path
 from typing import Optional, Tuple
@@ -39,12 +40,18 @@ class SchematronDownloader:
 
         Args:
             target_dir: Directory to download files to.
-                If None, uses schemas/schematron/ relative to package root.
+                If None, uses CCDAKIT_SCHEMA_DIR env var or schemas/schematron/ relative to package root.
         """
         if target_dir is None:
-            # Default to schemas/schematron in package
-            package_root = Path(__file__).parent.parent.parent
-            target_dir = package_root / "schemas" / "schematron"
+            # Check environment variable first
+            env_schema_dir = os.environ.get("CCDAKIT_SCHEMA_DIR")
+            if env_schema_dir:
+                target_dir = Path(env_schema_dir) / "schematron"
+                logger.info(f"Using schema directory from CCDAKIT_SCHEMA_DIR: {target_dir}")
+            else:
+                # Default to schemas/schematron in package
+                package_root = Path(__file__).parent.parent.parent
+                target_dir = package_root / "schemas" / "schematron"
 
         self.target_dir = Path(target_dir)
         self.target_dir.mkdir(parents=True, exist_ok=True)

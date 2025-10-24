@@ -92,6 +92,41 @@ def serve(
 
 
 @app.command()
+def from_json(
+    input_file: Path = typer.Argument(..., help="Path to JSON file containing C-CDA data"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o", help="Output file path"),
+    pretty: bool = typer.Option(True, help="Pretty-print the XML output"),
+) -> None:
+    """Convert JSON/dictionary data to a C-CDA XML document."""
+    from ccdakit.cli.commands.from_json import from_json_command
+
+    from_json_command(input_file, output=output, pretty=pretty)
+
+
+@app.command()
+def list_sections(
+    category: Optional[str] = typer.Option(None, help="Filter by category: core, extended, specialized, hospital"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show template IDs and additional details"),
+) -> None:
+    """List all available C-CDA section builders."""
+    from ccdakit.cli.commands.list_sections import list_sections_command
+
+    list_sections_command(category=category, verbose=verbose)
+
+
+@app.command()
+def download_schemas(
+    schema_type: str = typer.Option("all", help="Type of schemas: xsd, schematron, or all"),
+    output_dir: Optional[Path] = typer.Option(None, help="Custom directory for schemas"),
+    force: bool = typer.Option(False, "--force", "-f", help="Force re-download even if schemas exist"),
+) -> None:
+    """Download XSD and/or Schematron schema files for validation."""
+    from ccdakit.cli.commands.download_schemas import download_schemas_command
+
+    download_schemas_command(schema_type=schema_type, output_dir=output_dir, force=force)
+
+
+@app.command()
 def version() -> None:
     """Show the ccdakit version."""
     import ccdakit

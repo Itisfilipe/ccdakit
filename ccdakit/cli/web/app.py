@@ -43,6 +43,11 @@ def create_app() -> Flask:
         """Compare page."""
         return render_template("compare.html", active_page="compare")
 
+    @app.route("/from-json")
+    def from_json_page():
+        """From JSON page."""
+        return render_template("from_json.html", active_page="from-json")
+
     @app.route("/api/validate", methods=["POST"])
     def api_validate():
         """Validate a C-CDA document."""
@@ -211,6 +216,31 @@ def create_app() -> Flask:
                     "file2_name": name2,
                 }
             )
+
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+
+    @app.route("/api/from-json", methods=["POST"])
+    def api_from_json():
+        """Convert JSON/dictionary data to C-CDA XML."""
+        from ccdakit.utils.converters import DictToCCDAConverter
+
+        try:
+            data = request.get_json()
+            json_data = data.get("data")
+            pretty = data.get("pretty", True)
+
+            if not json_data:
+                return jsonify({"error": "No JSON data provided"}), 400
+
+            # Convert to C-CDA
+            converter = DictToCCDAConverter()
+            document = converter.from_dict(json_data)
+
+            # Generate XML
+            xml_string = document.to_xml_string(pretty=pretty)
+
+            return jsonify({"xml": xml_string})
 
         except Exception as e:
             return jsonify({"error": str(e)}), 500

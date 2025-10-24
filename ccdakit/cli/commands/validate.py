@@ -98,15 +98,15 @@ def _run_xsd_validation(file_path: Path) -> ValidationResult:
             success, message = downloader.download_schemas()
 
             if not success:
-                console.print(f"[yellow]Warning:[/yellow] {message}")
+                console.print(f"[red]Error:[/red] {message}")
                 result = ValidationResult()
-                result.warnings.append(
+                result.errors.append(
                     type(
                         "ValidationIssue",
                         (),
                         {
-                            "level": ValidationLevel.WARNING,
-                            "message": f"XSD schemas not available: {message}. Run 'ccdakit install-schemas'.",
+                            "level": ValidationLevel.ERROR,
+                            "message": f"XSD schemas not available: {message}. XSD validation cannot be performed. Run 'ccdakit download-schemas --schema-type xsd' to install schemas.",
                             "location": None,
                             "code": "SCHEMA_NOT_FOUND",
                         },
@@ -117,22 +117,22 @@ def _run_xsd_validation(file_path: Path) -> ValidationResult:
                 console.print(f"[green]{message}[/green]")
 
         # Get schema path
-        schema_base = get_default_schema_path()
-        if schema_base is None:
-            schema_base = downloader.target_dir
-
-        schema_path = schema_base / "CDA.xsd"
+        schema_path = get_default_schema_path()
+        if schema_path is None:
+            # get_default_schema_path returns the full path to CDA.xsd
+            # If it's None, construct it from downloader directory
+            schema_path = downloader.target_dir / "CDA.xsd"
 
         if not schema_path.exists():
-            console.print("[yellow]Warning:[/yellow] CDA.xsd not found after download attempt.")
+            console.print("[red]Error:[/red] CDA.xsd not found after download attempt.")
             result = ValidationResult()
-            result.warnings.append(
+            result.errors.append(
                 type(
                     "ValidationIssue",
                     (),
                     {
-                        "level": ValidationLevel.WARNING,
-                        "message": f"CDA.xsd not found at {schema_path}",
+                        "level": ValidationLevel.ERROR,
+                        "message": f"CDA.xsd not found at {schema_path}. XSD validation cannot be performed. Run 'ccdakit download-schemas --schema-type xsd' to install schemas.",
                         "location": None,
                         "code": "SCHEMA_NOT_FOUND",
                     },
