@@ -1,7 +1,7 @@
 """Medication-related protocols for C-CDA documents."""
 
-from datetime import date
-from typing import Optional, Protocol
+from datetime import date, datetime
+from typing import Optional, Protocol, List, Any
 
 
 class MedicationProtocol(Protocol):
@@ -94,5 +94,19 @@ class MedicationProtocol(Protocol):
 
         Returns:
             Instructions or None
+        """
+        ...
+
+    @property
+    def authors(self) -> Optional[List[Any]]:
+        """
+        Author participation information (optional).
+
+        Each author should have:
+        - id: Author identifier (e.g., NPI)
+        - time: When authored (datetime)
+
+        Returns:
+            List of author objects or None
         """
         ...

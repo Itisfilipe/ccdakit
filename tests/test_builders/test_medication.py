@@ -31,6 +31,7 @@ class MockMedication:
         end_date=None,
         status="active",
         instructions=None,
+        authors=None,
     ):
         self._name = name
         self._code = code
@@ -41,6 +42,7 @@ class MockMedication:
         self._end_date = end_date
         self._status = status
         self._instructions = instructions
+        self._authors = authors
 
     @property
     def name(self):
@@ -77,6 +79,10 @@ class MockMedication:
     @property
     def instructions(self):
         return self._instructions
+
+    @property
+    def authors(self):
+        return self._authors
 
 
 class TestMedicationActivity:
@@ -360,6 +366,84 @@ class TestMedicationActivity:
         assert "doseQuantity" in names
         assert "consumable" in names
         assert "entryRelationship" in names
+
+    def test_medication_activity_frequency_effective_time(self):
+        """Test frequency effectiveTime with operator='A'."""
+        medication = MockMedication(frequency="twice daily")
+        med_act = MedicationActivity(medication)
+        elem = med_act.to_element()
+
+        # Find all effectiveTime elements
+        eff_times = elem.findall(f"{{{NS}}}effectiveTime")
+        assert len(eff_times) >= 2, "Should have at least 2 effectiveTime elements"
+
+        # Find frequency effectiveTime (has operator="A")
+        freq_time = None
+        for et in eff_times:
+            if et.get("operator") == "A":
+                freq_time = et
+                break
+
+        assert freq_time is not None, "Should have effectiveTime with operator='A'"
+        assert freq_time.get("{http://www.w3.org/2001/XMLSchema-instance}type") == "PIVL_TS"
+
+        # Check period element
+        period = freq_time.find(f"{{{NS}}}period")
+        assert period is not None
+        assert period.get("value") == "12"  # twice daily = every 12 hours
+        assert period.get("unit") == "h"
+
+    def test_medication_activity_route_translation(self):
+        """Test routeCode includes translation element."""
+        medication = MockMedication(route="oral")
+        med_act = MedicationActivity(medication)
+        elem = med_act.to_element()
+
+        route = elem.find(f"{{{NS}}}routeCode")
+        assert route is not None
+        assert route.get("code") == "C38288"
+
+        # Check translation element
+        translation = route.find(f"{{{NS}}}translation")
+        assert translation is not None, "Route should have translation element"
+        assert translation.get("code") is not None
+        assert translation.get("codeSystem") is not None
+
+    def test_medication_activity_with_authors(self):
+        """Test medication activity with author participation."""
+        from datetime import datetime
+
+        class MockAuthor:
+            def __init__(self):
+                self.id = "1234567890"
+                self.time = datetime(2023, 1, 1, 10, 30)
+
+        medication = MockMedication(authors=[MockAuthor()])
+        med_act = MedicationActivity(medication)
+        elem = med_act.to_element()
+
+        # Find author element
+        author = elem.find(f"{{{NS}}}author")
+        assert author is not None, "Should have author element"
+
+        # Check template ID
+        template = author.find(f"{{{NS}}}templateId")
+        assert template is not None
+        assert template.get("root") == "2.16.840.1.113883.10.20.22.4.119"
+
+        # Check time
+        time = author.find(f"{{{NS}}}time")
+        assert time is not None
+        assert time.get("value") == "20230101103000"
+
+        # Check assignedAuthor
+        assigned_author = author.find(f"{{{NS}}}assignedAuthor")
+        assert assigned_author is not None
+
+        # Check author ID
+        id_elem = assigned_author.find(f"{{{NS}}}id")
+        assert id_elem is not None
+        assert id_elem.get("extension") == "1234567890"
 
 
 class TestMedicationActivityIntegration:
