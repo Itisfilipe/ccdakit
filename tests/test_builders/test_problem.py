@@ -93,15 +93,21 @@ class TestProblemObservation:
         assert elem.get("moodCode") == "EVN"
 
     def test_problem_observation_has_template_id_r21(self):
-        """Test ProblemObservation includes R2.1 template ID."""
+        """Test ProblemObservation includes R2.1 template IDs (V4 and V3)."""
         problem = MockProblem()
         obs = ProblemObservation(problem, version=CDAVersion.R2_1)
         elem = obs.to_element()
 
-        template = elem.find(f"{{{NS}}}templateId")
-        assert template is not None
-        assert template.get("root") == "2.16.840.1.113883.10.20.22.4.4"
-        assert template.get("extension") == "2015-08-01"
+        templates = elem.findall(f"{{{NS}}}templateId")
+        assert len(templates) == 2, "R2.1 should have both V4 and V3 template IDs"
+
+        # First should be V4 (2022-06-01)
+        assert templates[0].get("root") == "2.16.840.1.113883.10.20.22.4.4"
+        assert templates[0].get("extension") == "2022-06-01"
+
+        # Second should be V3 (2015-08-01) for conformance
+        assert templates[1].get("root") == "2.16.840.1.113883.10.20.22.4.4"
+        assert templates[1].get("extension") == "2015-08-01"
 
     def test_problem_observation_has_template_id_r20(self):
         """Test ProblemObservation includes R2.0 template ID."""
@@ -148,30 +154,38 @@ class TestProblemObservation:
         assert code.get("displayName") == "Problem"
 
     def test_problem_observation_has_status_code(self):
-        """Test ProblemObservation includes statusCode."""
+        """Test ProblemObservation includes statusCode.
+
+        Per C-CDA 2.1 spec (CONF:4515-9049, CONF:4515-19112):
+        statusCode SHALL always be "completed" because it represents
+        a completed observation of a problem (even if the problem is active).
+        """
         problem = MockProblem(status="active")
         obs = ProblemObservation(problem)
         elem = obs.to_element()
 
         status = elem.find(f"{{{NS}}}statusCode")
         assert status is not None
-        assert status.get("code") == "active"
-
-    def test_problem_observation_status_mapping(self):
-        """Test status code mapping."""
-        # Test resolved -> completed
-        problem = MockProblem(status="resolved")
-        obs = ProblemObservation(problem)
-        elem = obs.to_element()
-        status = elem.find(f"{{{NS}}}statusCode")
+        # Per spec, statusCode is always "completed" for Problem Observation
         assert status.get("code") == "completed"
 
-        # Test inactive
-        problem = MockProblem(status="inactive")
-        obs = ProblemObservation(problem)
-        elem = obs.to_element()
-        status = elem.find(f"{{{NS}}}statusCode")
-        assert status.get("code") == "inactive"
+    def test_problem_observation_status_always_completed(self):
+        """Test that statusCode is always 'completed' per C-CDA spec.
+
+        The problem's status (active/inactive/resolved) is NOT reflected
+        in the observation's statusCode. The statusCode indicates the
+        observation itself is complete, not the status of the problem.
+        """
+        # Test with various problem statuses - all should have completed statusCode
+        for problem_status in ["active", "inactive", "resolved"]:
+            problem = MockProblem(status=problem_status)
+            obs = ProblemObservation(problem)
+            elem = obs.to_element()
+            status = elem.find(f"{{{NS}}}statusCode")
+            assert status.get("code") == "completed", (
+                f"Problem status '{problem_status}' should still have "
+                "observation statusCode='completed'"
+            )
 
     def test_problem_observation_has_effective_time(self):
         """Test ProblemObservation includes effectiveTime."""
