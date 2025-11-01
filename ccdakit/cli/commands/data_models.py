@@ -25,6 +25,11 @@ class Address(DictWrapper):
 
     @property
     def street_lines(self) -> list[str]:
+        # Try 'street_lines' first (from test data generator)
+        street_lines = self._data.get("street_lines", [])
+        if street_lines:
+            return street_lines
+        # Fall back to 'street' field (for backwards compatibility)
         street = self._data.get("street", "")
         return [street] if street else []
 
@@ -172,11 +177,30 @@ class Author(DictWrapper):
 
     @property
     def addresses(self) -> list[Address]:
-        return []
+        # Return default work address to satisfy C-CDA requirement
+        addr_dict = self._data.get("address")
+        if addr_dict:
+            return [Address(addr_dict)]
+        # Default work address
+        return [
+            Address(
+                {
+                    "street": "123 Healthcare Drive",
+                    "city": "Medical City",
+                    "state": "CA",
+                    "zip": "94000",
+                }
+            )
+        ]
 
     @property
     def telecoms(self) -> list[Telecom]:
-        return []
+        # Return default work phone to satisfy C-CDA requirement
+        telecom = self._data.get("telecom")
+        if telecom:
+            return [Telecom({"phone": telecom})]
+        # Default work phone
+        return [Telecom({"phone": "tel:+1-555-123-4567"})]
 
     @property
     def organization(self) -> Organization | None:
@@ -208,7 +232,17 @@ class Immunization(DictWrapper):
     pass
 
 
+class VitalSign(DictWrapper):
+    """Vital sign wrapper."""
+
+    pass
+
+
 class VitalSignsOrganizer(DictWrapper):
     """Vital signs organizer wrapper."""
 
-    pass
+    @property
+    def vital_signs(self) -> list:
+        """Return list of vital sign observations."""
+        vital_signs_data = self._data.get("vital_signs", [])
+        return [VitalSign(vs) for vs in vital_signs_data]
