@@ -287,7 +287,6 @@ class SampleDataGenerator:
                 [
                     "2135-2",  # Hispanic or Latino
                     "2186-5",  # Not Hispanic or Latino
-                    None,
                 ]
             ),
             "language": random.choice(["en", "es", "fr", None]),
