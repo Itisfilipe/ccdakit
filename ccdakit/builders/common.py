@@ -144,6 +144,7 @@ class EffectiveTime(CDAElement):
         low: Optional[datetime] = None,
         high: Optional[datetime] = None,
         null_flavor: Optional[str] = None,
+        include_both_value_and_low: bool = False,
         **kwargs,
     ):
         """
@@ -154,6 +155,7 @@ class EffectiveTime(CDAElement):
             low: Start of interval
             high: End of interval
             null_flavor: Null flavor if time is not available
+            include_both_value_and_low: If True, include both @value attribute and <low> child (for CONF:1098-32775/32776)
             **kwargs: Additional arguments passed to CDAElement
         """
         super().__init__(**kwargs)
@@ -161,6 +163,7 @@ class EffectiveTime(CDAElement):
         self.low = low
         self.high = high
         self.null_flavor = null_flavor
+        self.include_both_value_and_low = include_both_value_and_low
 
     def build(self) -> etree.Element:
         """
@@ -173,11 +176,20 @@ class EffectiveTime(CDAElement):
 
         if self.null_flavor:
             elem.set("nullFlavor", self.null_flavor)
+        elif self.include_both_value_and_low and self.value:
+            # Special case for CONF:1098-32775/32776: include both @value and <low>
+            elem.set("value", self._format_datetime(self.value))
+            low = etree.SubElement(elem, f"{{{NS}}}low")
+            low.set("value", self._format_datetime(self.value))
         elif self.value:
             # Point in time
             elem.set("value", self._format_datetime(self.value))
         else:
-            # Interval
+            # Interval - MUST have xsi:type="IVL_TS" when using low/high children
+            # This is required by XSD schema for proper type validation
+            if self.low or self.high:
+                elem.set("{http://www.w3.org/2001/XMLSchema-instance}type", "IVL_TS")
+
             if self.low:
                 low = etree.SubElement(elem, f"{{{NS}}}low")
                 low.set("value", self._format_datetime(self.low))
@@ -195,19 +207,49 @@ class EffectiveTime(CDAElement):
     @staticmethod
     def _format_datetime(dt: datetime) -> str:
         """
-        Format datetime to CDA format: YYYYMMDDHHMMSS.
+        Format datetime to CDA format with timezone for precise times.
+
+        Per C-CDA spec (CONF:81-10130):
+        If more precise than day, SHOULD include time-zone offset.
+
+        Format:
+        - Date only: YYYYMMDD
+        - DateTime: YYYYMMDDHHMMSS-0500 (with timezone)
 
         Args:
             dt: datetime or date object
 
         Returns:
-            Formatted string
+            Formatted string with timezone if datetime
         """
         if isinstance(dt, date) and not isinstance(dt, datetime):
-            # Date only
+            # Date only - no timezone needed
             return dt.strftime("%Y%m%d")
-        # Full datetime with precision
-        return dt.strftime("%Y%m%d%H%M%S")
+        # Full datetime with timezone offset
+        # Format: YYYYMMDDHHMMSS+/-HHMM
+        base_time = dt.strftime("%Y%m%d%H%M%S")
+
+        # Add timezone offset
+        if dt.tzinfo is not None:
+            # Use actual timezone from datetime
+            offset = dt.strftime("%z")  # Format: +HHMM or -HHMM
+            return f"{base_time}{offset}"
+        else:
+            # No timezone info - assume local time and add offset
+            # For consistency, use UTC-5 (EST) as default
+            import time
+            if time.daylight:
+                # Daylight saving time
+                offset_seconds = -time.altzone
+            else:
+                # Standard time
+                offset_seconds = -time.timezone
+
+            # Convert to +/-HHMM format
+            offset_hours = offset_seconds // 3600
+            offset_minutes = abs(offset_seconds % 3600) // 60
+            offset_str = f"{offset_hours:+03d}{offset_minutes:02d}"
+            return f"{base_time}{offset_str}"
 
 
 class Identifier(CDAElement):
@@ -277,3 +319,62 @@ class StatusCode(CDAElement):
         elem = etree.Element(f"{{{NS}}}statusCode")
         elem.set("code", self.code)
         return elem
+
+
+def create_default_author_participation(time: Optional[datetime] = None) -> etree.Element:
+    """
+    Create a default Author Participation element.
+
+    Per C-CDA spec (2.16.840.1.113883.10.20.22.4.119):
+    SHOULD contain Author Participation for clinical statements.
+
+    This creates a minimal compliant author participation with:
+    - Template ID for Author Participation
+    - Time (when authored)
+    - AssignedAuthor with minimal required elements
+
+    Args:
+        time: Time of authorship (defaults to current time if not provided)
+
+    Returns:
+        lxml Element for author participation
+    """
+    from datetime import datetime
+
+    if time is None:
+        time = datetime.now()
+
+    # Create author element
+    author_elem = etree.Element(f"{{{NS}}}author")
+
+    # Add template ID for Author Participation (CONF:81-32888)
+    template_id = etree.SubElement(author_elem, f"{{{NS}}}templateId")
+    template_id.set("root", "2.16.840.1.113883.10.20.22.4.119")
+
+    # Add time (when authored) - REQUIRED
+    time_elem = etree.SubElement(author_elem, f"{{{NS}}}time")
+    time_elem.set("value", EffectiveTime._format_datetime(time))
+
+    # Add assignedAuthor - REQUIRED
+    assigned_author = etree.SubElement(author_elem, f"{{{NS}}}assignedAuthor")
+
+    # Add author ID - REQUIRED
+    # Use nullFlavor since we don't have specific author information
+    id_elem = etree.SubElement(assigned_author, f"{{{NS}}}id")
+    id_elem.set("nullFlavor", "NI")
+
+    # Add NPI id (SHOULD per CONF:1198-32882)
+    # This assignedAuthor SHOULD contain zero or one [0..1] id with @root="2.16.840.1.113883.4.6" (NPI)
+    npi_id_elem = etree.SubElement(assigned_author, f"{{{NS}}}id")
+    npi_id_elem.set("root", "2.16.840.1.113883.4.6")  # National Provider Identifier
+    npi_id_elem.set("extension", "1234567890")  # Sample NPI
+
+    # Add code (SHOULD per CONF:1098-31671)
+    # Default to general physician code
+    code_elem = etree.SubElement(assigned_author, f"{{{NS}}}code")
+    code_elem.set("code", "200000000X")  # Allopathic & Osteopathic Physicians
+    code_elem.set("codeSystem", "2.16.840.1.113883.6.101")  # NUCC Provider Taxonomy
+    code_elem.set("codeSystemName", "NUCC Provider Taxonomy")
+    code_elem.set("displayName", "Physician")
+
+    return author_elem
