@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode
+from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode, create_default_author_participation
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.vital_signs import VitalSignProtocol, VitalSignsOrganizerProtocol
 
@@ -105,7 +105,9 @@ class VitalSignObservation(CDAElement):
         status_elem = StatusCode("completed").to_element()
         observation.append(status_elem)
 
-        # Add effective time
+        # Add effective time (CONF:1098-32775, CONF:1098-32776)
+        # SHOULD contain @value OR low, not both
+        # Use simple @value attribute for vital sign measurement time
         time_elem = EffectiveTime(value=self.vital_sign.date).to_element()
         observation.append(time_elem)
 
@@ -115,6 +117,9 @@ class VitalSignObservation(CDAElement):
         # Add interpretation code if available
         if self.vital_sign.interpretation:
             self._add_interpretation(observation)
+
+        # Add author participation (SHOULD per CONF:1198-31146)
+        self._add_author_participation(observation)
 
         return observation
 
@@ -174,6 +179,20 @@ class VitalSignObservation(CDAElement):
         interp_elem.set("codeSystem", "2.16.840.1.113883.5.83")
         interp_elem.set("displayName", self.vital_sign.interpretation)
 
+    def _add_author_participation(self, observation: etree._Element) -> None:
+        """
+        Add Author Participation to the observation (CONF:1198-31146).
+
+        Per C-CDA spec:
+        - Vital Sign Observation SHOULD contain zero or more [0..*] Author Participation
+
+        Args:
+            observation: observation element
+        """
+        # Add default author participation using vital sign date as authoring time
+        author_elem = create_default_author_participation(self.vital_sign.date)
+        observation.append(author_elem)
+
 
 class VitalSignsOrganizer(CDAElement):
     """
@@ -201,8 +220,8 @@ class VitalSignsOrganizer(CDAElement):
         ],
     }
 
-    # LOINC code for vital signs panel
-    VITAL_SIGNS_PANEL_CODE = "46680005"  # Vital signs (SNOMED CT) - alternate: 74728-7 (LOINC)
+    # LOINC code for vital signs panel (required for C-CDA R2.1)
+    VITAL_SIGNS_PANEL_CODE = "74728-7"  # Vital signs panel (LOINC)
 
     def __init__(
         self,
@@ -241,11 +260,11 @@ class VitalSignsOrganizer(CDAElement):
         # Add ID
         self._add_id(organizer_elem)
 
-        # Add code (vital signs panel)
+        # Add code (vital signs panel) - use LOINC code for C-CDA R2.1
         code_elem = etree.SubElement(organizer_elem, f"{{{NS}}}code")
         code_elem.set("code", self.VITAL_SIGNS_PANEL_CODE)
-        code_elem.set("codeSystem", "2.16.840.1.113883.6.96")
-        code_elem.set("codeSystemName", "SNOMED CT")
+        code_elem.set("codeSystem", "2.16.840.1.113883.6.1")  # LOINC
+        code_elem.set("codeSystemName", "LOINC")
         code_elem.set("displayName", "Vital signs")
 
         # Add status code
@@ -255,6 +274,10 @@ class VitalSignsOrganizer(CDAElement):
         # Add effective time
         time_elem = EffectiveTime(value=self.organizer.date).to_element()
         organizer_elem.append(time_elem)
+
+        # Add author participation (CONF:1198-31153)
+        # Vital Signs Organizer SHOULD contain zero or more [0..*] Author Participation
+        self._add_author_participation(organizer_elem)
 
         # Add component entries for each vital sign observation
         for vital_sign in self.organizer.vital_signs:
@@ -276,6 +299,20 @@ class VitalSignsOrganizer(CDAElement):
             extension=str(uuid.uuid4()),
         ).to_element()
         organizer_elem.append(id_elem)
+
+    def _add_author_participation(self, organizer_elem: etree._Element) -> None:
+        """
+        Add Author Participation to the organizer (CONF:1198-31153).
+
+        Per C-CDA spec:
+        - Vital Signs Organizer SHOULD contain zero or more [0..*] Author Participation
+
+        Args:
+            organizer_elem: organizer element
+        """
+        # Add default author participation using organizer date as authoring time
+        author_elem = create_default_author_participation(self.organizer.date)
+        organizer_elem.append(author_elem)
 
     def _add_component(self, organizer_elem: etree._Element, vital_sign: VitalSignProtocol) -> None:
         """
