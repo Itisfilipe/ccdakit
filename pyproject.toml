@@ -23,6 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Typing :: Typed",
@@ -34,6 +35,7 @@ dependencies = [
     "flask>=3.0.0",  # Web server for UI
     "jinja2>=3.1.0",  # Template engine
     "gunicorn>=21.2.0",  # Production WSGI server
+    "gevent>=23.9.0",  # Async worker for better concurrency
     "faker>=20.0.0",  # Test data generation for web UI
 ]
 

@@ -57,54 +57,25 @@ class SchematronErrorParser:
     """Parser for Schematron validation errors."""
 
     # Common template names for quick lookup with documentation links
+    # Comprehensive mapping of C-CDA R2.1 template IDs to documentation
     TEMPLATE_INFO = {
-        "2.16.840.1.113883.10.20.22.4.121": {
-            "name": "Caregiver Characteristics",
-            "doc_url": None,
-        },
-        "2.16.840.1.113883.10.20.22.4.4": {
-            "name": "Vital Signs Observation",
-            "doc_url": "https://docs.ccdakit.com/api/entries/#vital-signs",
-        },
-        "2.16.840.1.113883.10.20.22.4.2": {
-            "name": "Allergy Concern Act",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#allergies-section",
-        },
-        "2.16.840.1.113883.10.20.22.4.7": {
-            "name": "Allergy Observation",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#allergies-section",
-        },
-        "2.16.840.1.113883.10.20.22.4.3": {
-            "name": "Problem Concern Act",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#problems-section",
-        },
-        "2.16.840.1.113883.10.20.22.4.16": {
-            "name": "Medication Activity",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#medications-section",
-        },
-        "2.16.840.1.113883.10.20.22.4.119": {
-            "name": "Author Participation",
-            "doc_url": None,
-        },
+        # === SECTIONS ===
+        # Core Clinical Sections
         "2.16.840.1.113883.10.20.22.2.1": {
             "name": "Medications Section",
             "doc_url": "https://docs.ccdakit.com/api/sections/#medications-section",
         },
         "2.16.840.1.113883.10.20.22.2.5": {
-            "name": "Problem Section",
+            "name": "Problems Section",
             "doc_url": "https://docs.ccdakit.com/api/sections/#problems-section",
         },
         "2.16.840.1.113883.10.20.22.2.6": {
             "name": "Allergies Section",
             "doc_url": "https://docs.ccdakit.com/api/sections/#allergies-section",
         },
-        "2.16.840.1.113883.10.20.22.2.17": {
-            "name": "Social History Section",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#social-history-section",
-        },
-        "2.16.840.1.113883.10.20.22.2.3": {
-            "name": "Results Section",
-            "doc_url": "https://docs.ccdakit.com/api/sections/#results-section",
+        "2.16.840.1.113883.10.20.22.2.2": {
+            "name": "Immunizations Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#immunizations-section",
         },
         "2.16.840.1.113883.10.20.22.2.4": {
             "name": "Vital Signs Section",
@@ -114,17 +85,213 @@ class SchematronErrorParser:
             "name": "Procedures Section",
             "doc_url": "https://docs.ccdakit.com/api/sections/#procedures-section",
         },
+        "2.16.840.1.113883.10.20.22.2.3": {
+            "name": "Results Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#results-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.17": {
+            "name": "Social History Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#social-history-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.22": {
+            "name": "Encounters Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#encounters-section",
+        },
+        # Patient History & Assessments
+        "2.16.840.1.113883.10.20.22.2.15": {
+            "name": "Family History Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#family-history-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.20": {
+            "name": "Past Medical History Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#past-medical-history-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.56": {
+            "name": "Health Status Evaluations Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#health-status-evaluations-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.10": {
+            "name": "Physical Exam Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#physical-exam-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.14": {
+            "name": "Functional Status Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#functional-status-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.18": {
+            "name": "Mental Status Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#mental-status-section",
+        },
+        # Care Planning & Goals
+        "2.16.840.1.113883.10.20.22.2.60": {
+            "name": "Goals Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#goals-section",
+        },
         "2.16.840.1.113883.10.20.22.2.10": {
             "name": "Plan of Treatment Section",
             "doc_url": "https://docs.ccdakit.com/api/sections/#plan-of-treatment-section",
         },
-        "2.16.840.1.113883.10.20.22.4.44": {
+        "2.16.840.1.113883.10.20.22.2.9": {
+            "name": "Assessment and Plan Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#assessment-and-plan-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.58": {
+            "name": "Health Concerns Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#health-concerns-section",
+        },
+        "2.16.840.1.113883.10.20.21.2.3": {
+            "name": "Interventions Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#interventions-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.45": {
+            "name": "Instructions Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#instructions-section",
+        },
+        # Hospital & Admission
+        "2.16.840.1.113883.10.20.22.2.43": {
+            "name": "Admission Diagnosis Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#admission-diagnosis-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.44": {
+            "name": "Admission Medications Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#admission-medications-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.25": {
+            "name": "Anesthesia Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#anesthesia-section",
+        },
+        "1.3.6.1.4.1.19376.1.5.3.1.3.5": {
+            "name": "Hospital Course Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#hospital-course-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.12": {
+            "name": "Reason for Visit Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#reason-for-visit-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.13": {
+            "name": "Chief Complaint and Reason for Visit Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#chief-complaint-reason-for-visit-section",
+        },
+        # Discharge & Summary
+        "2.16.840.1.113883.10.20.22.2.24": {
+            "name": "Discharge Diagnosis Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#discharge-diagnosis-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.11": {
+            "name": "Discharge Medications Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#discharge-medications-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.16": {
+            "name": "Hospital Discharge Studies Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#hospital-discharge-studies-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.41": {
+            "name": "Hospital Discharge Instructions Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#hospital-discharge-instructions-section",
+        },
+        # Surgical & Operative
+        "2.16.840.1.113883.10.20.22.2.34": {
+            "name": "Preoperative Diagnosis Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#preoperative-diagnosis-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.35": {
+            "name": "Postoperative Diagnosis Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#postoperative-diagnosis-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.37": {
+            "name": "Complications Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#complications-section",
+        },
+        # Other Sections
+        "2.16.840.1.113883.10.20.22.2.21": {
+            "name": "Advance Directives Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#advance-directives-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.23": {
+            "name": "Medical Equipment Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#medical-equipment-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.38": {
+            "name": "Medications Administered Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#medications-administered-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.57": {
+            "name": "Nutrition Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#nutrition-section",
+        },
+        "2.16.840.1.113883.10.20.22.2.18": {
+            "name": "Payers Section",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#payers-section",
+        },
+        # === ENTRIES ===
+        # Allergy entries
+        "2.16.840.1.113883.10.20.22.4.30": {
+            "name": "Allergy Concern Act",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#allergies-section",
+        },
+        "2.16.840.1.113883.10.20.22.4.7": {
+            "name": "Allergy Observation",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#allergies-section",
+        },
+        # Problem entries
+        "2.16.840.1.113883.10.20.22.4.3": {
+            "name": "Problem Concern Act",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#problems-section",
+        },
+        "2.16.840.1.113883.10.20.22.4.4": {
+            "name": "Problem Observation",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#problems-section",
+        },
+        # Medication entries
+        "2.16.840.1.113883.10.20.22.4.16": {
+            "name": "Medication Activity",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#medications-section",
+        },
+        # Vital Signs entries
+        "2.16.840.1.113883.10.20.22.4.26": {
+            "name": "Vital Signs Organizer",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#vital-signs-section",
+        },
+        "2.16.840.1.113883.10.20.22.4.27": {
+            "name": "Vital Signs Observation",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#vital-signs-section",
+        },
+        # Procedure entries
+        "2.16.840.1.113883.10.20.22.4.12": {
+            "name": "Procedure Activity Act",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#procedures-section",
+        },
+        "2.16.840.1.113883.10.20.22.4.14": {
             "name": "Procedure Activity Procedure",
             "doc_url": "https://docs.ccdakit.com/api/sections/#procedures-section",
         },
-        "2.16.840.1.113883.10.20.22.4.13": {
+        # Result entries
+        "2.16.840.1.113883.10.20.22.4.1": {
+            "name": "Result Organizer",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#results-section",
+        },
+        "2.16.840.1.113883.10.20.22.4.2": {
             "name": "Result Observation",
             "doc_url": "https://docs.ccdakit.com/api/sections/#results-section",
+        },
+        # Immunization entries
+        "2.16.840.1.113883.10.20.22.4.52": {
+            "name": "Immunization Activity",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#immunizations-section",
+        },
+        # Encounter entries
+        "2.16.840.1.113883.10.20.22.4.49": {
+            "name": "Encounter Activity",
+            "doc_url": "https://docs.ccdakit.com/api/sections/#encounters-section",
+        },
+        # Common/Shared entries
+        "2.16.840.1.113883.10.20.22.4.119": {
+            "name": "Author Participation",
+            "doc_url": "https://docs.ccdakit.com/guides/hl7-guide/#author",
+        },
+        "2.16.840.1.113883.10.20.22.4.121": {
+            "name": "Caregiver Characteristics",
+            "doc_url": "https://docs.ccdakit.com/guides/hl7-guide/",
         },
     }
 

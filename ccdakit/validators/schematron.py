@@ -205,11 +205,11 @@ class SchematronValidator(BaseValidator):
             schematron_doc = etree.parse(str(self.schematron_path), parser)
 
             # Create Schematron validator
-            # store_schematron=True keeps the compiled schematron for inspection
-            # store_report=True keeps validation reports for error extraction
+            # store_schematron=False to reduce memory usage (saves ~10-20MB per validator)
+            # store_report=True needed to access validation_report for error extraction
             # For HL7 files, we need to be less strict about validation
             kwargs = {
-                "store_schematron": True,
+                "store_schematron": False,
                 "store_report": True,
                 # Skip schema validation to be more permissive with HL7 files
                 "validate_schema": False,

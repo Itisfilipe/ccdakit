@@ -2,14 +2,34 @@
 
 import tempfile
 from pathlib import Path
+from typing import Optional
 
 from flask import Flask, jsonify, render_template, request
 
 from ccdakit.cli.commands.compare import _compare_documents, _extract_comparison_data
-from ccdakit.cli.commands.validate import (
-    _run_schematron_validation,
-    _run_xsd_validation,
-)
+from ccdakit.validators.schematron import SchematronValidator
+from ccdakit.validators.xsd import XSDValidator
+
+# Global validator cache to avoid recreating validators for each request
+# This saves significant memory (62MB+ per validator) on the 512MB server
+_xsd_validator_cache: Optional[XSDValidator] = None
+_schematron_validator_cache: Optional[SchematronValidator] = None
+
+
+def get_xsd_validator() -> XSDValidator:
+    """Get or create cached XSD validator."""
+    global _xsd_validator_cache
+    if _xsd_validator_cache is None:
+        _xsd_validator_cache = XSDValidator()
+    return _xsd_validator_cache
+
+
+def get_schematron_validator() -> SchematronValidator:
+    """Get or create cached Schematron validator."""
+    global _schematron_validator_cache
+    if _schematron_validator_cache is None:
+        _schematron_validator_cache = SchematronValidator()
+    return _schematron_validator_cache
 
 
 def create_app() -> Flask:
@@ -92,7 +112,8 @@ def create_app() -> Flask:
 
             if run_xsd:
                 print("Running XSD validation...", file=sys.stderr)
-                xsd_result = _run_xsd_validation(tmp_path)
+                validator = get_xsd_validator()
+                xsd_result = validator.validate(tmp_path)
                 results["xsd"] = xsd_result.to_dict()
                 print(
                     f"XSD validation complete: valid={xsd_result.is_valid}, errors={len(xsd_result.errors)}",
@@ -101,7 +122,8 @@ def create_app() -> Flask:
 
             if run_schematron:
                 print("Running Schematron validation...", file=sys.stderr)
-                schematron_result = _run_schematron_validation(tmp_path)
+                validator = get_schematron_validator()
+                schematron_result = validator.validate(tmp_path)
                 results["schematron"] = schematron_result.to_dict()
                 print(
                     f"Schematron validation complete: valid={schematron_result.is_valid}, errors={len(schematron_result.errors)}",
@@ -153,15 +175,15 @@ def create_app() -> Flask:
         else:
             return jsonify({"error": "No file or content provided"}), 400
 
-        from ccdakit.cli.commands.convert import _transform_with_custom_stylesheet
+        from ccdakit.cli.commands.convert import _transform_with_official_stylesheet
 
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=".xml") as tmp:
                 tmp.write(content)
                 tmp_path = Path(tmp.name)
 
-            # Transform using XSLT
-            html_content = _transform_with_custom_stylesheet(tmp_path)
+            # Transform using official HL7 CDA stylesheet
+            html_content = _transform_with_official_stylesheet(tmp_path)
 
             # Clean up
             tmp_path.unlink(missing_ok=True)
