@@ -30,6 +30,8 @@ class MockProcedure:
         target_site=None,
         target_site_code=None,
         performer_name=None,
+        performer_address=None,
+        performer_telecom=None,
     ):
         self._name = name
         self._code = code
@@ -39,6 +41,8 @@ class MockProcedure:
         self._target_site = target_site
         self._target_site_code = target_site_code
         self._performer_name = performer_name
+        self._performer_address = performer_address
+        self._performer_telecom = performer_telecom
 
     @property
     def name(self):
@@ -71,6 +75,14 @@ class MockProcedure:
     @property
     def performer_name(self):
         return self._performer_name
+
+    @property
+    def performer_address(self):
+        return self._performer_address
+
+    @property
+    def performer_telecom(self):
+        return self._performer_telecom
 
 
 class TestProcedureActivity:
@@ -227,6 +239,15 @@ class TestProcedureActivity:
         assigned_entity = performer.find(f"{{{NS}}}assignedEntity")
         assert assigned_entity is not None
 
+        # Check for required addr and telecom (should have nullFlavor if not provided)
+        addr = assigned_entity.find(f"{{{NS}}}addr")
+        assert addr is not None
+        assert addr.get("nullFlavor") == "UNK"  # No address provided
+
+        telecom = assigned_entity.find(f"{{{NS}}}telecom")
+        assert telecom is not None
+        assert telecom.get("nullFlavor") == "UNK"  # No telecom provided
+
         assigned_person = assigned_entity.find(f"{{{NS}}}assignedPerson")
         assert assigned_person is not None
 
@@ -237,6 +258,40 @@ class TestProcedureActivity:
         family = name.find(f"{{{NS}}}family")
         assert given.text == "Jane"
         assert family.text == "Smith"
+
+    def test_procedure_activity_with_performer_full_details(self):
+        """Test ProcedureActivity with performer including address and telecom."""
+        procedure = MockProcedure(
+            performer_name="Dr. John Doe",
+            performer_address="123 Medical Center Dr, Boston, MA 02115",
+            performer_telecom="tel:+1-617-555-1234",
+        )
+        activity = ProcedureActivity(procedure)
+        elem = activity.to_element()
+
+        performer = elem.find(f"{{{NS}}}performer")
+        assert performer is not None
+
+        assigned_entity = performer.find(f"{{{NS}}}assignedEntity")
+        assert assigned_entity is not None
+
+        # Check address
+        addr = assigned_entity.find(f"{{{NS}}}addr")
+        assert addr is not None
+        street = addr.find(f"{{{NS}}}streetAddressLine")
+        assert street is not None
+        assert street.text == "123 Medical Center Dr"
+        city = addr.find(f"{{{NS}}}city")
+        assert city.text == "Boston"
+        state = addr.find(f"{{{NS}}}state")
+        assert state.text == "MA"
+        postal = addr.find(f"{{{NS}}}postalCode")
+        assert postal.text == "02115"
+
+        # Check telecom
+        telecom = assigned_entity.find(f"{{{NS}}}telecom")
+        assert telecom is not None
+        assert telecom.get("value") == "tel:+1-617-555-1234"
 
     def test_procedure_activity_to_string(self):
         """Test ProcedureActivity serialization."""

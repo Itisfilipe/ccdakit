@@ -2,7 +2,7 @@
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode
+from ccdakit.builders.common import Code, EffectiveTime, Identifier, StatusCode, create_default_author_participation
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.procedure import ProcedureProtocol
 
@@ -124,9 +124,9 @@ class ProcedureActivity(CDAElement):
         status_elem = StatusCode(status).to_element()
         proc.append(status_elem)
 
-        # Add effective time (procedure date) if available
-        if self.procedure.date:
-            self._add_effective_time(proc)
+        # Add effective time (procedure date) - SHOULD per CONF:1098-7332
+        # Always add effectiveTime to meet SHOULD requirement
+        self._add_effective_time(proc)
 
         # Add target site code if available
         if self.procedure.target_site_code or self.procedure.target_site:
@@ -135,6 +135,9 @@ class ProcedureActivity(CDAElement):
         # Add performer if available
         if self.procedure.performer_name:
             self._add_performer(proc)
+
+        # Add author participation (SHOULD per CONF:1098-31144)
+        self._add_author_participation(proc)
 
         return proc
 
@@ -179,11 +182,19 @@ class ProcedureActivity(CDAElement):
         """
         Add effectiveTime for when the procedure was performed.
 
+        Per spec (CONF:1098-7332):
+        - Procedure Activity SHOULD contain zero or one [0..1] effectiveTime
+
         Args:
             proc: procedure element
         """
-        time_elem = EffectiveTime(value=self.procedure.date).to_element()
-        proc.append(time_elem)
+        if self.procedure.date:
+            time_elem = EffectiveTime(value=self.procedure.date).to_element()
+            proc.append(time_elem)
+        else:
+            # No date specified - use nullFlavor to meet SHOULD requirement
+            time_elem = EffectiveTime(null_flavor="UNK").to_element()
+            proc.append(time_elem)
 
     def _add_target_site(self, proc: etree._Element) -> None:
         """
@@ -211,6 +222,11 @@ class ProcedureActivity(CDAElement):
         """
         Add performer element for the person who performed the procedure.
 
+        Per C-CDA spec, performer SHALL contain:
+        - At least one [1..*] id
+        - At least one [1..*] addr
+        - At least one [1..*] telecom
+
         Args:
             proc: procedure element
         """
@@ -221,10 +237,47 @@ class ProcedureActivity(CDAElement):
 
         assigned_entity = etree.SubElement(performer_elem, f"{{{NS}}}assignedEntity")
 
-        # Add ID
+        # Add ID (required)
         id_elem = etree.SubElement(assigned_entity, f"{{{NS}}}id")
         id_elem.set("root", "2.16.840.1.113883.19")
         id_elem.set("extension", str(uuid.uuid4()))
+
+        # Add address (required per spec)
+        # If performer_address is available, parse and add it; otherwise add nullFlavor
+        addr_elem = etree.SubElement(assigned_entity, f"{{{NS}}}addr")
+        if hasattr(self.procedure, "performer_address") and self.procedure.performer_address:
+            # Simple parsing: assume format "street, city, state zip"
+            addr_parts = self.procedure.performer_address.split(",")
+            if len(addr_parts) >= 1:
+                street = etree.SubElement(addr_elem, f"{{{NS}}}streetAddressLine")
+                street.text = addr_parts[0].strip()
+            if len(addr_parts) >= 2:
+                city = etree.SubElement(addr_elem, f"{{{NS}}}city")
+                city.text = addr_parts[1].strip()
+            if len(addr_parts) >= 3:
+                # Last part might be "state zip"
+                state_zip = addr_parts[2].strip().split(maxsplit=1)
+                state = etree.SubElement(addr_elem, f"{{{NS}}}state")
+                state.text = state_zip[0]
+                if len(state_zip) > 1:
+                    postal = etree.SubElement(addr_elem, f"{{{NS}}}postalCode")
+                    postal.text = state_zip[1]
+        else:
+            # No address provided - use nullFlavor
+            addr_elem.set("nullFlavor", "UNK")
+
+        # Add telecom (required per spec)
+        telecom_elem = etree.SubElement(assigned_entity, f"{{{NS}}}telecom")
+        if hasattr(self.procedure, "performer_telecom") and self.procedure.performer_telecom:
+            # Use provided telecom value (should already be in format like "tel:+1-555-555-1234")
+            telecom_value = self.procedure.performer_telecom
+            if not any(telecom_value.startswith(prefix) for prefix in ["tel:", "mailto:", "fax:", "http"]):
+                # Assume it's a phone number if no prefix
+                telecom_value = f"tel:{telecom_value}"
+            telecom_elem.set("value", telecom_value)
+        else:
+            # No telecom provided - use nullFlavor
+            telecom_elem.set("nullFlavor", "UNK")
 
         # Add assigned person with name
         assigned_person = etree.SubElement(assigned_entity, f"{{{NS}}}assignedPerson")
@@ -244,6 +297,21 @@ class ProcedureActivity(CDAElement):
             # Single name - use as family name
             family_elem = etree.SubElement(name_elem, f"{{{NS}}}family")
             family_elem.text = self.procedure.performer_name
+
+    def _add_author_participation(self, proc: etree._Element) -> None:
+        """
+        Add Author Participation to the procedure (CONF:1098-31144).
+
+        Per C-CDA spec:
+        - Procedure Activity SHOULD contain zero or more [0..*] Author Participation
+
+        Args:
+            proc: procedure element
+        """
+        # Add default author participation using procedure date as authoring time
+        author_time = self.procedure.date if self.procedure.date else None
+        author_elem = create_default_author_participation(author_time)
+        proc.append(author_elem)
 
     def _map_status(self, status: str) -> str:
         """

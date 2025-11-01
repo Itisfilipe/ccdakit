@@ -79,3 +79,23 @@ class ProcedureProtocol(Protocol):
         Optional. Example: 'Dr. Jane Smith'
         """
         ...
+
+    @property
+    def performer_address(self) -> Optional[str]:
+        """
+        Address of the performer.
+
+        Optional but required if performer_name is present per C-CDA spec.
+        Example: '123 Main St, City, State 12345'
+        """
+        ...
+
+    @property
+    def performer_telecom(self) -> Optional[str]:
+        """
+        Telecom contact for the performer.
+
+        Optional but required if performer_name is present per C-CDA spec.
+        Example: 'tel:+1-555-555-1234' or 'mailto:provider@example.com'
+        """
+        ...
