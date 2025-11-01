@@ -112,9 +112,10 @@ class ClinicalDocument(CDAElement):
         title_elem = etree.SubElement(doc, f"{{{self.NS}}}title")
         title_elem.text = self.title
 
-        # Add effectiveTime
+        # Add effectiveTime (with timezone for precision per CONF:81-10130)
+        from ccdakit.builders.common import EffectiveTime
         effective_time_elem = etree.SubElement(doc, f"{{{self.NS}}}effectiveTime")
-        effective_time_elem.set("value", self.effective_time.strftime("%Y%m%d%H%M%S"))
+        effective_time_elem.set("value", EffectiveTime._format_datetime(self.effective_time))
 
         # Add confidentialityCode
         conf_code = Code(code="N", system="2.16.840.1.113883.5.25")  # Confidentiality
@@ -137,6 +138,9 @@ class ClinicalDocument(CDAElement):
         # Add custodian
         custodian_builder = Custodian(self.custodian, version=self.version)
         doc.append(custodian_builder.to_element())
+
+        # Add legalAuthenticator (SHOULD per CONF:1198-5579)
+        self._add_legal_authenticator(doc)
 
         # Add component (body)
         if self.sections:
@@ -177,6 +181,67 @@ class ClinicalDocument(CDAElement):
         code_elem = doc_code.to_element()
         doc.append(code_elem)
 
+    def _add_legal_authenticator(self, doc: etree._Element) -> None:
+        """
+        Add legalAuthenticator to document.
+
+        Per C-CDA spec (CONF:1198-5579):
+        - ClinicalDocument SHOULD contain zero or one [0..1] legalAuthenticator
+
+        The legalAuthenticator is responsible for the accuracy of the document
+        content. Uses the document author as the legal authenticator.
+
+        Args:
+            doc: ClinicalDocument element
+        """
+        from ccdakit.builders.common import EffectiveTime, Code
+
+        # Create legalAuthenticator element
+        legal_auth = etree.SubElement(doc, f"{{{self.NS}}}legalAuthenticator")
+
+        # Add time (when authenticated - use effective time)
+        time = etree.SubElement(legal_auth, f"{{{self.NS}}}time")
+        time.set("value", EffectiveTime._format_datetime(self.effective_time))
+
+        # Add signatureCode (signed)
+        sig_code = etree.SubElement(legal_auth, f"{{{self.NS}}}signatureCode")
+        sig_code.set("code", "S")  # Signed
+
+        # Add assignedEntity
+        assigned_entity = etree.SubElement(legal_auth, f"{{{self.NS}}}assignedEntity")
+
+        # Add ID (use NPI if available)
+        id_elem = etree.SubElement(assigned_entity, f"{{{self.NS}}}id")
+        if self.author.npi:
+            id_elem.set("root", "2.16.840.1.113883.4.6")  # NPI OID
+            id_elem.set("extension", self.author.npi)
+        else:
+            id_elem.set("nullFlavor", "NI")
+
+        # Add addresses (SHALL per CONF:1198-5589)
+        from ccdakit.builders.demographics import Address
+        for addr_data in self.author.addresses:
+            addr_builder = Address(addr_data, use="work")
+            assigned_entity.append(addr_builder.to_element())
+
+        # Add telecoms (SHALL per CONF:1198-5595)
+        from ccdakit.builders.demographics import Telecom
+        for telecom_data in self.author.telecoms:
+            telecom_builder = Telecom(telecom_data)
+            assigned_entity.append(telecom_builder.to_element())
+
+        # Add assignedPerson with name
+        assigned_person = etree.SubElement(assigned_entity, f"{{{self.NS}}}assignedPerson")
+        name = etree.SubElement(assigned_person, f"{{{self.NS}}}name")
+
+        # Add given name
+        given = etree.SubElement(name, f"{{{self.NS}}}given")
+        given.text = self.author.first_name
+
+        # Add family name
+        family = etree.SubElement(name, f"{{{self.NS}}}family")
+        family.text = self.author.last_name
+
     def _add_body(self, doc: etree._Element) -> None:
         """
         Add structured body with sections to document.
@@ -207,10 +272,52 @@ class ClinicalDocument(CDAElement):
             Complete XML document with declaration
         """
         elem = self.to_element()
+
         xml_bytes = etree.tostring(
             elem,
             pretty_print=pretty,
             xml_declaration=True,
             encoding="UTF-8",
         )
+
+        # Clean whitespace from elements that should not have text content
+        # This is required for XSD validation - elements with complex type
+        # that only contain child elements cannot have text content (including whitespace)
+        if pretty:
+            xml_str = xml_bytes.decode("UTF-8")
+            xml_str = self._clean_element_only_whitespace(xml_str)
+            return xml_str
+
         return xml_bytes.decode("UTF-8")
+
+    def _clean_element_only_whitespace(self, xml_str: str) -> str:
+        """
+        Clean whitespace from elements that should not have text content.
+
+        This is required for XSD validation. Elements with complex types that only contain
+        child elements (like effectiveTime with IVL_TS type) cannot have text content,
+        including whitespace from pretty-printing.
+
+        Args:
+            xml_str: XML string to clean
+
+        Returns:
+            Cleaned XML string
+        """
+        import re
+
+        # Pattern to match effectiveTime elements with low/high children
+        # Captures: opening tag, content with low/high, closing tag
+        # Removes whitespace between opening tag and first child, and between children
+        pattern = r'(<effectiveTime[^>]*>)\s*(<low[^>]*/>)\s*(<high[^>]*/>)\s*(</effectiveTime>)'
+        xml_str = re.sub(pattern, r'\1\2\3\4', xml_str)
+
+        # Also handle name elements with given/family
+        pattern = r'(<name[^>]*>)\s*(<given[^>]*>.*?</given>)\s*(<family[^>]*>.*?</family>)\s*(</name>)'
+        xml_str = re.sub(pattern, r'\1\2\3\4', xml_str)
+
+        # Handle addr elements
+        pattern = r'(<addr[^>]*>)\s*(<streetAddressLine[^>]*>.*?</streetAddressLine>)\s*(<city[^>]*>.*?</city>)\s*(<state[^>]*>.*?</state>)\s*(<postalCode[^>]*>.*?</postalCode>)\s*(</addr>)'
+        xml_str = re.sub(pattern, r'\1\2\3\4\5\6', xml_str)
+
+        return xml_str
