@@ -115,6 +115,50 @@ def list_sections(
 
 
 @app.command()
+def list_entries(
+    category: Optional[str] = typer.Option(None, help="Filter by category (e.g., medications, problems, procedures)"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show module paths and template IDs"),
+) -> None:
+    """List all available C-CDA entry builders."""
+    from ccdakit.cli.commands.list_entries import list_entries_command
+
+    list_entries_command(category=category, verbose=verbose)
+
+
+@app.command()
+def list_code_systems(
+    search: Optional[str] = typer.Option(None, help="Search term to filter code systems"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show additional details"),
+) -> None:
+    """List all available code systems and value sets."""
+    from ccdakit.cli.commands.list_code_systems import list_code_systems_command
+
+    list_code_systems_command(search=search, verbose=verbose)
+
+
+@app.command()
+def list_templates(
+    template_name: Optional[str] = typer.Argument(None, help="Specific template to show"),
+    show_content: bool = typer.Option(False, "--show-content", help="Display the full template content"),
+) -> None:
+    """List all available document templates."""
+    from ccdakit.cli.commands.list_templates import list_templates_command
+
+    list_templates_command(template_name=template_name, show_content=show_content)
+
+
+@app.command()
+def list_protocols(
+    protocol_name: Optional[str] = typer.Argument(None, help="Specific protocol to show details for"),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Show field types and descriptions"),
+) -> None:
+    """List all available protocol definitions (data models)."""
+    from ccdakit.cli.commands.list_protocols import list_protocols_command
+
+    list_protocols_command(protocol_name=protocol_name, verbose=verbose)
+
+
+@app.command()
 def download_schemas(
     schema_type: str = typer.Option("all", help="Type of schemas: xsd, schematron, or all"),
     output_dir: Optional[Path] = typer.Option(None, help="Custom directory for schemas"),
