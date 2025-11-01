@@ -4,7 +4,7 @@ from typing import Sequence
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, StatusCode
+from ccdakit.builders.common import Code, StatusCode, create_default_author_participation
 from ccdakit.builders.entries.problem import ProblemObservation
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.problem import ProblemProtocol
@@ -30,12 +30,22 @@ class ProblemsSection(CDAElement):
                 extension="2015-08-01",
                 description="Problems Section (entries required) R2.1",
             ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.5",
+                extension="2015-08-01",
+                description="Problems Section (entries optional) R2.1",
+            ),
         ],
         CDAVersion.R2_0: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.5.1",
                 extension="2014-06-09",
                 description="Problems Section (entries required) R2.0",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.5",
+                extension="2014-06-09",
+                description="Problems Section (entries optional) R2.0",
             ),
         ],
     }
@@ -222,6 +232,11 @@ class ProblemsSection(CDAElement):
                 high_elem.set("value", problem.resolved_date.strftime("%Y%m%d"))
             else:
                 high_elem.set("nullFlavor", "UNK")
+
+        # Add author participation to Problem Concern Act (CONF:1198-31146)
+        # Problem Concern Act SHOULD contain zero or more [0..*] Author Participation
+        author_elem = create_default_author_participation(problem.onset_date)
+        act.append(author_elem)
 
         # Add entryRelationship with Problem Observation
         entry_rel = etree.SubElement(

@@ -35,12 +35,22 @@ class ResultsSection(CDAElement):
                 extension="2015-08-01",
                 description="Results Section (entries required) V3",
             ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.3",
+                extension="2015-08-01",
+                description="Results Section (entries optional) V3",
+            ),
         ],
         CDAVersion.R2_0: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.3.1",
                 extension="2015-08-01",
                 description="Results Section (entries required) V3",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.3",
+                extension="2015-08-01",
+                description="Results Section (entries optional) V3",
             ),
         ],
     }

@@ -27,8 +27,13 @@ class MedicationsSection(CDAElement):
         CDAVersion.R2_1: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.1.1",
-                extension="2015-08-01",
+                extension="2014-06-09",
                 description="Medications Section (entries required) R2.1",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.1",
+                extension="2014-06-09",
+                description="Medications Section (entries optional) R2.1",
             ),
         ],
         CDAVersion.R2_0: [
@@ -36,6 +41,11 @@ class MedicationsSection(CDAElement):
                 root="2.16.840.1.113883.10.20.22.2.1.1",
                 extension="2014-06-09",
                 description="Medications Section (entries required) R2.0",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.1",
+                extension="2014-06-09",
+                description="Medications Section (entries optional) R2.0",
             ),
         ],
     }

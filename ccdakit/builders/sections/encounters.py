@@ -30,12 +30,22 @@ class EncountersSection(CDAElement):
                 extension="2015-08-01",
                 description="Encounters Section (entries required) V3",
             ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.22",
+                extension="2015-08-01",
+                description="Encounters Section (entries optional) V3",
+            ),
         ],
         CDAVersion.R2_0: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.22.1",
                 extension="2014-06-09",
                 description="Encounters Section (entries required) V2",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.22",
+                extension="2014-06-09",
+                description="Encounters Section (entries optional) V2",
             ),
         ],
     }

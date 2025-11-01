@@ -4,7 +4,7 @@ from typing import Sequence
 
 from lxml import etree
 
-from ccdakit.builders.common import Code, StatusCode
+from ccdakit.builders.common import Code, StatusCode, create_default_author_participation
 from ccdakit.builders.entries.allergy import AllergyObservation
 from ccdakit.core.base import CDAElement, CDAVersion, TemplateConfig
 from ccdakit.protocols.allergy import AllergyProtocol
@@ -25,6 +25,13 @@ class AllergiesSection(CDAElement):
     # Template IDs for different versions
     TEMPLATES = {
         CDAVersion.R2_1: [
+            # Base template (entries optional) - required for discharge summary
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.6",
+                extension="2015-08-01",
+                description="Allergies and Intolerances Section (entries optional) R2.1",
+            ),
+            # Entries required template - more specific version
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.6.1",
                 extension="2015-08-01",
@@ -32,6 +39,13 @@ class AllergiesSection(CDAElement):
             ),
         ],
         CDAVersion.R2_0: [
+            # Base template (entries optional) - required for discharge summary
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.6",
+                extension="2015-08-01",
+                description="Allergies and Intolerances Section (entries optional) R2.0",
+            ),
+            # Entries required template - more specific version
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.6.1",
                 extension="2015-08-01",
@@ -222,6 +236,11 @@ class AllergiesSection(CDAElement):
             # If resolved, add high element (could use current date or specific resolved date)
             high_elem = etree.SubElement(time_elem, f"{{{NS}}}high")
             high_elem.set("nullFlavor", "UNK")
+
+        # Add author participation to Allergy Concern Act (CONF:1198-31145)
+        # Allergy Concern Act SHOULD contain zero or more [0..*] Author Participation
+        author_elem = create_default_author_participation(allergy.onset_date)
+        act.append(author_elem)
 
         # Add entryRelationship with Allergy Observation
         entry_rel = etree.SubElement(

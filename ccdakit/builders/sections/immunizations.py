@@ -30,12 +30,22 @@ class ImmunizationsSection(CDAElement):
                 extension="2015-08-01",
                 description="Immunizations Section (entries required) R2.1",
             ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.2",
+                extension="2015-08-01",
+                description="Immunizations Section (entries optional) R2.1",
+            ),
         ],
         CDAVersion.R2_0: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.2.1",
                 extension="2014-06-09",
                 description="Immunizations Section (entries required) R2.0",
+            ),
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.2",
+                extension="2014-06-09",
+                description="Immunizations Section (entries optional) R2.0",
             ),
         ],
     }
