@@ -130,6 +130,7 @@ def generate_command(
                 "allergies",
                 "procedures",
                 "vital-signs",
+                "discharge-medications",
             ]
         else:
             sections_to_include = []
@@ -216,9 +217,13 @@ def _generate_document(document_type: str, sections_to_include: list[str]):
 
     from ccdakit.builders.sections import (
         AllergiesSection,
+        DischargeDiagnosisSection,
+        DischargeMedicationsSection,
         EncountersSection,
+        HospitalCourseSection,
         ImmunizationsSection,
         MedicationsSection,
+        PlanOfTreatmentSection,
         ProblemsSection,
         ProceduresSection,
         ResultsSection,
@@ -257,12 +262,14 @@ def _generate_document(document_type: str, sections_to_include: list[str]):
             "first_name": "John",
             "last_name": "Provider",
             "time": datetime.now(),
+            "npi": "1234567893",  # Sample NPI for document author (CONF:1198-32882)
         }
     )
 
     custodian = Organization(
         {
             "name": "Example Healthcare Organization",
+            "npi": "1234567894",  # Sample NPI for custodian organization
             "telecom": "tel:+1-555-123-4567",
             "address": {
                 "street": "123 Healthcare Drive",
@@ -318,16 +325,51 @@ def _generate_document(document_type: str, sections_to_include: list[str]):
         encounters_section = EncountersSection(encounters=encounters)
         section_builders.append(encounters_section)
 
+    # Add required sections for discharge summary
+    if document_type == "discharge-summary":
+        # Hospital Course (required)
+        hospital_course = HospitalCourseSection(
+            narrative_text="Patient admitted with acute condition. Treatment was initiated and patient responded well. Patient's condition improved steadily throughout hospital stay. Discharged in stable condition with follow-up arranged."
+        )
+        section_builders.append(hospital_course)
+
+        # Discharge Diagnosis (required) - use first problem as discharge diagnosis
+        discharge_diagnoses = problems[:1] if problems else []
+        discharge_diagnosis = DischargeDiagnosisSection(diagnoses=discharge_diagnoses)
+        section_builders.append(discharge_diagnosis)
+
+        # Discharge Medications (required if medications are present)
+        if medications:
+            discharge_meds = DischargeMedicationsSection(medications=medications)
+            section_builders.append(discharge_meds)
+
+        # Plan of Treatment Section (required) - create an empty section for now
+        # In a real implementation, this would contain planned follow-up care
+        plan_of_treatment = PlanOfTreatmentSection()
+        section_builders.append(plan_of_treatment)
+
     # Get document class
     doc_class = DOCUMENT_TYPES[document_type]["class"]
 
-    # Create document
-    doc = doc_class(
-        patient=patient,
-        author=author,
-        custodian=custodian,
-        sections=section_builders,
-    )
+    # Create document with type-specific parameters
+    doc_kwargs = {
+        "patient": patient,
+        "author": author,
+        "custodian": custodian,
+        "sections": section_builders,
+    }
+
+    # Add discharge-specific parameters
+    if document_type == "discharge-summary":
+        from datetime import timedelta
+
+        # Use sample dates for admission and discharge
+        discharge_date = datetime.now()
+        admission_date = discharge_date - timedelta(days=5)  # 5 day hospital stay
+        doc_kwargs["admission_date"] = admission_date
+        doc_kwargs["discharge_date"] = discharge_date
+
+    doc = doc_class(**doc_kwargs)
 
     return doc
 
