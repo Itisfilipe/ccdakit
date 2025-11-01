@@ -39,14 +39,18 @@ class Author(CDAElement):
         author_elem = etree.Element(f"{{{NS}}}author")
 
         # Add time (when authored)
+        from ccdakit.builders.common import EffectiveTime
         time = etree.SubElement(author_elem, f"{{{NS}}}time")
-        time.set("value", self.author.time.strftime("%Y%m%d%H%M%S"))
+        time.set("value", EffectiveTime._format_datetime(self.author.time))
 
         # Create assignedAuthor
         assigned_author = etree.SubElement(author_elem, f"{{{NS}}}assignedAuthor")
 
-        # Add identifiers (NPI if available)
+        # Add identifiers (NPI if available) - SHOULD per CONF:1198-32882
         self._add_identifiers(assigned_author)
+
+        # Add code (SHOULD per CONF:1198-16787)
+        self._add_code(assigned_author)
 
         # Add addresses
         for addr_data in self.author.addresses:
@@ -72,16 +76,56 @@ class Author(CDAElement):
         """
         Add author identifiers to assignedAuthor.
 
+        Per C-CDA spec (CONF:1198-32882, CONF:1198-32884):
+        - assignedAuthor SHOULD contain zero or one [0..1] id
+        - This id SHALL contain exactly one [1..1] @root="2.16.840.1.113883.4.6" (NPI)
+
         Args:
             assigned_author: assignedAuthor element
         """
         if self.author.npi:
+            # Add NPI as first ID (SHOULD per CONF:1198-32882)
             npi_id = Identifier(root=self.NPI_OID, extension=self.author.npi)
             assigned_author.append(npi_id.to_element())
         else:
             # Add null flavor if no identifiers
             null_id = Identifier(root="", null_flavor="NI")
             assigned_author.append(null_id.to_element())
+
+    def _add_code(self, assigned_author: etree._Element) -> None:
+        """
+        Add code element to assignedAuthor.
+
+        Per C-CDA spec (CONF:1198-16787):
+        - assignedAuthor SHOULD contain zero or one [0..1] code
+
+        This represents the author's role or specialty.
+
+        Args:
+            assigned_author: assignedAuthor element
+        """
+        # Check if author has a specialty_code attribute
+        specialty_code = getattr(self.author, 'specialty_code', None)
+
+        if specialty_code:
+            # Use provided specialty code
+            from ccdakit.builders.common import Code
+            code_elem = Code(
+                code=specialty_code,
+                system="2.16.840.1.113883.6.101",  # NUCC Provider Taxonomy
+                display_name="Healthcare Provider",
+            ).to_element()
+        else:
+            # Default to general physician code
+            from ccdakit.builders.common import Code
+            code_elem = Code(
+                code="200000000X",  # Allopathic & Osteopathic Physicians
+                system="2.16.840.1.113883.6.101",  # NUCC Provider Taxonomy
+                display_name="Physician",
+            ).to_element()
+
+        code_elem.tag = f"{{{NS}}}code"
+        assigned_author.append(code_elem)
 
     def _add_name(self, assigned_person: etree._Element) -> None:
         """

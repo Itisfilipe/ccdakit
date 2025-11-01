@@ -73,16 +73,28 @@ class RecordTarget(CDAElement):
         # Add birth time
         self._add_birth_time(patient_elem)
 
-        # Add race (if available)
+        # Add maritalStatusCode (SHOULD per CONF:1198-5303)
+        # Note: Must come AFTER birthTime but BEFORE raceCode per XSD schema
+        self._add_marital_status(patient_elem)
+
+        # Add race (REQUIRED per CONF:1198-5322)
+        # Patient SHALL contain exactly one [1..1] raceCode
         if self.patient.race:
             race_code = Code(
                 code=self.patient.race,
                 system="2.16.840.1.113883.6.238",  # CDC Race and Ethnicity
                 display_name="Race",
             )
-            race_elem = race_code.to_element()
-            race_elem.tag = f"{{{NS}}}raceCode"
-            patient_elem.append(race_elem)
+        else:
+            # Default to "Unknown" race if not provided (2131-1 = Other Race)
+            race_code = Code(
+                code="2131-1",  # Other Race from Race Category value set
+                system="2.16.840.1.113883.6.238",  # CDC Race and Ethnicity
+                display_name="Other Race",
+            )
+        race_elem = race_code.to_element()
+        race_elem.tag = f"{{{NS}}}raceCode"
+        patient_elem.append(race_elem)
 
         # Add ethnicity (if available)
         if self.patient.ethnicity:
@@ -95,19 +107,14 @@ class RecordTarget(CDAElement):
             eth_elem.tag = f"{{{NS}}}ethnicGroupCode"
             patient_elem.append(eth_elem)
 
-        # Add language (if available)
+        # Add language (SHOULD per CONF:1198-5406)
+        # Note: Must come AFTER maritalStatusCode, raceCode, ethnicGroupCode per XSD schema
+        # Always add languageCommunication to meet SHOULD requirement
         if self.patient.language:
             self._add_language(patient_elem)
-
-        # Add marital status (if available)
-        if self.patient.marital_status:
-            marital_code = Code(
-                code=self.patient.marital_status,
-                system="2.16.840.1.113883.5.2",  # MaritalStatus
-            )
-            marital_elem = marital_code.to_element()
-            marital_elem.tag = f"{{{NS}}}maritalStatusCode"
-            patient_elem.append(marital_elem)
+        else:
+            # Add default language (English) to meet SHOULD requirement
+            self._add_default_language(patient_elem)
 
         return record_target
 
@@ -178,9 +185,44 @@ class RecordTarget(CDAElement):
         birth_time = etree.SubElement(patient_elem, f"{{{NS}}}birthTime")
         birth_time.set("value", self.patient.date_of_birth.strftime("%Y%m%d"))
 
+    def _add_marital_status(self, patient_elem: etree._Element) -> None:
+        """
+        Add marital status code to patient element.
+
+        Per C-CDA spec (CONF:1198-5303):
+        - Patient SHOULD contain zero or one [0..1] maritalStatusCode
+
+        Args:
+            patient_elem: patient element
+        """
+        # Check if patient has marital_status attribute
+        marital_status = getattr(self.patient, 'marital_status', None)
+
+        if marital_status:
+            # Use provided marital status
+            marital_code = Code(
+                code=marital_status,
+                system="2.16.840.1.113883.5.2",  # MaritalStatus
+                display_name="Marital Status",
+            )
+        else:
+            # Default to "Unknown" to meet SHOULD requirement
+            marital_code = Code(
+                code="UNK",
+                system="2.16.840.1.113883.5.2",  # MaritalStatus
+                display_name="Unknown",
+            )
+
+        marital_elem = marital_code.to_element()
+        marital_elem.tag = f"{{{NS}}}maritalStatusCode"
+        patient_elem.append(marital_elem)
+
     def _add_language(self, patient_elem: etree._Element) -> None:
         """
         Add language communication to patient element.
+
+        Per C-CDA spec (CONF:1198-9965):
+        - languageCommunication SHOULD contain zero or one [0..1] proficiencyLevelCode
 
         Args:
             patient_elem: patient element
@@ -190,6 +232,38 @@ class RecordTarget(CDAElement):
         lang_code = etree.SubElement(lang_comm, f"{{{NS}}}languageCode")
         lang_code.set("code", self.patient.language)
 
+        # Add proficiencyLevelCode (SHOULD per CONF:1198-9965)
+        # Default to "Good" proficiency level
+        proficiency = etree.SubElement(lang_comm, f"{{{NS}}}proficiencyLevelCode")
+        proficiency.set("code", "G")  # Good
+        proficiency.set("codeSystem", "2.16.840.1.113883.5.61")  # LanguageAbilityProficiency
+        proficiency.set("displayName", "Good")
+
         # Add preference indicator (true for primary language)
+        pref = etree.SubElement(lang_comm, f"{{{NS}}}preferenceInd")
+        pref.set("value", "true")
+
+    def _add_default_language(self, patient_elem: etree._Element) -> None:
+        """
+        Add default language communication (English) when patient language not specified.
+
+        Per C-CDA spec (CONF:1198-5406):
+        - patient SHOULD contain zero or more [0..*] languageCommunication
+
+        Args:
+            patient_elem: patient element
+        """
+        lang_comm = etree.SubElement(patient_elem, f"{{{NS}}}languageCommunication")
+
+        lang_code = etree.SubElement(lang_comm, f"{{{NS}}}languageCode")
+        lang_code.set("code", "en")  # English
+
+        # Add proficiencyLevelCode (SHOULD per CONF:1198-9965)
+        proficiency = etree.SubElement(lang_comm, f"{{{NS}}}proficiencyLevelCode")
+        proficiency.set("code", "G")  # Good
+        proficiency.set("codeSystem", "2.16.840.1.113883.5.61")  # LanguageAbilityProficiency
+        proficiency.set("displayName", "Good")
+
+        # Add preference indicator
         pref = etree.SubElement(lang_comm, f"{{{NS}}}preferenceInd")
         pref.set("value", "true")
