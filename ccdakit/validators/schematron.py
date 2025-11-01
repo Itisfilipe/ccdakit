@@ -51,6 +51,7 @@ class SchematronValidator(BaseValidator):
         schematron_path: Optional[Union[str, Path]] = None,
         phase: Optional[str] = None,
         auto_download: bool = True,
+        max_errors: Optional[int] = 100,
     ):
         """
         Initialize Schematron validator.
@@ -62,6 +63,8 @@ class SchematronValidator(BaseValidator):
                 If None, validates all phases.
             auto_download: Automatically download Schematron files if missing.
                 Default: True. Set to False to disable automatic downloads.
+            max_errors: Maximum number of errors to extract and store (default: 100).
+                Set to None for unlimited. Limiting errors reduces memory usage significantly.
 
         Raises:
             FileNotFoundError: If schematron file doesn't exist and auto_download=False
@@ -74,6 +77,7 @@ class SchematronValidator(BaseValidator):
         self.schematron_path = self._resolve_schematron_path(schematron_path)
         self.phase = phase
         self.auto_download = auto_download
+        self.max_errors = max_errors
 
         # Attempt auto-download if file doesn't exist
         if not self.schematron_path.exists() and self.auto_download:
@@ -259,7 +263,7 @@ class SchematronValidator(BaseValidator):
             if not is_valid:
                 # Extract validation messages from SVRL report
                 report = self.schematron.validation_report
-                issues = self._extract_issues_from_report(report)
+                issues, has_more = self._extract_issues_from_report(report)
 
                 # Categorize issues by level (schematron reports as failed-assert or successful-report)
                 for issue in issues:
@@ -269,6 +273,17 @@ class SchematronValidator(BaseValidator):
                         result.warnings.append(issue)
                     else:
                         result.infos.append(issue)
+
+                # Add info message if more errors exist
+                if has_more:
+                    result.infos.append(
+                        ValidationIssue(
+                            level=ValidationLevel.INFO,
+                            message=f"Additional validation errors exist beyond the limit of {self.max_errors}. "
+                            f"Use SchematronValidator(max_errors=None) to see all errors.",
+                            code="ERROR_LIMIT_REACHED",
+                        )
+                    )
 
         except etree.XMLSyntaxError as e:
             result.errors.append(
@@ -298,7 +313,7 @@ class SchematronValidator(BaseValidator):
 
         return result
 
-    def _extract_issues_from_report(self, report: etree._Element) -> List[ValidationIssue]:
+    def _extract_issues_from_report(self, report: etree._Element) -> tuple[List[ValidationIssue], bool]:
         """
         Extract validation issues from SVRL report.
 
@@ -306,23 +321,35 @@ class SchematronValidator(BaseValidator):
             report: SVRL validation report element
 
         Returns:
-            List of ValidationIssue objects
+            Tuple of (List of ValidationIssue objects, has_more flag indicating if limit was reached)
         """
         issues = []
+        has_more = False
 
         # Extract failed assertions (errors)
         for element in report.findall(f".//{{{self.SVRL_NS}}}failed-assert"):
+            # Check if we've reached the limit
+            if self.max_errors is not None and len(issues) >= self.max_errors:
+                has_more = True
+                break
+
             issue = self._parse_failed_assert(element)
             if issue:
                 issues.append(issue)
 
-        # Extract successful reports (warnings/info)
-        for element in report.findall(f".//{{{self.SVRL_NS}}}successful-report"):
-            issue = self._parse_successful_report(element)
-            if issue:
-                issues.append(issue)
+        # Extract successful reports (warnings/info) if we haven't hit the limit
+        if not has_more:
+            for element in report.findall(f".//{{{self.SVRL_NS}}}successful-report"):
+                # Check if we've reached the limit
+                if self.max_errors is not None and len(issues) >= self.max_errors:
+                    has_more = True
+                    break
 
-        return issues
+                issue = self._parse_successful_report(element)
+                if issue:
+                    issues.append(issue)
+
+        return issues, has_more
 
     def _parse_failed_assert(self, element: etree._Element) -> Optional[ValidationIssue]:
         """

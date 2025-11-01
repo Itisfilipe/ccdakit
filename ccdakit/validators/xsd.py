@@ -39,6 +39,7 @@ class XSDValidator(BaseValidator):
         self,
         schema_path: Optional[Union[str, Path]] = None,
         auto_download: bool = True,
+        max_errors: Optional[int] = 100,
     ):
         """
         Initialize XSD validator with schema file.
@@ -48,6 +49,8 @@ class XSDValidator(BaseValidator):
                 If None, uses default location and auto-downloads if needed.
             auto_download: Automatically download schemas if missing.
                 Default: True. Set to False to disable automatic downloads.
+            max_errors: Maximum number of errors to extract and store (default: 100).
+                Set to None for unlimited. Limiting errors reduces memory usage.
 
         Raises:
             FileNotFoundError: If schema file doesn't exist and auto_download=False
@@ -58,6 +61,7 @@ class XSDValidator(BaseValidator):
             from HL7's official repository. This may take a few moments.
         """
         self.auto_download = auto_download
+        self.max_errors = max_errors
         self.schema_path = self._resolve_schema_path(schema_path)
 
         # Attempt auto-download if file doesn't exist
@@ -182,10 +186,24 @@ class XSDValidator(BaseValidator):
             is_valid = self.schema.validate(doc_element)
 
             if not is_valid:
-                # Extract validation errors
+                # Extract validation errors (limited by max_errors)
+                error_count = 0
                 for error in self.schema.error_log:
+                    # Check if we've reached the limit
+                    if self.max_errors is not None and error_count >= self.max_errors:
+                        result.infos.append(
+                            ValidationIssue(
+                                level=ValidationLevel.INFO,
+                                message=f"Additional XSD validation errors exist beyond the limit of {self.max_errors}. "
+                                f"Use XSDValidator(max_errors=None) to see all errors.",
+                                code="ERROR_LIMIT_REACHED",
+                            )
+                        )
+                        break
+
                     issue = self._parse_schema_error(error)
                     result.errors.append(issue)
+                    error_count += 1
 
         except etree.XMLSyntaxError as e:
             # Document is not well-formed XML
