@@ -20,17 +20,87 @@
 
         <div class="form-group">
             <label>Sections to Include</label>
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="problems" checked> Problems</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="medications" checked> Medications</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="allergies" checked> Allergies</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="immunizations"> Immunizations</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="vital-signs"> Vital Signs</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="procedures"> Procedures</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="results"> Results</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="social-history"> Social History</label>
-                <label class="checkbox-label"><input type="checkbox" name="sections" value="encounters"> Encounters</label>
-            </div>
+
+            <details open>
+                <summary><strong>Core Clinical Sections</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="problems" checked> Problems</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="medications" checked> Medications</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="allergies" checked> Allergies</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="immunizations"> Immunizations</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="vital-signs"> Vital Signs</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="procedures"> Procedures</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="results"> Results</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="social-history"> Social History</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="encounters"> Encounters</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Patient History & Assessments</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="family-history"> Family History</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="past-medical-history"> Past Medical History</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="health-status-evaluations"> Health Status Evaluations</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="physical-exam"> Physical Exam</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="functional-status"> Functional Status</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="mental-status"> Mental Status</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Care Planning & Goals</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="goals"> Goals</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="plan-of-treatment"> Plan of Treatment</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="assessment-and-plan"> Assessment and Plan</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="health-concerns"> Health Concerns</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="interventions"> Interventions</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="instructions"> Instructions</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Hospital & Admission</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="admission-diagnosis"> Admission Diagnosis</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="admission-medications"> Admission Medications</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="anesthesia"> Anesthesia</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="hospital-course"> Hospital Course</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="reason-for-visit"> Reason for Visit</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="chief-complaint-reason-for-visit"> Chief Complaint & Reason for Visit</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Discharge & Summary</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="discharge-diagnosis"> Discharge Diagnosis</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="discharge-medications"> Discharge Medications</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="hospital-discharge-studies"> Hospital Discharge Studies</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="hospital-discharge-instructions"> Hospital Discharge Instructions</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Surgical & Operative</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="preoperative-diagnosis"> Preoperative Diagnosis</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="postoperative-diagnosis"> Postoperative Diagnosis</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="complications"> Complications</label>
+                </div>
+            </details>
+
+            <details>
+                <summary><strong>Other Sections</strong></summary>
+                <div class="checkbox-group">
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="advance-directives"> Advance Directives</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="medical-equipment"> Medical Equipment</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="medications-administered"> Medications Administered</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="nutrition"> Nutrition</label>
+                    <label class="checkbox-label"><input type="checkbox" name="sections" value="payers"> Payers</label>
+                </div>
+            </details>
         </div>
 
         <button type="submit" class="btn-primary">Generate Document</button>
