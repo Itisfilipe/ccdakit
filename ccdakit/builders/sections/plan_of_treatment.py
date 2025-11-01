@@ -60,7 +60,7 @@ class PlanOfTreatmentSection(CDAElement):
         CDAVersion.R2_1: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.10",
-                extension="2015-08-01",
+                extension="2014-06-09",
                 description="Plan of Treatment Section (V2) R2.1",
             ),
         ],

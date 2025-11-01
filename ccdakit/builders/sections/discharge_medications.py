@@ -32,17 +32,31 @@ class DischargeMedicationsSection(CDAElement):
     # Template IDs for different versions
     TEMPLATES = {
         CDAVersion.R2_1: [
+            # Entries required template - more specific version
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.11.1",
                 extension="2015-08-01",
                 description="Discharge Medications Section (entries required) (V3) R2.1",
             ),
+            # Base template (entries optional) - required parent template per CONF:1198-30525
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.11",
+                extension="2015-08-01",
+                description="Discharge Medications Section (entries optional) (V3) R2.1",
+            ),
         ],
         CDAVersion.R2_0: [
+            # Entries required template - more specific version
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.11.1",
                 extension="2015-08-01",
                 description="Discharge Medications Section (entries required) (V3) R2.0",
+            ),
+            # Base template (entries optional) - required parent template
+            TemplateConfig(
+                root="2.16.840.1.113883.10.20.22.2.11",
+                extension="2015-08-01",
+                description="Discharge Medications Section (entries optional) (V3) R2.0",
             ),
         ],
     }
