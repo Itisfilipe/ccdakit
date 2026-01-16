@@ -410,11 +410,11 @@ class TestDischargeSummary:
 
         low = effective_time.find(".//{urn:hl7-org:v3}low")
         assert low is not None
-        assert low.get("value") == "20240115080000"
+        assert low.get("value").startswith("20240115080000")
 
         high = effective_time.find(".//{urn:hl7-org:v3}high")
         assert high is not None
-        assert high.get("value") == "20240120143000"
+        assert high.get("value").startswith("20240120143000")
 
     def test_discharge_summary_uses_discharge_date_as_effective_time(
         self, patient, author, custodian

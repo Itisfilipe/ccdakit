@@ -2,6 +2,7 @@
 
 from datetime import date
 
+import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.past_medical_history import PastMedicalHistorySection
@@ -220,9 +221,12 @@ class TestPastMedicalHistorySection:
         assert tds[4].text == "Ongoing"
 
     def test_narrative_without_onset_date(self):
-        """Test narrative shows 'Unknown' for missing onset date."""
+        """Test narrative shows 'Unknown' for missing onset date.
+
+        Uses R2.0 since R2.1 requires onset_date per specification.
+        """
         problem = MockProblem(onset_date=None)
-        section = PastMedicalHistorySection([problem])
+        section = PastMedicalHistorySection([problem], version=CDAVersion.R2_0)
         elem = section.to_element()
 
         text = elem.find(f"{{{NS}}}text")
@@ -353,7 +357,7 @@ class TestPastMedicalHistorySection:
 
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.4.4"
-        assert template.get("extension") == "2015-08-01"
+        assert template.get("extension") == "2022-06-01"  # V4 template
 
     def test_observation_has_id(self):
         """Test observation has ID element."""
@@ -383,7 +387,11 @@ class TestPastMedicalHistorySection:
         assert code.get("displayName") == "Problem"
 
     def test_observation_has_status_code(self):
-        """Test observation has statusCode."""
+        """Test observation has statusCode.
+
+        Per C-CDA specification, Problem Observation statusCode is always "completed"
+        because it represents a completed observation of a problem (even if problem is active).
+        """
         problem = MockProblem(status="active")
         section = PastMedicalHistorySection([problem])
         elem = section.to_element()
@@ -393,7 +401,7 @@ class TestPastMedicalHistorySection:
         status = observation.find(f"{{{NS}}}statusCode")
 
         assert status is not None
-        assert status.get("code") == "active"
+        assert status.get("code") == "completed"
 
     def test_observation_has_effective_time(self):
         """Test observation includes effectiveTime."""
@@ -560,7 +568,11 @@ class TestPastMedicalHistorySection:
         assert high.get("value") == "20200325"
 
     def test_observation_inactive_status(self):
-        """Test observation with inactive status."""
+        """Test observation with inactive status.
+
+        Per C-CDA specification, Problem Observation statusCode is always "completed"
+        because it represents a completed observation of a problem (even if problem is inactive).
+        """
         problem = MockProblem(status="inactive")
         section = PastMedicalHistorySection([problem])
         elem = section.to_element()
@@ -570,7 +582,7 @@ class TestPastMedicalHistorySection:
         status = observation.find(f"{{{NS}}}statusCode")
 
         assert status is not None
-        assert status.get("code") == "inactive"
+        assert status.get("code") == "completed"
 
 
 class TestPastMedicalHistorySectionIntegration:
@@ -699,19 +711,40 @@ class TestPastMedicalHistorySectionIntegration:
         entry = elem.find(f"{{{NS}}}entry")
         observation = entry.find(f"{{{NS}}}observation")
         obs_template = observation.find(f"{{{NS}}}templateId")
-        assert obs_template.get("extension") == "2015-08-01"
+        assert obs_template.get("extension") == "2022-06-01"  # V4 template
 
     def test_section_with_null_flavor_handling(self):
-        """Test section handles missing data with proper null flavors."""
+        """Test that R2.1 raises ValueError when onset_date is None.
+
+        R2.1 requires onset_date per C-CDA specification.
+        """
         # Problem without onset date
         problem = MockProblem(onset_date=None)
         section = PastMedicalHistorySection([problem])
+
+        with pytest.raises(ValueError, match="onset date"):
+            section.to_element()
+
+    def test_section_with_null_flavor_handling_r20(self):
+        """Test section handles missing data in R2.0.
+
+        Uses R2.0 since R2.1 requires onset_date per specification.
+        When both onset_date and resolved_date are None, effectiveTime
+        is created but without low/high children.
+        """
+        # Problem without onset date
+        problem = MockProblem(onset_date=None)
+        section = PastMedicalHistorySection([problem], version=CDAVersion.R2_0)
         elem = section.to_element()
 
-        # The effectiveTime should not be present if both dates are None
+        # effectiveTime should be present but empty when no dates are provided
         entry = elem.find(f"{{{NS}}}entry")
         observation = entry.find(f"{{{NS}}}observation")
         eff_time = observation.find(f"{{{NS}}}effectiveTime")
 
-        # With no dates, effectiveTime should not be added
-        assert eff_time is None
+        # effectiveTime is created but without low/high when both dates are None
+        assert eff_time is not None
+        low = eff_time.find(f"{{{NS}}}low")
+        high = eff_time.find(f"{{{NS}}}high")
+        assert low is None
+        assert high is None

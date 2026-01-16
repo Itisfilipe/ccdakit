@@ -72,6 +72,13 @@ class GoalsSection(CDAElement):
         Returns:
             lxml Element for section
         """
+        # Validate SHALL requirements (CONF:1098-30719)
+        if not self.null_flavor and not self.goals:
+            raise ValueError(
+                "Goals Section SHALL contain at least one entry when nullFlavor is not present "
+                "(CONF:1098-30719). Either provide goals or set null_flavor='NI'."
+            )
+
         # Create section element
         section = etree.Element(f"{{{NS}}}section")
 

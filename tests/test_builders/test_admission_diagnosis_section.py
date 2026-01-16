@@ -2,6 +2,7 @@
 
 from datetime import date
 
+import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.admission_diagnosis import AdmissionDiagnosisSection
@@ -42,7 +43,7 @@ class MockAdmissionDiagnosis:
         code="57054005",
         code_system="SNOMED",
         admission_date=None,
-        diagnosis_date=None,
+        diagnosis_date=date(2024, 1, 15),
         persistent_id=None,
     ):
         self._name = name
@@ -302,24 +303,18 @@ class TestAdmissionDiagnosisSection:
         assert diagnosis_td.text == "2024-01-15"
 
     def test_narrative_without_dates(self):
-        """Test narrative handles missing dates."""
+        """Test that R2.1 raises ValueError when diagnosis_date is None.
+
+        R2.1 requires onset_date (diagnosis_date) per C-CDA specification.
+        """
         diagnosis = MockAdmissionDiagnosis(
             admission_date=None,
             diagnosis_date=None,
         )
         section = AdmissionDiagnosisSection([diagnosis])
-        elem = section.to_element()
 
-        text = elem.find(f"{{{NS}}}text")
-        tbody = text.find(f".//{{{NS}}}tbody")
-        tr = tbody.find(f"{{{NS}}}tr")
-        tds = tr.findall(f"{{{NS}}}td")
-
-        admission_td = tds[2]
-        diagnosis_td = tds[3]
-
-        assert admission_td.text == "Unknown"
-        assert diagnosis_td.text == "Unknown"
+        with pytest.raises(ValueError, match="onset date"):
+            section.to_element()
 
     def test_narrative_multiple_diagnoses(self):
         """Test narrative with multiple diagnoses."""
@@ -458,7 +453,7 @@ class TestAdmissionDiagnosisSection:
         template = observation.find(f"{{{NS}}}templateId")
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.4.4"
-        assert template.get("extension") == "2015-08-01"
+        assert template.get("extension") == "2022-06-01"  # V4 template
 
     def test_problem_observation_has_code(self):
         """Test Problem Observation has correct code (55607006 = Problem)."""
@@ -683,13 +678,13 @@ class TestAdmissionDiagnosisSection:
         assert second_id.get("root") == "2.16.840.1.113883.19"
 
     def test_minimal_section(self):
-        """Test minimal valid section with no optional data."""
+        """Test minimal valid section with required data only."""
         diagnosis = MockAdmissionDiagnosis(
             name="Chest pain",
             code="29857009",
             code_system="SNOMED",
             admission_date=None,
-            diagnosis_date=None,
+            diagnosis_date=date(2024, 1, 15),  # Required for R2.1
             persistent_id=None,
         )
         section = AdmissionDiagnosisSection([diagnosis])
@@ -703,10 +698,10 @@ class TestAdmissionDiagnosisSection:
         assert elem.find(f"{{{NS}}}text") is not None
         assert len(elem.findall(f"{{{NS}}}entry")) == 1
 
-        # Check narrative shows "Unknown" for missing dates
+        # Check narrative shows "Unknown" for missing admission_date
         text = elem.find(f"{{{NS}}}text")
         tbody = text.find(f".//{{{NS}}}tbody")
         tr = tbody.find(f"{{{NS}}}tr")
         tds = tr.findall(f"{{{NS}}}td")
-        assert tds[2].text == "Unknown"  # Admission date
-        assert tds[3].text == "Unknown"  # Diagnosis date
+        assert tds[2].text == "Unknown"  # Admission date (optional)
+        assert tds[3].text == "2024-01-15"  # Diagnosis date (required)

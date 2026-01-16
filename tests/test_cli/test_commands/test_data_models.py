@@ -238,8 +238,9 @@ class TestAuthor:
         assert author.last_name == "Smith"
         assert author.npi == "1234567890"
         assert author.time == now
-        assert author.addresses == []
-        assert author.telecoms == []
+        # Author provides default addresses/telecoms for C-CDA compliance
+        assert len(author.addresses) == 1
+        assert len(author.telecoms) == 1
         assert author.organization is None
 
     def test_author_with_minimal_data(self):
@@ -252,8 +253,9 @@ class TestAuthor:
         assert author.last_name == ""
         assert author.npi is None
         assert isinstance(author.time, datetime)
-        assert author.addresses == []
-        assert author.telecoms == []
+        # Author provides default addresses/telecoms for C-CDA compliance
+        assert len(author.addresses) == 1
+        assert len(author.telecoms) == 1
         assert author.organization is None
 
 

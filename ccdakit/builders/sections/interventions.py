@@ -17,6 +17,11 @@ from ccdakit.protocols.intervention import (
 # CDA namespace
 NS = "urn:hl7-org:v3"
 
+# TODO: Add support for Handoff Communication Participants entries (CONF:1198-32402)
+# Currently supports:
+# - Intervention Act (CONF:1198-30996) - completed interventions
+# - Planned Intervention Act (CONF:1198-32730) - planned interventions
+
 
 class InterventionsSection(CDAElement):
     """

@@ -2,6 +2,7 @@
 
 from datetime import date
 
+import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.discharge_diagnosis import DischargeDiagnosisSection
@@ -246,19 +247,15 @@ class TestDischargeDiagnosisSection:
         assert tds[3].text == "2024-10-15"
 
     def test_narrative_without_diagnosis_date(self):
-        """Test narrative shows 'Unknown' for missing diagnosis date."""
+        """Test that R2.1 raises ValueError when diagnosis_date is None.
+
+        R2.1 requires onset_date (diagnosis_date) per C-CDA specification.
+        """
         diagnosis = MockDischargeDiagnosis(diagnosis_date=None)
         section = DischargeDiagnosisSection([diagnosis])
-        elem = section.to_element()
 
-        text = elem.find(f"{{{NS}}}text")
-        table = text.find(f"{{{NS}}}table")
-        tbody = table.find(f"{{{NS}}}tbody")
-        tr = tbody.find(f"{{{NS}}}tr")
-        tds = tr.findall(f"{{{NS}}}td")
-
-        # Check diagnosis date shows "Unknown"
-        assert tds[3].text == "Unknown"
+        with pytest.raises(ValueError, match="onset date"):
+            section.to_element()
 
     def test_narrative_multiple_diagnoses(self):
         """Test narrative with multiple discharge diagnoses."""
@@ -405,7 +402,7 @@ class TestDischargeDiagnosisSection:
 
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.4.4"
-        assert template.get("extension") == "2015-08-01"
+        assert template.get("extension") == "2022-06-01"  # V4 template
 
     def test_problem_observation_has_code(self):
         """Test Problem Observation has problem type code."""
@@ -735,10 +732,15 @@ class TestDischargeDiagnosisSectionIntegration:
         entry_rel = act.find(f"{{{NS}}}entryRelationship")
         observation = entry_rel.find(f"{{{NS}}}observation")
         obs_template = observation.find(f"{{{NS}}}templateId")
-        assert obs_template.get("extension") == "2015-08-01"
+        assert obs_template.get("extension") == "2022-06-01"  # V4 template
 
     def test_section_with_mixed_statuses(self):
-        """Test section with active and resolved diagnoses."""
+        """Test section with active and resolved diagnoses.
+
+        Per C-CDA specification, Problem Observation statusCode is always "completed"
+        because it represents a completed observation of a problem (even if problem is active).
+        The problem's status is indicated in a separate observation, not the statusCode.
+        """
         diagnoses = [
             MockDischargeDiagnosis(
                 name="Acute Myocardial Infarction",
@@ -773,13 +775,14 @@ class TestDischargeDiagnosisSectionIntegration:
         assert tds2[2].text == "Resolved"
 
         # Verify observations have correct status codes
+        # Per C-CDA spec, Problem Observation statusCode is always "completed"
         entry = elem.find(f"{{{NS}}}entry")
         act = entry.find(f"{{{NS}}}act")
         entry_rels = act.findall(f"{{{NS}}}entryRelationship")
 
         obs1 = entry_rels[0].find(f"{{{NS}}}observation")
         status1 = obs1.find(f"{{{NS}}}statusCode")
-        assert status1.get("code") == "active"
+        assert status1.get("code") == "completed"
 
         obs2 = entry_rels[1].find(f"{{{NS}}}observation")
         status2 = obs2.find(f"{{{NS}}}statusCode")

@@ -2,6 +2,7 @@
 
 from datetime import date
 
+import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.complications import ComplicationsSection
@@ -450,23 +451,19 @@ class TestComplicationsSection:
             assert tds[2].text == expected_severity
 
     def test_complications_section_unknown_onset_date(self):
-        """Test complication with unknown onset date."""
+        """Test that R2.1 raises ValueError when onset_date is None.
+
+        R2.1 requires onset_date per C-CDA specification.
+        """
         complication = MockComplication(
             name="Unknown onset complication",
             code="123456789",
             onset_date=None,
         )
         section = ComplicationsSection([complication])
-        elem = section.to_element()
 
-        text = elem.find(f"{{{NS}}}text")
-        table = text.find(f"{{{NS}}}table")
-        tbody = table.find(f"{{{NS}}}tbody")
-        tr = tbody.find(f"{{{NS}}}tr")
-        tds = tr.findall(f"{{{NS}}}td")
-
-        # Check onset date shows "Unknown"
-        assert tds[4].text == "Unknown"
+        with pytest.raises(ValueError, match="onset date"):
+            section.to_element()
 
     def test_complications_section_with_persistent_id(self):
         """Test complication with persistent identifier."""

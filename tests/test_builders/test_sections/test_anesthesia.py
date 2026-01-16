@@ -30,15 +30,21 @@ class MockMedication:
         start_date=None,
         end_date=None,
         instructions=None,
+        frequency=None,
+        code_system=None,
+        authors=None,
     ):
         self._name = name
         self._code = code
         self._status = status
         self._route = route
         self._dosage = dosage
-        self._start_date = start_date
+        self._start_date = start_date or date.today()
         self._end_date = end_date
         self._instructions = instructions
+        self._frequency = frequency
+        self._code_system = code_system
+        self._authors = authors
 
     @property
     def name(self):
@@ -71,6 +77,18 @@ class MockMedication:
     @property
     def instructions(self):
         return self._instructions
+
+    @property
+    def frequency(self):
+        return self._frequency
+
+    @property
+    def code_system(self):
+        return self._code_system
+
+    @property
+    def authors(self):
+        return self._authors
 
 
 class MockAnesthesia:

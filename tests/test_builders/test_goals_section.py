@@ -349,8 +349,8 @@ class TestGoalsSection:
         assert tds[1].text == "On Hold"
 
     def test_goals_section_empty_narrative(self):
-        """Test narrative when no goals."""
-        section = GoalsSection([])
+        """Test narrative when no goals (with null_flavor)."""
+        section = GoalsSection([], null_flavor="NI")
         elem = section.to_element()
 
         text = elem.find(f"{{{NS}}}text")
@@ -364,6 +364,17 @@ class TestGoalsSection:
         # Should not have table
         table = text.find(f"{{{NS}}}table")
         assert table is None
+
+    def test_goals_section_empty_without_null_flavor_raises_error(self):
+        """Test that empty goals without null_flavor raises ValueError (CONF:1098-30719)."""
+        import pytest
+
+        with pytest.raises(ValueError) as exc_info:
+            section = GoalsSection([])
+            section.to_element()
+
+        assert "CONF:1098-30719" in str(exc_info.value)
+        assert "SHALL contain at least one entry" in str(exc_info.value)
 
     def test_goals_section_has_entries(self):
         """Test GoalsSection includes entry elements."""
@@ -735,8 +746,8 @@ class TestGoalsSectionIntegration:
         assert code.get("displayName") == "History of Social function"
 
     def test_empty_goals_section(self):
-        """Test GoalsSection with no goals."""
-        section = GoalsSection([])
+        """Test GoalsSection with no goals (using null_flavor per CONF:1098-30719)."""
+        section = GoalsSection([], null_flavor="NI")
         elem = section.to_element()
 
         # Should still have required elements
@@ -754,6 +765,9 @@ class TestGoalsSectionIntegration:
         paragraph = text.find(f"{{{NS}}}paragraph")
         assert paragraph is not None
         assert paragraph.text == "No goals documented"
+
+        # Should have nullFlavor attribute
+        assert elem.get("nullFlavor") == "NI"
 
     def test_goals_section_with_snomed_code(self):
         """Test goal with SNOMED CT code."""

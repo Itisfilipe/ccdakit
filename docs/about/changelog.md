@@ -138,8 +138,8 @@ All notable changes to ccdakit will be documented here.
 - Template system
 
 **Development**:
-- 2,222 comprehensive tests
-- 95% code coverage
+- 3,825 comprehensive tests
+- 28% code coverage
 - Ruff for linting
 - Pyright for type checking
 - pytest with parallel execution

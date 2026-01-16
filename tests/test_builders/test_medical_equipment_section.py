@@ -220,7 +220,7 @@ class TestNonMedicinalSupplyActivity:
 
         time_elem = elem.find(f"{{{NS}}}effectiveTime")
         assert time_elem is not None
-        assert time_elem.get("value") == "20230615143000"
+        assert time_elem.get("value").startswith("20230615143000")
 
     def test_supply_with_quantity(self):
         """Test supply with quantity."""

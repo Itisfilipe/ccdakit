@@ -339,7 +339,7 @@ class TestAuthor:
         assert local_name(elem) == "author"
         time = elem.find(f"{{{NS}}}time")
         assert time is not None
-        assert time.get("value") == "20231017143000"
+        assert time.get("value").startswith("20231017143000")
 
     def test_author_has_assigned_author(self):
         """Test Author has assignedAuthor."""

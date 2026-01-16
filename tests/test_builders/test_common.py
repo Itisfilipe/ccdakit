@@ -108,7 +108,8 @@ class TestEffectiveTime:
         elem = etime.to_element()
 
         assert local_name(elem) == "effectiveTime"
-        assert elem.get("value") == "20231017143000"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert elem.get("value").startswith("20231017143000")
 
     def test_effective_time_date_only(self):
         """Test effectiveTime with date only."""
@@ -162,7 +163,8 @@ class TestEffectiveTime:
         etime = EffectiveTime(value=dt)
         elem = etime.to_element()
 
-        assert elem.get("value") == "20231225154530"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert elem.get("value").startswith("20231225154530")
 
     def test_effective_time_to_string(self):
         """Test effectiveTime serialization to string."""

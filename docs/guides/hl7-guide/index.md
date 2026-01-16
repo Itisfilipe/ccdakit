@@ -96,7 +96,7 @@ Quick reference materials:
 Before diving into C-CDA implementation:
 
 **Required Knowledge:**
-- Python 3.9 or higher
+- Python 3.8 or higher
 - Basic healthcare data concepts
 - Understanding of clinical workflows
 

@@ -7,7 +7,7 @@ Comprehensive guides for using ccdakit effectively.
 ### Core Concepts
 
 - **[HL7/C-CDA Comprehensive Guide](hl7-guide/index.md)** - Complete HL7 and C-CDA primer with detailed section documentation
-- **[Working with Sections](sections.md)** - All 29 clinical sections
+- **[Working with Sections](sections.md)** - All 39 clinical sections
 - **[Protocols](protocols.md)** - Protocol reference and adapting your data
 - **[Configuration](configuration.md)** - Global and document configuration
 - **[Validation](validation.md)** - XSD and Schematron validation

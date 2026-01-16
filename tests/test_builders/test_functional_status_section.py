@@ -634,7 +634,7 @@ class TestFunctionalStatusObservation:
 
         effective_time = elem.find(f"{{{NS}}}effectiveTime")
         assert effective_time is not None
-        assert effective_time.get("value") == "20231015103000"
+        assert effective_time.get("value").startswith("20231015103000")
 
     def test_observation_has_value(self):
         """Test observation has value element (CONF:1098-13932)."""

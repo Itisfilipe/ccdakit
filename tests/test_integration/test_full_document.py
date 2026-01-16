@@ -499,9 +499,9 @@ class TestCompleteCCDADocument:
         doc_id = elem.find(f"{{{NS}}}id")
         assert doc_id.get("extension") == "CUSTOM-ID-12345"
 
-        # Verify custom effective time
+        # Verify custom effective time (includes timezone per C-CDA spec CONF:81-10130)
         eff_time = elem.find(f"{{{NS}}}effectiveTime")
-        assert eff_time.get("value") == "20231225154500"
+        assert eff_time.get("value").startswith("20231225154500")
 
 
 class TestProblemsIntegration:

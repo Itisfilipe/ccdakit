@@ -122,7 +122,7 @@ class TestMedicationsSection:
         assert code is not None
         assert code.get("code") == "10160-0"
         assert code.get("codeSystem") == "2.16.840.1.113883.6.1"  # LOINC
-        assert code.get("displayName") == "History of Medication use Narrative"
+        assert code.get("displayName") == "History of medication use"
 
     def test_medications_section_has_title(self):
         """Test MedicationsSection includes title."""

@@ -450,7 +450,8 @@ class TestPlanOfTreatmentSection:
         template = elem.find(f"{{{NS}}}templateId")
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.2.10"
-        assert template.get("extension") == "2015-08-01"
+        # Per C-CDA 2.1 spec (CONF:1098-32501), extension is 2014-06-09
+        assert template.get("extension") == "2014-06-09"
 
     def test_plan_of_treatment_section_has_template_id_r20(self):
         """Test PlanOfTreatmentSection includes R2.0 template ID."""

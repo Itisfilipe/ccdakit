@@ -407,7 +407,8 @@ class TestLongitudinalCareWoundObservation:
 
         effective_time = elem.find(f"{{{NS}}}effectiveTime")
         assert effective_time is not None
-        assert effective_time.get("value") == "20231015143000"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert effective_time.get("value").startswith("20231015143000")
 
     def test_wound_observation_has_value(self):
         """Test wound observation has value with wound type (CONF:1198-29485)."""

@@ -541,7 +541,8 @@ class TestResultOrganizer:
 
         time_elem = elem.find(f"{{{NS}}}effectiveTime")
         assert time_elem is not None
-        assert time_elem.get("value") == "20231015143000"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert time_elem.get("value").startswith("20231015143000")
 
     def test_result_organizer_with_results(self):
         """Test ResultOrganizer with multiple result observations."""

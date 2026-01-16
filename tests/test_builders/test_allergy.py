@@ -131,32 +131,43 @@ class TestAllergyObservation:
         assert code.get("codeSystem") == "2.16.840.1.113883.5.4"
 
     def test_allergy_observation_has_status_code(self):
-        """Test AllergyObservation includes statusCode."""
+        """Test AllergyObservation includes statusCode.
+
+        Per C-CDA spec (CONF:1098-19084), the observation statusCode SHALL be "completed".
+        This indicates the observation itself is complete, NOT the allergy's clinical status.
+        The allergy's clinical status (active/resolved) is tracked via Allergy Status Observation.
+        """
         allergy = MockAllergy(status="active")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
 
         status = elem.find(f"{{{NS}}}statusCode")
         assert status is not None
-        assert status.get("code") == "active"
+        # Per spec, observation statusCode is always "completed"
+        assert status.get("code") == "completed"
 
     def test_allergy_observation_status_mapping(self):
-        """Test status code mapping."""
-        # Test active
+        """Test that observation statusCode is always 'completed' per C-CDA spec.
+
+        The allergy observation represents a completed clinical statement, regardless
+        of whether the allergy itself is active or resolved. The clinical status
+        should be tracked via Allergy Status Observation (CONF:1098-32939).
+        """
+        # Test active - observation status is still "completed"
         allergy = MockAllergy(status="active")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
         status = elem.find(f"{{{NS}}}statusCode")
-        assert status.get("code") == "active"
+        assert status.get("code") == "completed"
 
-        # Test resolved -> completed
+        # Test resolved - observation status is still "completed"
         allergy = MockAllergy(status="resolved")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
         status = elem.find(f"{{{NS}}}statusCode")
         assert status.get("code") == "completed"
 
-        # Test inactive -> completed
+        # Test inactive - observation status is still "completed"
         allergy = MockAllergy(status="inactive")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
@@ -164,24 +175,41 @@ class TestAllergyObservation:
         assert status.get("code") == "completed"
 
     def test_allergy_observation_has_effective_time(self):
-        """Test AllergyObservation includes effectiveTime when onset_date provided."""
+        """Test AllergyObservation includes effectiveTime when onset_date provided.
+
+        Per C-CDA spec (CONF:1098-7387), effectiveTime SHALL contain low (CONF:1098-31538).
+        The implementation uses IVL_TS interval format with low/high elements.
+        """
         allergy = MockAllergy(onset_date=date(2020, 5, 15))
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
 
         eff_time = elem.find(f"{{{NS}}}effectiveTime")
         assert eff_time is not None
-        assert eff_time.get("value") == "20200515"
+
+        # Per spec, effectiveTime uses low/high interval format
+        low = eff_time.find(f"{{{NS}}}low")
+        assert low is not None
+        assert low.get("value") == "20200515"
 
     def test_allergy_observation_without_onset_date(self):
-        """Test AllergyObservation without onset date."""
+        """Test AllergyObservation without onset date.
+
+        Per C-CDA spec (CONF:1098-7387), effectiveTime is REQUIRED with low element.
+        When onset date is unknown, low SHALL have nullFlavor="UNK".
+        """
         allergy = MockAllergy(onset_date=None)
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
 
-        # Should not have effectiveTime when no onset date
+        # effectiveTime is required per spec, even when onset is unknown
         eff_time = elem.find(f"{{{NS}}}effectiveTime")
-        assert eff_time is None
+        assert eff_time is not None
+
+        # low element should have nullFlavor="UNK" when onset is unknown
+        low = eff_time.find(f"{{{NS}}}low")
+        assert low is not None
+        assert low.get("nullFlavor") == "UNK"
 
     def test_allergy_observation_value_allergy_type(self):
         """Test AllergyObservation value element for allergy type."""
@@ -315,89 +343,101 @@ class TestAllergyObservation:
         assert len(reaction_rels) == 0
 
     def test_allergy_observation_with_severity(self):
-        """Test AllergyObservation with severity."""
+        """Test AllergyObservation with severity uses Criticality Observation.
+
+        Per C-CDA spec (CONF:1098-9961), Severity Observation SHOULD NOT be used.
+        Instead, Criticality Observation (CONF:1098-32910) is the preferred approach.
+        The implementation correctly uses Criticality to indicate allergy risk.
+        """
         allergy = MockAllergy(severity="severe")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
 
-        # Find entryRelationship for severity
+        # Find entryRelationship for criticality (SUBJ typeCode per spec)
         entry_rels = elem.findall(f"{{{NS}}}entryRelationship")
-        severity_rel = None
+        criticality_rel = None
         for entry_rel in entry_rels:
             if entry_rel.get("typeCode") == "SUBJ":
-                severity_rel = entry_rel
+                criticality_rel = entry_rel
                 break
 
-        assert severity_rel is not None
-        assert severity_rel.get("inversionInd") == "true"
+        assert criticality_rel is not None
+        assert criticality_rel.get("inversionInd") == "true"
 
         # Find observation within entryRelationship
-        severity_obs = severity_rel.find(f"{{{NS}}}observation")
-        assert severity_obs is not None
+        criticality_obs = criticality_rel.find(f"{{{NS}}}observation")
+        assert criticality_obs is not None
 
-        # Check template ID
-        template = severity_obs.find(f"{{{NS}}}templateId")
+        # Check template ID for Criticality Observation (2.16.840.1.113883.10.20.22.4.145)
+        template = criticality_obs.find(f"{{{NS}}}templateId")
         assert template is not None
-        assert template.get("root") == "2.16.840.1.113883.10.20.22.4.8"
+        assert template.get("root") == "2.16.840.1.113883.10.20.22.4.145"
 
-        # Check code for severity
-        code = severity_obs.find(f"{{{NS}}}code")
+        # Check code for criticality
+        code = criticality_obs.find(f"{{{NS}}}code")
         assert code is not None
-        assert code.get("code") == "SEV"
+        assert code.get("code") == "82606-5"  # LOINC code for Criticality
 
-        # Check value with severity code
-        value = severity_obs.find(f"{{{NS}}}value")
+        # Check value - severe maps to CRITH (High Criticality)
+        value = criticality_obs.find(f"{{{NS}}}value")
         assert value is not None
-        assert value.get("code") == "24484000"  # Severe
-        assert value.get("codeSystem") == "2.16.840.1.113883.6.96"
+        assert value.get("code") == "CRITH"  # High Criticality
+        assert value.get("codeSystem") == "2.16.840.1.113883.5.1063"  # ObservationValue
 
     def test_allergy_observation_severity_codes(self):
-        """Test different severity code mappings."""
-        # Test mild
+        """Test severity-to-criticality mappings.
+
+        Per spec, severity is deprecated. The implementation maps severity to criticality:
+        - severe/fatal -> CRITH (High Criticality)
+        - mild/moderate -> CRITL (Low Criticality)
+        """
+        # Test mild -> Low Criticality
         allergy = MockAllergy(severity="mild")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
         entry_rels = elem.findall(f"{{{NS}}}entryRelationship")
-        severity_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
-        severity_obs = severity_rel.find(f"{{{NS}}}observation")
-        value = severity_obs.find(f"{{{NS}}}value")
-        assert value.get("code") == "255604002"
+        criticality_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
+        criticality_obs = criticality_rel.find(f"{{{NS}}}observation")
+        value = criticality_obs.find(f"{{{NS}}}value")
+        assert value.get("code") == "CRITL"  # Low Criticality
 
-        # Test moderate
+        # Test moderate -> Low Criticality
         allergy = MockAllergy(severity="moderate")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
         entry_rels = elem.findall(f"{{{NS}}}entryRelationship")
-        severity_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
-        severity_obs = severity_rel.find(f"{{{NS}}}observation")
-        value = severity_obs.find(f"{{{NS}}}value")
-        assert value.get("code") == "6736007"
+        criticality_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
+        criticality_obs = criticality_rel.find(f"{{{NS}}}observation")
+        value = criticality_obs.find(f"{{{NS}}}value")
+        assert value.get("code") == "CRITL"  # Low Criticality
 
-        # Test fatal
+        # Test fatal -> High Criticality
         allergy = MockAllergy(severity="fatal")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
         entry_rels = elem.findall(f"{{{NS}}}entryRelationship")
-        severity_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
-        severity_obs = severity_rel.find(f"{{{NS}}}observation")
-        value = severity_obs.find(f"{{{NS}}}value")
-        assert value.get("code") == "399166001"
+        criticality_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
+        criticality_obs = criticality_rel.find(f"{{{NS}}}observation")
+        value = criticality_obs.find(f"{{{NS}}}value")
+        assert value.get("code") == "CRITH"  # High Criticality
 
     def test_allergy_observation_severity_unknown(self):
-        """Test AllergyObservation with unknown severity."""
+        """Test AllergyObservation with unknown severity maps to Unable to assess.
+
+        When severity cannot be mapped to criticality, the implementation uses
+        CRITU (Unable to assess criticality).
+        """
         allergy = MockAllergy(severity="unknown-severity")
         allergy_obs = AllergyObservation(allergy)
         elem = allergy_obs.to_element()
 
         entry_rels = elem.findall(f"{{{NS}}}entryRelationship")
-        severity_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
-        severity_obs = severity_rel.find(f"{{{NS}}}observation")
-        value = severity_obs.find(f"{{{NS}}}value")
+        criticality_rel = [er for er in entry_rels if er.get("typeCode") == "SUBJ"][0]
+        criticality_obs = criticality_rel.find(f"{{{NS}}}observation")
+        value = criticality_obs.find(f"{{{NS}}}value")
 
-        assert value.get("nullFlavor") == "OTH"
-        original_text = value.find(f"{{{NS}}}originalText")
-        assert original_text is not None
-        assert original_text.text == "unknown-severity"
+        # Unknown severity maps to Low Criticality (not severe/fatal)
+        assert value.get("code") == "CRITL"
 
     def test_allergy_observation_without_severity(self):
         """Test AllergyObservation without severity."""

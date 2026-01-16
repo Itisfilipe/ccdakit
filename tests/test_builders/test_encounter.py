@@ -159,7 +159,7 @@ class TestEncounterActivity:
 
         time = elem.find(f"{{{NS}}}effectiveTime")
         assert time is not None
-        assert time.get("value") == "20230515143000"
+        assert time.get("value").startswith("20230515143000")
 
     def test_encounter_activity_with_time_interval(self):
         """Test EncounterActivity with start and end dates (interval)."""
@@ -362,7 +362,7 @@ class TestEncounterActivityIntegration:
         assert code.get("code") == "99245"
 
         time = elem.find(f"{{{NS}}}effectiveTime")
-        assert time.get("value") == "20230520100000"
+        assert time.get("value").startswith("20230520100000")
 
         # Should have performer and location but no discharge
         assert elem.find(f"{{{NS}}}performer") is not None

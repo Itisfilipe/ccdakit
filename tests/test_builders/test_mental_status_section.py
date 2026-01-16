@@ -241,7 +241,8 @@ class TestMentalStatusObservation:
 
         eff_time = elem.find(f"{{{NS}}}effectiveTime")
         assert eff_time is not None
-        assert eff_time.get("value") == "20230615143000"
+        # Use startswith to accommodate timezone suffix per C-CDA spec CONF:81-10130
+        assert eff_time.get("value").startswith("20230615143000")
 
     def test_observation_value_with_code(self):
         """Test observation value element with SNOMED code."""
@@ -376,11 +377,13 @@ class TestMentalStatusOrganizer:
 
         low = eff_time.find(f"{{{NS}}}low")
         assert low is not None
-        assert low.get("value") == "20230601100000"
+        # Use startswith to accommodate timezone suffix per C-CDA spec CONF:81-10130
+        assert low.get("value").startswith("20230601100000")
 
         high = eff_time.find(f"{{{NS}}}high")
         assert high is not None
-        assert high.get("value") == "20230615160000"
+        # Use startswith to accommodate timezone suffix per C-CDA spec CONF:81-10130
+        assert high.get("value").startswith("20230615160000")
 
     def test_organizer_without_effective_time(self):
         """Test organizer without effectiveTime when not provided."""

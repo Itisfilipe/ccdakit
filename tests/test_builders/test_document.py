@@ -312,7 +312,7 @@ class TestClinicalDocument:
         ns = {"c": "urn:hl7-org:v3"}
         effective_time = elem.find(".//c:effectiveTime", ns)
         assert effective_time is not None
-        assert effective_time.get("value") == "20231017153000"
+        assert effective_time.get("value").startswith("20231017153000")
 
     def test_clinical_document_has_confidentiality_code(self):
         """Test ClinicalDocument includes confidentialityCode."""

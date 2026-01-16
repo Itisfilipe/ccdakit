@@ -152,3 +152,16 @@ class AuthorProtocol(Protocol):
             Organization or None
         """
         ...
+
+    @property
+    def specialty_code(self) -> Optional[str]:
+        """
+        NUCC Healthcare Provider Taxonomy code for the author's specialty.
+
+        Example: '207Q00000X' for Family Medicine
+        See: https://taxonomy.nucc.org/
+
+        Returns:
+            NUCC taxonomy code or None
+        """
+        ...

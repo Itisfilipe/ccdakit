@@ -16,6 +16,10 @@ class Code(CDAElement):
     """Reusable code element builder."""
 
     # Standard code system OIDs
+    # NOTE: This dictionary duplicates CodeSystemRegistry.SYSTEMS to avoid circular imports.
+    # The Code class is a core builder used throughout the codebase, and importing
+    # CodeSystemRegistry here would create circular dependencies with modules that
+    # depend on both builders and utils. Consider consolidating in future refactoring.
     SYSTEM_OIDS = {
         # Clinical terminology systems
         "LOINC": "2.16.840.1.113883.6.1",

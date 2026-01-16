@@ -27,12 +27,12 @@ class MedicationsSection(CDAElement):
         CDAVersion.R2_1: [
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.1.1",
-                extension="2014-06-09",
+                extension="2015-08-01",
                 description="Medications Section (entries required) R2.1",
             ),
             TemplateConfig(
                 root="2.16.840.1.113883.10.20.22.2.1",
-                extension="2014-06-09",
+                extension="2015-08-01",
                 description="Medications Section (entries optional) R2.1",
             ),
         ],
@@ -83,11 +83,11 @@ class MedicationsSection(CDAElement):
         # Add template IDs
         self.add_template_ids(section)
 
-        # Add section code (10160-0 = History of Medication use Narrative)
+        # Add section code (10160-0 = History of medication use)
         code_elem = Code(
             code="10160-0",
             system="LOINC",
-            display_name="History of Medication use Narrative",
+            display_name="History of medication use",
         ).to_element()
         code_elem.tag = f"{{{NS}}}code"
         section.append(code_elem)

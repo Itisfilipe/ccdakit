@@ -450,7 +450,8 @@ class TestAssessmentAndPlanSection:
         act = elem.find(f".//{{{NS}}}act")
         time_elem = act.find(f"{{{NS}}}effectiveTime")
         assert time_elem is not None
-        assert time_elem.get("value") == "20240615103000"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert time_elem.get("value").startswith("20240615103000")
 
     def test_planned_act_without_effective_time(self):
         """Test Planned Act can omit effectiveTime (optional)."""

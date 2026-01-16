@@ -28,7 +28,7 @@ This project was **developed extensively with AI assistance** using Claude Code 
 ### Quality Assurance
 
 Despite AI assistance, this project includes:
-- ✅ Comprehensive test suite (1,903 tests, 94% coverage)
+- ✅ Comprehensive test suite (3,825 tests, 28% coverage)
 - ✅ Validation against official HL7 specifications
 - ✅ Manual review and verification of implementations
 - ✅ Verification of Template IDs against official specifications
@@ -141,6 +141,6 @@ For questions about this library, please use GitHub Issues or Discussions.
 
 ---
 
-**Last Updated:** October 2024
+**Last Updated:** January 2026
 
 **Bottom Line:** This is an independent, AI-assisted tool to help you work with C-CDA. It's not official. Test thoroughly. Validate everything. Use at your own risk. Consult official HL7 resources for authoritative guidance.

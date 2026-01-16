@@ -2,6 +2,7 @@
 
 from datetime import date
 
+import pytest
 from lxml import etree
 
 from ccdakit.builders.sections.preoperative_diagnosis import (
@@ -212,19 +213,15 @@ class TestPreoperativeDiagnosisSection:
         assert tds[3].text == "2024-03-15"
 
     def test_narrative_without_diagnosis_date(self):
-        """Test narrative shows 'Unknown' for missing diagnosis date."""
+        """Test that R2.1 raises ValueError when diagnosis_date is None.
+
+        R2.1 requires onset_date (diagnosis_date) per C-CDA specification.
+        """
         diagnosis = MockPreoperativeDiagnosis(diagnosis_date=None)
         section = PreoperativeDiagnosisSection([diagnosis])
-        elem = section.to_element()
 
-        text = elem.find(f"{{{NS}}}text")
-        table = text.find(f"{{{NS}}}table")
-        tbody = table.find(f"{{{NS}}}tbody")
-        tr = tbody.find(f"{{{NS}}}tr")
-        tds = tr.findall(f"{{{NS}}}td")
-
-        # Check diagnosis date shows "Unknown"
-        assert tds[3].text == "Unknown"
+        with pytest.raises(ValueError, match="onset date"):
+            section.to_element()
 
     def test_narrative_multiple_diagnoses(self):
         """Test narrative with multiple diagnoses."""
@@ -367,7 +364,7 @@ class TestPreoperativeDiagnosisSection:
 
         assert template is not None
         assert template.get("root") == "2.16.840.1.113883.10.20.22.4.4"
-        assert template.get("extension") == "2015-08-01"
+        assert template.get("extension") == "2022-06-01"  # V4 template
 
     def test_observation_has_id(self):
         """Test observation has ID element."""
@@ -401,7 +398,11 @@ class TestPreoperativeDiagnosisSection:
         assert code.get("displayName") == "Problem"
 
     def test_observation_has_status_code(self):
-        """Test observation has statusCode."""
+        """Test observation has statusCode.
+
+        Per C-CDA specification, Problem Observation statusCode is always "completed"
+        because it represents a completed observation of a problem (even if problem is active).
+        """
         diagnosis = MockPreoperativeDiagnosis(status="active")
         section = PreoperativeDiagnosisSection([diagnosis])
         elem = section.to_element()
@@ -413,7 +414,7 @@ class TestPreoperativeDiagnosisSection:
         status = observation.find(f"{{{NS}}}statusCode")
 
         assert status is not None
-        assert status.get("code") == "active"
+        assert status.get("code") == "completed"
 
     def test_observation_has_effective_time(self):
         """Test observation includes effectiveTime."""
@@ -662,28 +663,31 @@ class TestPreoperativeDiagnosisSectionIntegration:
         assert value2.get("codeSystem") == "2.16.840.1.113883.6.90"
 
     def test_minimal_diagnosis(self):
-        """Test section with minimal diagnosis data."""
+        """Test section with minimal diagnosis data.
+
+        Note: diagnosis_date (which maps to onset_date) is required for R2.1.
+        """
         diagnosis = MockPreoperativeDiagnosis(
             name="Appendicitis",
             code="74400008",
             code_system="SNOMED",
-            diagnosis_date=None,
+            diagnosis_date=date(2024, 3, 15),  # Required for R2.1
             status="active",
         )
 
         section = PreoperativeDiagnosisSection([diagnosis])
         elem = section.to_element()
 
-        # Should still create valid section
+        # Should create valid section
         assert local_name(elem) == "section"
 
-        # Check narrative shows "Unknown" for date
+        # Check narrative shows the date
         text = elem.find(f"{{{NS}}}text")
         table = text.find(f"{{{NS}}}table")
         tbody = table.find(f"{{{NS}}}tbody")
         tr = tbody.find(f"{{{NS}}}tr")
         tds = tr.findall(f"{{{NS}}}td")
-        assert tds[3].text == "Unknown"
+        assert tds[3].text == "2024-03-15"
 
     def test_section_r21_version(self):
         """Test section with R2.1 version."""
@@ -706,4 +710,4 @@ class TestPreoperativeDiagnosisSectionIntegration:
         entry_rel = act.find(f"{{{NS}}}entryRelationship")
         observation = entry_rel.find(f"{{{NS}}}observation")
         obs_template = observation.find(f"{{{NS}}}templateId")
-        assert obs_template.get("extension") == "2015-08-01"
+        assert obs_template.get("extension") == "2022-06-01"  # V4 template

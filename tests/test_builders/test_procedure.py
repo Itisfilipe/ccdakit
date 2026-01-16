@@ -197,7 +197,8 @@ class TestProcedureActivity:
 
         time = elem.find(f"{{{NS}}}effectiveTime")
         assert time is not None
-        assert time.get("value") == "20230515143000"
+        # Datetime values include timezone per C-CDA spec CONF:81-10130
+        assert time.get("value").startswith("20230515143000")
 
     def test_procedure_activity_with_target_site_code(self):
         """Test ProcedureActivity with target site code."""
@@ -372,7 +373,11 @@ class TestProcedureActivityIntegration:
         assert elem.find(f"{{{NS}}}code") is not None
         assert elem.find(f"{{{NS}}}statusCode") is not None
 
-        # Should not have optional components
-        assert elem.find(f"{{{NS}}}effectiveTime") is None
+        # effectiveTime is present with nullFlavor when no date (SHOULD per CONF:1098-7332)
+        time_elem = elem.find(f"{{{NS}}}effectiveTime")
+        assert time_elem is not None
+        assert time_elem.get("nullFlavor") == "UNK"
+
+        # Should not have other optional components
         assert elem.find(f"{{{NS}}}targetSiteCode") is None
         assert elem.find(f"{{{NS}}}performer") is None

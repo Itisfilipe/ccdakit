@@ -16,6 +16,11 @@ from ccdakit.protocols.medical_equipment import MedicalEquipmentProtocol
 # CDA namespace
 NS = "urn:hl7-org:v3"
 
+# TODO: Add support for Procedure Activity Procedure entries (CONF:1098-31885)
+# for representing implanted devices. Currently only supports:
+# - Medical Equipment Organizer (CONF:1098-7948)
+# - Non-Medicinal Supply Activity (CONF:1098-31125)
+
 
 class MedicalEquipmentSection(CDAElement):
     """

@@ -85,6 +85,14 @@ class HealthStatusEvaluationsAndOutcomesSection(CDAElement):
         Returns:
             lxml Element for section
         """
+        # Validate SHALL requirements (CONF:1098-31227)
+        if not self.null_flavor and not self.outcomes:
+            raise ValueError(
+                "Health Status Evaluations and Outcomes Section SHALL contain at least one entry "
+                "when nullFlavor is not present (CONF:1098-31227). "
+                "Either provide outcomes or set null_flavor='NI'."
+            )
+
         # Create section element
         section = etree.Element(f"{{{NS}}}section")
 

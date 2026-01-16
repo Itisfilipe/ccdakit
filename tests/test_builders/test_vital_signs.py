@@ -295,8 +295,9 @@ class TestVitalSignsOrganizer:
 
         code = elem.find(f"{{{NS}}}code")
         assert code is not None
-        assert code.get("code") == "46680005"
-        assert code.get("codeSystem") == "2.16.840.1.113883.6.96"  # SNOMED CT
+        # LOINC code for vital signs panel (required for C-CDA R2.1)
+        assert code.get("code") == "74728-7"
+        assert code.get("codeSystem") == "2.16.840.1.113883.6.1"  # LOINC
         assert code.get("displayName") == "Vital signs"
 
     def test_vital_signs_organizer_has_status_code(self):
@@ -352,7 +353,7 @@ class TestVitalSignsOrganizer:
 
         assert "<organizer" in xml or ":organizer" in xml
         assert "classCode" in xml
-        assert "46680005" in xml  # Vital signs code
+        assert "74728-7" in xml  # Vital signs panel LOINC code
 
     def test_vital_signs_organizer_structure_order(self):
         """Test that elements are in correct order."""

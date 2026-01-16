@@ -1,7 +1,7 @@
 """Medication-related protocols for C-CDA documents."""
 
-from datetime import date, datetime
-from typing import Optional, Protocol, List, Any
+from datetime import date
+from typing import Any, List, Optional, Protocol
 
 
 class MedicationProtocol(Protocol):
@@ -108,5 +108,19 @@ class MedicationProtocol(Protocol):
 
         Returns:
             List of author objects or None
+        """
+        ...
+
+    @property
+    def code_system(self) -> Optional[str]:
+        """
+        Code system for the medication code. Defaults to RxNorm if not specified.
+
+        Common values:
+        - 'RxNorm' (2.16.840.1.113883.6.88) - Preferred for medications
+        - 'NDC' (2.16.840.1.113883.6.69) - National Drug Code
+
+        Returns:
+            Code system name or None (defaults to RxNorm)
         """
         ...

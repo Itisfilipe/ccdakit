@@ -352,8 +352,8 @@ class TestHealthStatusEvaluationsAndOutcomesSection:
         assert content3.get("ID") == "outcome-3"
 
     def test_section_empty_narrative(self):
-        """Test narrative when no outcomes."""
-        section = HealthStatusEvaluationsAndOutcomesSection([])
+        """Test narrative when no outcomes (with null_flavor)."""
+        section = HealthStatusEvaluationsAndOutcomesSection([], null_flavor="NI")
         elem = section.to_element()
 
         text = elem.find(f"{{{NS}}}text")
@@ -367,6 +367,17 @@ class TestHealthStatusEvaluationsAndOutcomesSection:
         # Should not have table
         table = text.find(f"{{{NS}}}table")
         assert table is None
+
+    def test_section_empty_without_null_flavor_raises_error(self):
+        """Test that empty outcomes without null_flavor raises ValueError (CONF:1098-31227)."""
+        import pytest
+
+        with pytest.raises(ValueError) as exc_info:
+            section = HealthStatusEvaluationsAndOutcomesSection([])
+            section.to_element()
+
+        assert "CONF:1098-31227" in str(exc_info.value)
+        assert "SHALL contain at least one entry" in str(exc_info.value)
 
     def test_section_has_entries(self):
         """Test section includes entry elements."""
@@ -784,8 +795,8 @@ class TestHealthStatusEvaluationsAndOutcomesSectionIntegration:
         assert section_elem.find(f"{{{NS}}}title") is not None
 
     def test_empty_section(self):
-        """Test section with no outcomes."""
-        section = HealthStatusEvaluationsAndOutcomesSection([])
+        """Test section with no outcomes (using null_flavor per CONF:1098-31227)."""
+        section = HealthStatusEvaluationsAndOutcomesSection([], null_flavor="NI")
         elem = section.to_element()
 
         # Should still have required elements
@@ -803,6 +814,9 @@ class TestHealthStatusEvaluationsAndOutcomesSectionIntegration:
         paragraph = text.find(f"{{{NS}}}paragraph")
         assert paragraph is not None
         assert "No health status evaluations" in paragraph.text
+
+        # Should have nullFlavor attribute
+        assert elem.get("nullFlavor") == "NI"
 
     def test_outcome_with_snomed_code(self):
         """Test outcome with SNOMED CT code."""

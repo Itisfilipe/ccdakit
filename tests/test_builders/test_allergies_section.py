@@ -85,26 +85,50 @@ class TestAllergiesSection:
         assert local_name(elem) == "section"
 
     def test_allergies_section_has_template_id_r21(self):
-        """Test AllergiesSection includes R2.1 template ID."""
+        """Test AllergiesSection includes R2.1 template IDs.
+
+        Per C-CDA spec, the section includes both:
+        - Base template (entries optional): 2.16.840.1.113883.10.20.22.2.6
+        - Entries required template: 2.16.840.1.113883.10.20.22.2.6.1
+        """
         allergy = MockAllergy()
         section = AllergiesSection([allergy], version=CDAVersion.R2_1)
         elem = section.to_element()
 
-        template = elem.find(f"{{{NS}}}templateId")
-        assert template is not None
-        assert template.get("root") == "2.16.840.1.113883.10.20.22.2.6.1"
-        assert template.get("extension") == "2015-08-01"
+        templates = elem.findall(f"{{{NS}}}templateId")
+        assert len(templates) == 2
+
+        # Check both template IDs are present
+        template_roots = [t.get("root") for t in templates]
+        assert "2.16.840.1.113883.10.20.22.2.6" in template_roots
+        assert "2.16.840.1.113883.10.20.22.2.6.1" in template_roots
+
+        # Both should have R2.1 extension
+        for template in templates:
+            assert template.get("extension") == "2015-08-01"
 
     def test_allergies_section_has_template_id_r20(self):
-        """Test AllergiesSection includes R2.0 template ID."""
+        """Test AllergiesSection includes R2.0 template IDs.
+
+        Per C-CDA spec, the section includes both:
+        - Base template (entries optional): 2.16.840.1.113883.10.20.22.2.6
+        - Entries required template: 2.16.840.1.113883.10.20.22.2.6.1
+        """
         allergy = MockAllergy()
         section = AllergiesSection([allergy], version=CDAVersion.R2_0)
         elem = section.to_element()
 
-        template = elem.find(f"{{{NS}}}templateId")
-        assert template is not None
-        assert template.get("root") == "2.16.840.1.113883.10.20.22.2.6.1"
-        assert template.get("extension") == "2015-08-01"
+        templates = elem.findall(f"{{{NS}}}templateId")
+        assert len(templates) == 2
+
+        # Check both template IDs are present
+        template_roots = [t.get("root") for t in templates]
+        assert "2.16.840.1.113883.10.20.22.2.6" in template_roots
+        assert "2.16.840.1.113883.10.20.22.2.6.1" in template_roots
+
+        # Both should have the same extension for R2.0
+        for template in templates:
+            assert template.get("extension") == "2015-08-01"
 
     def test_allergies_section_has_code(self):
         """Test AllergiesSection includes section code."""

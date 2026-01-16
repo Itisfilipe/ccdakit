@@ -5,8 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Tests](https://img.shields.io/badge/tests-2%2C222-brightgreen)](https://github.com/Itisfilipe/ccdakit)
-[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+[![Tests](https://img.shields.io/badge/tests-3%2C825-brightgreen)](https://github.com/Itisfilipe/ccdakit)
+[![Coverage](https://img.shields.io/badge/coverage-28%25-yellow)](https://github.com/Itisfilipe/ccdakit)
 
 ccdakit is a Python library for programmatic generation of HL7 C-CDA (Consolidated Clinical Document Architecture) documents. Built with type safety, protocol-oriented design, and multi-version support for healthcare interoperability.
 
@@ -304,8 +304,8 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 | Metric | Status |
 |--------|--------|
 | **Sections** | 39 of 82 C-CDA sections implemented (47.6%) |
-| **Test Suite** | 2,222 comprehensive tests |
-| **Code Coverage** | 95% |
+| **Test Suite** | 3,825 comprehensive tests |
+| **Code Coverage** | 28% |
 | **Documentation** | Complete API reference + 40-page HL7 guide |
 | **Validation** | XSD validation complete, Schematron validation complete (with auto-cleaning) |
 
@@ -313,7 +313,7 @@ See [Architecture Documentation](./docs/development/architecture.md) for detaile
 
 **Phase 1: MVP** ✓ Complete
 - [x] Core infrastructure and protocols
-- [x] 29 clinical sections (Core, Extended, Specialized)
+- [x] 39 clinical sections (Core, Extended, Specialized, Hospital & Surgical)
 - [x] XSD validation framework
 - [x] Multi-version support (R2.1, R2.0)
 - [x] Comprehensive test coverage
@@ -405,7 +405,7 @@ ccdakit is designed for:
 
 ## Testing
 
-Comprehensive test suite with 2,222 tests and 95% coverage:
+Comprehensive test suite with 3,825 tests:
 
 ```bash
 # Run all tests

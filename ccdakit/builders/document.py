@@ -113,7 +113,9 @@ class ClinicalDocument(CDAElement):
         title_elem.text = self.title
 
         # Add effectiveTime (with timezone for precision per CONF:81-10130)
+        # Import here to avoid circular import with common module
         from ccdakit.builders.common import EffectiveTime
+
         effective_time_elem = etree.SubElement(doc, f"{{{self.NS}}}effectiveTime")
         effective_time_elem.set("value", EffectiveTime._format_datetime(self.effective_time))
 
@@ -194,7 +196,8 @@ class ClinicalDocument(CDAElement):
         Args:
             doc: ClinicalDocument element
         """
-        from ccdakit.builders.common import EffectiveTime, Code
+        # Import here to avoid circular import with common module
+        from ccdakit.builders.common import EffectiveTime
 
         # Create legalAuthenticator element
         legal_auth = etree.SubElement(doc, f"{{{self.NS}}}legalAuthenticator")
@@ -219,13 +222,17 @@ class ClinicalDocument(CDAElement):
             id_elem.set("nullFlavor", "NI")
 
         # Add addresses (SHALL per CONF:1198-5589)
+        # Import here to avoid circular import with demographics module
         from ccdakit.builders.demographics import Address
+
         for addr_data in self.author.addresses:
             addr_builder = Address(addr_data, use="work")
             assigned_entity.append(addr_builder.to_element())
 
         # Add telecoms (SHALL per CONF:1198-5595)
+        # Import here to avoid circular import with demographics module
         from ccdakit.builders.demographics import Telecom
+
         for telecom_data in self.author.telecoms:
             telecom_builder = Telecom(telecom_data)
             assigned_entity.append(telecom_builder.to_element())

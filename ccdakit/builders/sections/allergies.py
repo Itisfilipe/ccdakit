@@ -208,6 +208,8 @@ class AllergiesSection(CDAElement):
         template_id.set("root", "2.16.840.1.113883.10.20.22.4.30")
         if self.version == CDAVersion.R2_1:
             template_id.set("extension", "2015-08-01")
+        elif self.version == CDAVersion.R2_0:
+            template_id.set("extension", "2014-06-09")
 
         # Add ID
         import uuid
@@ -229,9 +231,12 @@ class AllergiesSection(CDAElement):
 
         # Add effective time (low = onset date, high = resolved date if resolved)
         time_elem = etree.SubElement(act, f"{{{NS}}}effectiveTime")
+        low_elem = etree.SubElement(time_elem, f"{{{NS}}}low")
         if allergy.onset_date:
-            low_elem = etree.SubElement(time_elem, f"{{{NS}}}low")
             low_elem.set("value", allergy.onset_date.strftime("%Y%m%d"))
+        else:
+            # If no onset date, use nullFlavor (similar to Problems section pattern)
+            low_elem.set("nullFlavor", "UNK")
         if status == "completed":
             # If resolved, add high element (could use current date or specific resolved date)
             high_elem = etree.SubElement(time_elem, f"{{{NS}}}high")

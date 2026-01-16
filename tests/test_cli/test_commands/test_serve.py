@@ -346,17 +346,22 @@ class TestWebApp:
         assert "/api/convert" in rules
         assert "/api/compare" in rules
 
-    @patch("ccdakit.cli.web.app._run_schematron_validation")
-    @patch("ccdakit.cli.web.app._run_xsd_validation")
+    @patch("ccdakit.cli.web.app.get_schematron_validator")
+    @patch("ccdakit.cli.web.app.get_xsd_validator")
     def test_api_validate_no_validators_specified(
-        self, mock_xsd, mock_schematron, client
+        self, mock_get_xsd, mock_get_schematron, client
     ):
         """Test validation with no validators specified runs both by default."""
         from ccdakit.core.validation import ValidationResult
 
-        # Mock validation results
-        mock_xsd.return_value = ValidationResult()
-        mock_schematron.return_value = ValidationResult()
+        # Mock validators
+        mock_xsd_validator = MagicMock()
+        mock_xsd_validator.validate.return_value = ValidationResult()
+        mock_get_xsd.return_value = mock_xsd_validator
+
+        mock_schematron_validator = MagicMock()
+        mock_schematron_validator.validate.return_value = ValidationResult()
+        mock_get_schematron.return_value = mock_schematron_validator
 
         xml_content = '<?xml version="1.0"?><ClinicalDocument xmlns="urn:hl7-org:v3"/>'
 
@@ -373,14 +378,16 @@ class TestWebApp:
         # Both validators should have run
         assert "xsd" in data
         assert "schematron" in data
-        mock_xsd.assert_called_once()
-        mock_schematron.assert_called_once()
+        mock_xsd_validator.validate.assert_called_once()
+        mock_schematron_validator.validate.assert_called_once()
 
-    @patch("ccdakit.cli.web.app._run_xsd_validation")
-    def test_api_validate_exception_handling(self, mock_xsd, client):
+    @patch("ccdakit.cli.web.app.get_xsd_validator")
+    def test_api_validate_exception_handling(self, mock_get_xsd, client):
         """Test validation API exception handling."""
-        # Mock validation to raise an exception
-        mock_xsd.side_effect = Exception("Validation failed unexpectedly")
+        # Mock validator to raise an exception
+        mock_xsd_validator = MagicMock()
+        mock_xsd_validator.validate.side_effect = Exception("Validation failed unexpectedly")
+        mock_get_xsd.return_value = mock_xsd_validator
 
         xml_content = '<?xml version="1.0"?><ClinicalDocument xmlns="urn:hl7-org:v3"/>'
 
@@ -416,7 +423,7 @@ class TestWebApp:
         assert "error" in data
         assert "Generation failed" in data["error"]
 
-    @patch("ccdakit.cli.commands.convert._transform_with_custom_stylesheet")
+    @patch("ccdakit.cli.commands.convert._transform_with_official_stylesheet")
     def test_api_convert_exception_handling(self, mock_transform, client):
         """Test convert API exception handling."""
         # Mock transform to raise an exception

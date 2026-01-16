@@ -1271,8 +1271,8 @@ class TestGoalsSectionSchematron:
     def test_empty_goals_section(
         self, schematron_validator, valid_patient, valid_author, valid_custodian
     ):
-        """Test document with empty goals section."""
-        section = GoalsSection(goals=[], version=CDAVersion.R2_1)
+        """Test document with empty goals section (uses null_flavor per CONF:1098-30719)."""
+        section = GoalsSection(goals=[], null_flavor="NI", version=CDAVersion.R2_1)
 
         doc = ClinicalDocument(
             patient=valid_patient,
@@ -1630,6 +1630,7 @@ class TestPastMedicalHistorySectionSchematron:
             code="38907003",
             code_system="SNOMED",
             status="resolved",
+            onset_date=date(2000, 1, 1),  # Required for R2.1
         )
 
         section = PastMedicalHistorySection(problems=[problem], version=CDAVersion.R2_1)
@@ -2020,6 +2021,7 @@ class TestMultipleExtendedSections:
                         code="12345",
                         code_system="SNOMED",
                         status="resolved",
+                        onset_date=date(2010, 1, 1),  # Required for R2.1
                     )
                 ],
                 version=CDAVersion.R2_1,

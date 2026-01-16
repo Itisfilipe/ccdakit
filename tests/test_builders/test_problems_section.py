@@ -449,13 +449,16 @@ class TestProblemsSectionIntegration:
         assert section_elem.find(f"{{{NS}}}title") is not None
 
     def test_narrative_problem_with_no_onset_date(self):
-        """Test narrative with problem with no onset date."""
+        """Test narrative with problem with no onset date.
+
+        Uses R2.0 since R2.1 requires onset_date per specification.
+        """
         problem = MockProblem(
             name="Headache",
             code="25064002",
             onset_date=None,
         )
-        section = ProblemsSection([problem])
+        section = ProblemsSection([problem], version=CDAVersion.R2_0)
         elem = section.to_element()
 
         text = elem.find(f"{{{NS}}}text")
@@ -468,14 +471,17 @@ class TestProblemsSectionIntegration:
         assert tds[3].text == "Unknown"
 
     def test_entry_problem_with_no_onset_date_has_null_flavor(self):
-        """Test entry element uses nullFlavor when onset_date is None."""
+        """Test entry element uses nullFlavor when onset_date is None.
+
+        Uses R2.0 since R2.1 requires onset_date per specification.
+        """
         problem = MockProblem(
             name="Chronic pain",
             code="82423001",
             onset_date=None,
             status="active",
         )
-        section = ProblemsSection([problem])
+        section = ProblemsSection([problem], version=CDAVersion.R2_0)
         elem = section.to_element()
 
         entry = elem.find(f"{{{NS}}}entry")

@@ -1,5 +1,6 @@
 """Flask web application for ccdakit UI."""
 
+import logging
 import tempfile
 from pathlib import Path
 from typing import Optional
@@ -9,6 +10,10 @@ from flask import Flask, jsonify, render_template, request
 from ccdakit.cli.commands.compare import _compare_documents, _extract_comparison_data
 from ccdakit.validators.schematron import SchematronValidator
 from ccdakit.validators.xsd import XSDValidator
+
+
+logger = logging.getLogger(__name__)
+
 
 # Global validator cache to avoid recreating validators for each request
 # This saves significant memory (62MB+ per validator) on the 512MB server
@@ -66,17 +71,15 @@ def create_app() -> Flask:
     @app.route("/api/validate", methods=["POST"])
     def api_validate():
         """Validate a C-CDA document."""
-        import sys
-
         # Handle file upload or textarea content
         content = None
         if "file" in request.files and request.files["file"].filename:
             file = request.files["file"]
             content = file.read()
-            print(f"Received file: {file.filename}, size: {len(content)} bytes", file=sys.stderr)
+            logger.debug("Received file: %s, size: %d bytes", file.filename, len(content))
         elif "content" in request.form and request.form["content"]:
             content = request.form["content"].encode("utf-8")
-            print(f"Received textarea content, size: {len(content)} bytes", file=sys.stderr)
+            logger.debug("Received textarea content, size: %d bytes", len(content))
         else:
             return jsonify({"error": "No file or content provided"}), 400
 
@@ -93,46 +96,46 @@ def create_app() -> Flask:
             run_xsd = request.form.get("xsd") == "on"
             run_schematron = request.form.get("schematron") == "on"
 
-            print(f"XSD checkbox: {request.form.get('xsd')}, Run XSD: {run_xsd}", file=sys.stderr)
-            print(
-                f"Schematron checkbox: {request.form.get('schematron')}, Run Schematron: {run_schematron}",
-                file=sys.stderr,
+            logger.debug("XSD checkbox: %s, Run XSD: %s", request.form.get("xsd"), run_xsd)
+            logger.debug(
+                "Schematron checkbox: %s, Run Schematron: %s",
+                request.form.get("schematron"),
+                run_schematron,
             )
 
             # If neither is checked, run both by default
             if not run_xsd and not run_schematron:
                 run_xsd = True
                 run_schematron = True
-                print("No validators specified, running both by default", file=sys.stderr)
+                logger.debug("No validators specified, running both by default")
 
             if run_xsd:
-                print("Running XSD validation...", file=sys.stderr)
+                logger.debug("Running XSD validation...")
                 validator = get_xsd_validator()
                 xsd_result = validator.validate(tmp_path)
                 results["xsd"] = xsd_result.to_dict()
-                print(
-                    f"XSD validation complete: valid={xsd_result.is_valid}, errors={len(xsd_result.errors)}",
-                    file=sys.stderr,
+                logger.debug(
+                    "XSD validation complete: valid=%s, errors=%d",
+                    xsd_result.is_valid,
+                    len(xsd_result.errors),
                 )
 
             if run_schematron:
-                print("Running Schematron validation...", file=sys.stderr)
+                logger.debug("Running Schematron validation...")
                 validator = get_schematron_validator()
                 schematron_result = validator.validate(tmp_path)
                 results["schematron"] = schematron_result.to_dict()
-                print(
-                    f"Schematron validation complete: valid={schematron_result.is_valid}, errors={len(schematron_result.errors)}",
-                    file=sys.stderr,
+                logger.debug(
+                    "Schematron validation complete: valid=%s, errors=%d",
+                    schematron_result.is_valid,
+                    len(schematron_result.errors),
                 )
 
-            print(f"Returning {len(results)} validation results", file=sys.stderr)
+            logger.debug("Returning %d validation results", len(results))
             return jsonify(results)
 
         except Exception as e:
-            print(f"Validation error: {e}", file=sys.stderr)
-            import traceback
-
-            traceback.print_exc(file=sys.stderr)
+            logger.exception("Validation error: %s", e)
             return jsonify({"error": str(e)}), 500
 
         finally:
