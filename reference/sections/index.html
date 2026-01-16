@@ -1,0 +1,6088 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python library for generating HL7 C-CDA clinical documents">
+      
+      
+        <meta name="author" content="Filipe Amaral">
+      
+      
+        <link rel="canonical" href="https://docs.ccdakit.com/reference/sections/">
+      
+      
+        <link rel="prev" href="../code-systems/">
+      
+      
+        <link rel="next" href="../../development/uv-guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Sections Reference - ccdakit Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#c-cda-21-sections-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ccdakit Documentation" class="md-header__button md-logo" aria-label="ccdakit Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ccdakit Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sections Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Itisfilipe/ccdakit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Itisfilipe/ccdakit
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/overview/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../code-systems/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../guides/hl7-guide/" class="md-tabs__link">
+          
+  
+  
+  HL7/C-CDA Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/complete-document/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/core/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/architecture/" class="md-tabs__link">
+          
+  
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../about/changelog/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ccdakit Documentation" class="md-nav__button md-logo" aria-label="ccdakit Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ccdakit Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Itisfilipe/ccdakit" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Itisfilipe/ccdakit
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/sections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Sections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocols
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/terminologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Systems & Value Sets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sections Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sections Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#important-implementation-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ IMPORTANT: Implementation Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ IMPORTANT: Implementation Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-this-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use This Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Implementation Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implemented-sections-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Implemented Sections (39)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Implemented Sections (39)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-clinical-sections-88-onc-requirements-100-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Clinical Sections (8/8 ONC Requirements - 100% Complete!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extended-clinical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extended Clinical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specializedadministrative-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specialized/Administrative Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hospital-and-surgical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hospital and Surgical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-priority-sections-all-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 High Priority Sections (ALL COMPLETE!)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#all-c-cda-21-sections-complete-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ All C-CDA 2.1 Sections (Complete List)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⏳ All C-CDA 2.1 Sections (Complete List)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-implement-a-new-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 How to Implement a New Section
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 How to Implement a New Section">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-research-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Research the Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-review-the-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Review the Specification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-protocol-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create Protocol (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-create-entry-builder-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Create Entry Builder (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-create-section-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Create Section Builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-write-comprehensive-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Write Comprehensive Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-priorities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Implementation Priorities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Implementation Priorities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-12-core-clinical-sections-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 12: Core Clinical Sections (Next)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-13-extended-clinical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 13: Extended Clinical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-14-specialized-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 14: Specialized Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-15-document-specific-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 15: Document-Specific Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-usage-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Section Usage Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Section Usage Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-sections-onc-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Most Common Sections (ONC Requirements)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-id-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Template ID Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Template ID Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entry-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entry Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📞 Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📞 Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-c-cda-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official C-CDA References
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standards-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards &amp; Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progress-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 Progress Tracking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recent-implementation-waves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Recent Implementation Waves
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/uv-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UV Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HL7/C-CDA Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HL7/C-CDA Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Foundation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Foundation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/01-introduction-to-hl7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to HL7
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/02-cda-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CDA Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/03-templates-and-conformance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates & Conformance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/04-code-systems-and-terminologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Systems & Terminologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/05-document-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clinical Sections
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clinical Sections
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sections Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_2" id="__nav_5_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Sections
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Sections
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/problems-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Problems Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/medications-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medications Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/allergies-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Allergies Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/immunizations-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immunizations Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/vital-signs-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vital Signs Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/procedures-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Procedures Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/results-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/social-history-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Social History Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/encounters-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Encounters Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_3" id="__nav_5_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extended Sections
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Extended Sections
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/past-medical-history-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Past Medical History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/goals-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Goals Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/health-concerns-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Concerns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/functional-status-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/mental-status-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mental Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/assessment-and-plan-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assessment and Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/advance-directives-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advance Directives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/family-history-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Family History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/medical-equipment-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medical Equipment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_4" id="__nav_5_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specialized Sections
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specialized Sections
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/plan-of-treatment-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plan of Treatment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/hospital-discharge-instructions-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hospital Discharge Instructions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/discharge-medications-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discharge Medications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/physical-exam-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Physical Exam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/reason-for-visit-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reason for Visit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/chief-complaint-reason-for-visit-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chief Complaint & Reason for Visit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/nutrition-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nutrition Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/payers-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Payers Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/admission-medications-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admission Medications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/interventions-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interventions Section
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/health-status-evaluations-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Status Evaluations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_5" id="__nav_5_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hospital and Surgical Sections
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hospital and Surgical Sections
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/admission-diagnosis-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admission Diagnosis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/discharge-diagnosis-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discharge Diagnosis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/hospital-course-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hospital Course
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/instructions-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Instructions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/anesthesia-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anesthesia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/postoperative-diagnosis-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Postoperative Diagnosis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/preoperative-diagnosis-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Preoperative Diagnosis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/complications-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complications
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/hospital-discharge-studies-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hospital Discharge Studies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/sections/medications-administered-section/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Medications Administered
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/appendices/oid-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OID Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/appendices/conformance-verbs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conformance Verbs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/appendices/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hl7-guide/appendices/glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/complete-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Document
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/builder-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Builder API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/all-sections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    All Sections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/custom-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Data Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/builders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Builders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/sections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocols
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/validators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocol System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/builders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Builder Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/versions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/disclaimer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disclaimer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#important-implementation-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ IMPORTANT: Implementation Guidelines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ IMPORTANT: Implementation Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-this-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Use This Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Implementation Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implemented-sections-39" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Implemented Sections (39)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ Implemented Sections (39)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-clinical-sections-88-onc-requirements-100-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Clinical Sections (8/8 ONC Requirements - 100% Complete!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extended-clinical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extended Clinical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specializedadministrative-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specialized/Administrative Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hospital-and-surgical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hospital and Surgical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-priority-sections-all-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 High Priority Sections (ALL COMPLETE!)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#all-c-cda-21-sections-complete-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⏳ All C-CDA 2.1 Sections (Complete List)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⏳ All C-CDA 2.1 Sections (Complete List)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#n" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        S
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-implement-a-new-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 How to Implement a New Section
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 How to Implement a New Section">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-research-the-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Research the Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-review-the-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Review the Specification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-create-protocol-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create Protocol (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-create-entry-builder-if-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Create Entry Builder (if needed)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-create-section-builder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Create Section Builder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-write-comprehensive-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Write Comprehensive Tests
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-validate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Validate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-priorities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Implementation Priorities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎯 Implementation Priorities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-12-core-clinical-sections-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 12: Core Clinical Sections (Next)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-13-extended-clinical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 13: Extended Clinical Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-14-specialized-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 14: Specialized Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-15-document-specific-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 15: Document-Specific Sections
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#section-usage-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📊 Section Usage Statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📊 Section Usage Statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-sections-onc-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Most Common Sections (ONC Requirements)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-id-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Template ID Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Template ID Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Section Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entry-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Entry Templates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📞 Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📞 Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-c-cda-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official C-CDA References
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standards-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standards &amp; Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#progress-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎉 Progress Tracking
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recent-implementation-waves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📈 Recent Implementation Waves
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="c-cda-21-sections-reference">C-CDA 2.1 Sections Reference<a class="headerlink" href="#c-cda-21-sections-reference" title="Permanent link">&para;</a></h1>
+<p><strong>Last Updated</strong>: 2025-10-22
+<strong>Reference Source</strong>: <code>references/C-CDA_2.1/</code>
+<strong>Total Sections</strong>: 82
+<strong>Upstream Repository</strong>: https://github.com/jddamore/ccda-search</p>
+<blockquote>
+<p><strong>Note</strong>: The C-CDA 2.1 reference documentation in <code>references/C-CDA_2.1/</code> is sourced from the official HL7 C-CDA Online Search Tool repository maintained by John D'Amore. This repository contains the HTML pages and PDFs from the C-CDA navigation tool project released by HL7 in January 2021.</p>
+</blockquote>
+<hr />
+<h2 id="important-implementation-guidelines">⚠️ IMPORTANT: Implementation Guidelines<a class="headerlink" href="#important-implementation-guidelines" title="Permanent link">&para;</a></h2>
+<p><strong>ALL future implementations MUST reference the official C-CDA 2.1 specification located in:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>references/C-CDA_2.1/
+</span></code></pre></div></p>
+<blockquote>
+<p><strong>⚠️ IMPORTANT</strong>: The reference materials are <strong>NOT included in this repository</strong>. You must download them separately. See <code>references/README.md</code> for download instructions.</p>
+</blockquote>
+<h3 id="quick-setup">Quick Setup<a class="headerlink" href="#quick-setup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># From the ccdakit root directory</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>references/
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/jddamore/ccda-search.git<span class="w"> </span>C-CDA_2.1
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nb">cd</span><span class="w"> </span>..
+</span></code></pre></div>
+<h3 id="how-to-use-this-reference">How to Use This Reference<a class="headerlink" href="#how-to-use-this-reference" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Template HTML Files</strong>: Each template has detailed HTML documentation in <code>references/C-CDA_2.1/templates/{template_id}.html</code></li>
+<li><strong>Template PDFs</strong>: PDF versions available in <code>references/C-CDA_2.1/pdfs/</code></li>
+<li><strong>Template Data</strong>: Structured data in <code>references/C-CDA_2.1/data.json</code></li>
+</ol>
+<blockquote>
+<p>See <code>references/README.md</code> for detailed download and setup instructions.</p>
+</blockquote>
+<h3 id="implementation-requirements">Implementation Requirements<a class="headerlink" href="#implementation-requirements" title="Permanent link">&para;</a></h3>
+<p>When implementing any section, you MUST:
+- ✅ Reference the official template HTML file for structure
+- ✅ Follow ALL conformance rules (CONF numbers)
+- ✅ Handle corner cases (missing data, optional fields, null flavors)
+- ✅ Support both R2.1 and R2.0 where applicable
+- ✅ Include comprehensive tests (90%+ coverage)
+- ✅ Generate proper narrative HTML tables
+- ✅ Validate against XSD schemas</p>
+<hr />
+<h2 id="implementation-status">📊 Implementation Status<a class="headerlink" href="#implementation-status" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Count</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅ <strong>COMPLETE</strong></td>
+<td>39</td>
+<td>Fully implemented with tests</td>
+</tr>
+<tr>
+<td>🔄 <strong>IN PROGRESS</strong></td>
+<td>0</td>
+<td>Currently being worked on</td>
+</tr>
+<tr>
+<td>📋 <strong>PLANNED</strong></td>
+<td>0</td>
+<td>High priority, planned next</td>
+</tr>
+<tr>
+<td>⏳ <strong>FUTURE</strong></td>
+<td>43</td>
+<td>To be implemented</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Progress</strong>: 39/82 sections (47.6%)</p>
+<hr />
+<h2 id="implemented-sections-39">✅ Implemented Sections (39)<a class="headerlink" href="#implemented-sections-39" title="Permanent link">&para;</a></h2>
+<h3 id="core-clinical-sections-88-onc-requirements-100-complete">Core Clinical Sections (8/8 ONC Requirements - 100% Complete!)<a class="headerlink" href="#core-clinical-sections-88-onc-requirements-100-complete" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Section Name</th>
+<th>Template ID</th>
+<th>Status</th>
+<th>Coverage</th>
+<th>Tests</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Allergies and Intolerances Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.6.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>38</td>
+<td><code>ccdakit/builders/sections/allergies.py</code></td>
+</tr>
+<tr>
+<td><strong>Encounters Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.22.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>24</td>
+<td><code>ccdakit/builders/sections/encounters.py</code></td>
+</tr>
+<tr>
+<td><strong>Immunizations Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.2.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>35</td>
+<td><code>ccdakit/builders/sections/immunizations.py</code></td>
+</tr>
+<tr>
+<td><strong>Medications Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.1.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>42</td>
+<td><code>ccdakit/builders/sections/medications.py</code></td>
+</tr>
+<tr>
+<td><strong>Problem Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.5.1</td>
+<td>✅ Complete</td>
+<td>98%</td>
+<td>45</td>
+<td><code>ccdakit/builders/sections/problems.py</code></td>
+</tr>
+<tr>
+<td><strong>Procedures Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.7.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>15</td>
+<td><code>ccdakit/builders/sections/procedures.py</code></td>
+</tr>
+<tr>
+<td><strong>Results Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.3.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>23</td>
+<td><code>ccdakit/builders/sections/results.py</code></td>
+</tr>
+<tr>
+<td><strong>Social History Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.17</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>18</td>
+<td><code>ccdakit/builders/sections/social_history.py</code></td>
+</tr>
+<tr>
+<td><strong>Vital Signs Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.4.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>38</td>
+<td><code>ccdakit/builders/sections/vital_signs.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="extended-clinical-sections">Extended Clinical Sections<a class="headerlink" href="#extended-clinical-sections" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Section Name</th>
+<th>Template ID</th>
+<th>Status</th>
+<th>Coverage</th>
+<th>Tests</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Assessment and Plan Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.9</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>64</td>
+<td><code>ccdakit/builders/sections/assessment_and_plan.py</code></td>
+</tr>
+<tr>
+<td><strong>Family History Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.15</td>
+<td>✅ Complete</td>
+<td>99%</td>
+<td>38</td>
+<td><code>ccdakit/builders/sections/family_history.py</code></td>
+</tr>
+<tr>
+<td><strong>Functional Status Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.14</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>42</td>
+<td><code>ccdakit/builders/sections/functional_status.py</code></td>
+</tr>
+<tr>
+<td><strong>Goals Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.60</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>44</td>
+<td><code>ccdakit/builders/sections/goals.py</code></td>
+</tr>
+<tr>
+<td><strong>Health Concerns Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.58</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>45</td>
+<td><code>ccdakit/builders/sections/health_concerns.py</code></td>
+</tr>
+<tr>
+<td><strong>Health Status Evaluations and Outcomes Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.61</td>
+<td>✅ Complete</td>
+<td>99%</td>
+<td>51</td>
+<td><code>ccdakit/builders/sections/health_status_evaluations.py</code></td>
+</tr>
+<tr>
+<td><strong>Mental Status Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.56</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>49</td>
+<td><code>ccdakit/builders/sections/mental_status.py</code></td>
+</tr>
+<tr>
+<td><strong>Past Medical History</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.20</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>36</td>
+<td><code>ccdakit/builders/sections/past_medical_history.py</code></td>
+</tr>
+<tr>
+<td><strong>Physical Exam Section</strong></td>
+<td>2.16.840.1.113883.10.20.2.10</td>
+<td>✅ Complete</td>
+<td>98%</td>
+<td>35</td>
+<td><code>ccdakit/builders/sections/physical_exam.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="specializedadministrative-sections">Specialized/Administrative Sections<a class="headerlink" href="#specializedadministrative-sections" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Section Name</th>
+<th>Template ID</th>
+<th>Status</th>
+<th>Coverage</th>
+<th>Tests</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Admission Medications Section (entries optional)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.44</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>30</td>
+<td><code>ccdakit/builders/sections/admission_medications.py</code></td>
+</tr>
+<tr>
+<td><strong>Advance Directives Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.21.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>42</td>
+<td><code>ccdakit/builders/sections/advance_directives.py</code></td>
+</tr>
+<tr>
+<td><strong>Chief Complaint and Reason for Visit Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.13</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>28</td>
+<td><code>ccdakit/builders/sections/chief_complaint_reason_for_visit.py</code></td>
+</tr>
+<tr>
+<td><strong>Discharge Medications Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.11.1</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>48</td>
+<td><code>ccdakit/builders/sections/discharge_medications.py</code></td>
+</tr>
+<tr>
+<td><strong>Hospital Discharge Instructions Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.41</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>29</td>
+<td><code>ccdakit/builders/sections/hospital_discharge_instructions.py</code></td>
+</tr>
+<tr>
+<td><strong>Interventions Section</strong></td>
+<td>2.16.840.1.113883.10.20.21.2.3</td>
+<td>✅ Complete</td>
+<td>99%</td>
+<td>47</td>
+<td><code>ccdakit/builders/sections/interventions.py</code></td>
+</tr>
+<tr>
+<td><strong>Medical Equipment Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.23</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>61</td>
+<td><code>ccdakit/builders/sections/medical_equipment.py</code></td>
+</tr>
+<tr>
+<td><strong>Nutrition Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.57</td>
+<td>✅ Complete</td>
+<td>91%</td>
+<td>33</td>
+<td><code>ccdakit/builders/sections/nutrition.py</code></td>
+</tr>
+<tr>
+<td><strong>Payers Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.18</td>
+<td>✅ Complete</td>
+<td>92%</td>
+<td>44</td>
+<td><code>ccdakit/builders/sections/payers.py</code></td>
+</tr>
+<tr>
+<td><strong>Plan of Treatment Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.10</td>
+<td>✅ Complete</td>
+<td>91%</td>
+<td>32</td>
+<td><code>ccdakit/builders/sections/plan_of_treatment.py</code></td>
+</tr>
+<tr>
+<td><strong>Reason for Visit Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.12</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>32</td>
+<td><code>ccdakit/builders/sections/reason_for_visit.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="hospital-and-surgical-sections">Hospital and Surgical Sections<a class="headerlink" href="#hospital-and-surgical-sections" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Section Name</th>
+<th>Template ID</th>
+<th>Status</th>
+<th>Coverage</th>
+<th>Tests</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Admission Diagnosis Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.43</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>35</td>
+<td><code>ccdakit/builders/sections/admission_diagnosis.py</code></td>
+</tr>
+<tr>
+<td><strong>Anesthesia Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.25</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>29</td>
+<td><code>ccdakit/builders/sections/anesthesia.py</code></td>
+</tr>
+<tr>
+<td><strong>Complications Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.37</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>31</td>
+<td><code>ccdakit/builders/sections/complications.py</code></td>
+</tr>
+<tr>
+<td><strong>Discharge Diagnosis Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.24</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>35</td>
+<td><code>ccdakit/builders/sections/discharge_diagnosis.py</code></td>
+</tr>
+<tr>
+<td><strong>Hospital Course Section</strong></td>
+<td>1.3.6.1.4.1.19376.1.5.3.1.3.5</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>34</td>
+<td><code>ccdakit/builders/sections/hospital_course.py</code></td>
+</tr>
+<tr>
+<td><strong>Hospital Discharge Studies Summary Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.16</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>32</td>
+<td><code>ccdakit/builders/sections/discharge_studies.py</code></td>
+</tr>
+<tr>
+<td><strong>Instructions Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.45</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>33</td>
+<td><code>ccdakit/builders/sections/instructions.py</code></td>
+</tr>
+<tr>
+<td><strong>Medications Administered Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.38</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>35</td>
+<td><code>ccdakit/builders/sections/medications_administered.py</code></td>
+</tr>
+<tr>
+<td><strong>Postoperative Diagnosis Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.35</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>28</td>
+<td><code>ccdakit/builders/sections/postoperative_diagnosis.py</code></td>
+</tr>
+<tr>
+<td><strong>Preoperative Diagnosis Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.34</td>
+<td>✅ Complete</td>
+<td>100%</td>
+<td>27</td>
+<td><code>ccdakit/builders/sections/preoperative_diagnosis.py</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Tests</strong>: 1,428 comprehensive tests across all sections
+<strong>Average Coverage</strong>: 99.1%</p>
+<hr />
+<h2 id="high-priority-sections-all-complete">🎉 High Priority Sections (ALL COMPLETE!)<a class="headerlink" href="#high-priority-sections-all-complete" title="Permanent link">&para;</a></h2>
+<p>All commonly required C-CDA sections have been implemented:</p>
+<table>
+<thead>
+<tr>
+<th>Section Name</th>
+<th>Template ID</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Procedures Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.7.1</td>
+<td>✅ Complete</td>
+<td>Surgical/medical procedures</td>
+</tr>
+<tr>
+<td><strong>Results Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.3.1</td>
+<td>✅ Complete</td>
+<td>Lab/diagnostic test results</td>
+</tr>
+<tr>
+<td><strong>Social History Section</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.17</td>
+<td>✅ Complete</td>
+<td>Smoking, alcohol use, etc.</td>
+</tr>
+<tr>
+<td><strong>Encounters Section (entries required)</strong></td>
+<td>2.16.840.1.113883.10.20.22.2.22.1</td>
+<td>✅ Complete</td>
+<td>Healthcare visits/encounters</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="all-c-cda-21-sections-complete-list">⏳ All C-CDA 2.1 Sections (Complete List)<a class="headerlink" href="#all-c-cda-21-sections-complete-list" title="Permanent link">&para;</a></h2>
+<h3 id="a">A<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Admission Diagnosis Section</strong> - <code>2.16.840.1.113883.10.20.22.2.43</code> ✅</li>
+<li>✅ <strong>Admission Medications Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.44</code> ✅</li>
+<li>⏳ <strong>Advance Directives Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.21</code></li>
+<li>✅ <strong>Advance Directives Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.21.1</code> ✅</li>
+<li>⏳ <strong>Allergies and Intolerances Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.6</code></li>
+<li>✅ <strong>Allergies and Intolerances Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.6.1</code> ✅</li>
+<li>✅ <strong>Anesthesia Section</strong> - <code>2.16.840.1.113883.10.20.22.2.25</code> ✅</li>
+<li>⏳ <strong>Assessment Section</strong> - <code>2.16.840.1.113883.10.20.22.2.8</code></li>
+<li>✅ <strong>Assessment and Plan Section</strong> - <code>2.16.840.1.113883.10.20.22.2.9</code> ✅</li>
+</ul>
+<h3 id="c">C<a class="headerlink" href="#c" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Care Teams Section (Companion Guide)</strong> - <code>2.16.840.1.113883.10.20.22.2.500</code></li>
+<li>⏳ <strong>Chief Complaint Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.1.13.2.1</code></li>
+<li>✅ <strong>Chief Complaint and Reason for Visit Section</strong> - <code>2.16.840.1.113883.10.20.22.2.13</code> ✅</li>
+<li>✅ <strong>Complications Section</strong> - <code>2.16.840.1.113883.10.20.22.2.37</code> ✅</li>
+<li>⏳ <strong>Course of Care Section</strong> - <code>2.16.840.1.113883.10.20.22.2.64</code></li>
+</ul>
+<h3 id="d">D<a class="headerlink" href="#d" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>DICOM Object Catalog Section - DCM 121181</strong> - <code>2.16.840.1.113883.10.20.6.1.1</code></li>
+<li>✅ <strong>Discharge Diagnosis Section</strong> - <code>2.16.840.1.113883.10.20.22.2.24</code> ✅</li>
+<li>⏳ <strong>Discharge Diet Section (DEPRECATED)</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.33</code></li>
+<li>⏳ <strong>Discharge Medications Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.11</code></li>
+<li>✅ <strong>Discharge Medications Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.11.1</code> ✅</li>
+</ul>
+<h3 id="e">E<a class="headerlink" href="#e" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Encounters Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.22</code></li>
+<li>✅ <strong>Encounters Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.22.1</code> ✅</li>
+</ul>
+<h3 id="f">F<a class="headerlink" href="#f" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Family History Section</strong> - <code>2.16.840.1.113883.10.20.22.2.15</code> ✅</li>
+<li>⏳ <strong>Fetus Subject Context</strong> - <code>2.16.840.1.113883.10.20.6.2.3</code></li>
+<li>⏳ <strong>Findings Section (DIR)</strong> - <code>2.16.840.1.113883.10.20.6.1.2</code></li>
+<li>✅ <strong>Functional Status Section</strong> - <code>2.16.840.1.113883.10.20.22.2.14</code> ✅</li>
+</ul>
+<h3 id="g">G<a class="headerlink" href="#g" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>General Status Section</strong> - <code>2.16.840.1.113883.10.20.2.5</code></li>
+<li>✅ <strong>Goals Section</strong> - <code>2.16.840.1.113883.10.20.22.2.60</code> ✅</li>
+</ul>
+<h3 id="h">H<a class="headerlink" href="#h" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Health Concerns Section</strong> - <code>2.16.840.1.113883.10.20.22.2.58</code> ✅</li>
+<li>✅ <strong>Health Status Evaluations and Outcomes Section</strong> - <code>2.16.840.1.113883.10.20.22.2.61</code> ✅</li>
+<li>⏳ <strong>History of Present Illness Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.4</code></li>
+<li>⏳ <strong>Hospital Consultations Section</strong> - <code>2.16.840.1.113883.10.20.22.2.42</code></li>
+<li>✅ <strong>Hospital Course Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.5</code> ✅</li>
+<li>✅ <strong>Hospital Discharge Instructions Section</strong> - <code>2.16.840.1.113883.10.20.22.2.41</code> ✅</li>
+<li>⏳ <strong>Hospital Discharge Physical Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.26</code></li>
+<li>✅ <strong>Hospital Discharge Studies Summary Section</strong> - <code>2.16.840.1.113883.10.20.22.2.16</code> ✅</li>
+</ul>
+<h3 id="i">I<a class="headerlink" href="#i" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Immunizations Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.2</code></li>
+<li>✅ <strong>Immunizations Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.2.1</code> ✅</li>
+<li>⏳ <strong>Implants Section (DEPRECATED)</strong> - <code>2.16.840.1.113883.10.20.22.2.33</code></li>
+<li>✅ <strong>Instructions Section</strong> - <code>2.16.840.1.113883.10.20.22.2.45</code> ✅</li>
+<li>✅ <strong>Interventions Section</strong> - <code>2.16.840.1.113883.10.20.21.2.3</code> ✅</li>
+</ul>
+<h3 id="m">M<a class="headerlink" href="#m" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Medical (General) History Section</strong> - <code>2.16.840.1.113883.10.20.22.2.39</code></li>
+<li>✅ <strong>Medical Equipment Section</strong> - <code>2.16.840.1.113883.10.20.22.2.23</code> ✅</li>
+<li>✅ <strong>Medications Administered Section</strong> - <code>2.16.840.1.113883.10.20.22.2.38</code> ✅</li>
+<li>⏳ <strong>Medications Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.1</code></li>
+<li>✅ <strong>Medications Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.1.1</code> ✅</li>
+<li>✅ <strong>Mental Status Section</strong> - <code>2.16.840.1.113883.10.20.22.2.56</code> ✅</li>
+</ul>
+<h3 id="n">N<a class="headerlink" href="#n" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Notes Section (Companion Guide)</strong> - <code>2.16.840.1.113883.10.20.22.2.65</code></li>
+<li>✅ <strong>Nutrition Section</strong> - <code>2.16.840.1.113883.10.20.22.2.57</code> ✅</li>
+</ul>
+<h3 id="o">O<a class="headerlink" href="#o" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Objective Section</strong> - <code>2.16.840.1.113883.10.20.21.2.1</code></li>
+<li>⏳ <strong>Observer Context</strong> - <code>2.16.840.1.113883.10.20.6.2.4</code></li>
+<li>⏳ <strong>Operative Note Fluids Section</strong> - <code>2.16.840.1.113883.10.20.7.12</code></li>
+<li>⏳ <strong>Operative Note Surgical Procedure Section</strong> - <code>2.16.840.1.113883.10.20.7.14</code></li>
+</ul>
+<h3 id="p">P<a class="headerlink" href="#p" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Past Medical History</strong> - <code>2.16.840.1.113883.10.20.22.2.20</code> ✅</li>
+<li>✅ <strong>Payers Section</strong> - <code>2.16.840.1.113883.10.20.22.2.18</code> ✅</li>
+<li>✅ <strong>Physical Exam Section</strong> - <code>2.16.840.1.113883.10.20.2.10</code> ✅</li>
+<li>✅ <strong>Plan of Treatment Section</strong> - <code>2.16.840.1.113883.10.20.22.2.10</code> ✅</li>
+<li>⏳ <strong>Planned Procedure Section</strong> - <code>2.16.840.1.113883.10.20.22.2.30</code></li>
+<li>✅ <strong>Postoperative Diagnosis Section</strong> - <code>2.16.840.1.113883.10.20.22.2.35</code> ✅</li>
+<li>⏳ <strong>Postprocedure Diagnosis Section</strong> - <code>2.16.840.1.113883.10.20.22.2.36</code></li>
+<li>✅ <strong>Preoperative Diagnosis Section</strong> - <code>2.16.840.1.113883.10.20.22.2.34</code> ✅</li>
+<li>⏳ <strong>Problem Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.5</code></li>
+<li>✅ <strong>Problem Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.5.1</code> ✅</li>
+<li>⏳ <strong>Procedure Description Section</strong> - <code>2.16.840.1.113883.10.20.22.2.27</code></li>
+<li>⏳ <strong>Procedure Disposition Section</strong> - <code>2.16.840.1.113883.10.20.18.2.12</code></li>
+<li>⏳ <strong>Procedure Estimated Blood Loss Section</strong> - <code>2.16.840.1.113883.10.20.18.2.9</code></li>
+<li>⏳ <strong>Procedure Findings Section</strong> - <code>2.16.840.1.113883.10.20.22.2.28</code></li>
+<li>⏳ <strong>Procedure Implants Section</strong> - <code>2.16.840.1.113883.10.20.22.2.40</code></li>
+<li>⏳ <strong>Procedure Indications Section</strong> - <code>2.16.840.1.113883.10.20.22.2.29</code></li>
+<li>⏳ <strong>Procedure Specimens Taken Section</strong> - <code>2.16.840.1.113883.10.20.22.2.31</code></li>
+<li>⏳ <strong>Procedures Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.7</code></li>
+<li>✅ <strong>Procedures Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.7.1</code> ✅</li>
+</ul>
+<h3 id="r">R<a class="headerlink" href="#r" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Reason for Referral Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.1</code></li>
+<li>✅ <strong>Reason for Visit Section</strong> - <code>2.16.840.1.113883.10.20.22.2.12</code> ✅</li>
+<li>⏳ <strong>Results Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.3</code></li>
+<li>✅ <strong>Results Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.3.1</code> ✅</li>
+<li>⏳ <strong>Review of Systems Section</strong> - <code>1.3.6.1.4.1.19376.1.5.3.1.3.18</code></li>
+</ul>
+<h3 id="s">S<a class="headerlink" href="#s" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>Social History Section</strong> - <code>2.16.840.1.113883.10.20.22.2.17</code> ✅</li>
+<li>⏳ <strong>Subjective Section</strong> - <code>2.16.840.1.113883.10.20.21.2.2</code></li>
+<li>⏳ <strong>Surgery Description Section (DEPRECATED)</strong> - <code>2.16.840.1.113883.10.20.22.2.26</code></li>
+<li>⏳ <strong>Surgical Drains Section</strong> - <code>2.16.840.1.113883.10.20.7.13</code></li>
+</ul>
+<h3 id="v">V<a class="headerlink" href="#v" title="Permanent link">&para;</a></h3>
+<ul>
+<li>⏳ <strong>Vital Signs Section (entries optional)</strong> - <code>2.16.840.1.113883.10.20.22.2.4</code></li>
+<li>✅ <strong>Vital Signs Section (entries required)</strong> - <code>2.16.840.1.113883.10.20.22.2.4.1</code> ✅</li>
+</ul>
+<hr />
+<h2 id="how-to-implement-a-new-section">📚 How to Implement a New Section<a class="headerlink" href="#how-to-implement-a-new-section" title="Permanent link">&para;</a></h2>
+<h3 id="step-1-research-the-template">Step 1: Research the Template<a class="headerlink" href="#step-1-research-the-template" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Open the template HTML file</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>open<span class="w"> </span>references/C-CDA_2.1/templates/<span class="o">{</span>template_id<span class="o">}</span>.html
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Example:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>open<span class="w"> </span>references/C-CDA_2.1/templates/2.16.840.1.113883.10.20.22.2.7.1.html
+</span></code></pre></div>
+<h3 id="step-2-review-the-specification">Step 2: Review the Specification<a class="headerlink" href="#step-2-review-the-specification" title="Permanent link">&para;</a></h3>
+<p>Look for:
+- <strong>Template ID</strong> and version extension
+- <strong>SHALL/SHOULD/MAY</strong> conformance rules
+- <strong>Entry requirements</strong> (required/optional entries)
+- <strong>Code bindings</strong> (value sets and code systems)
+- <strong>Cardinality</strong> (0..1, 1..1, 0..<em>, 1..</em>)
+- <strong>Narrative generation</strong> requirements</p>
+<h3 id="step-3-create-protocol-if-needed">Step 3: Create Protocol (if needed)<a class="headerlink" href="#step-3-create-protocol-if-needed" title="Permanent link">&para;</a></h3>
+<p>Define the data contract in <code>ccdakit/protocols/</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Optional</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">YourDataProtocol</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Data contract for your section.&quot;&quot;&quot;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="nd">@property</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">field_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Required field.&quot;&quot;&quot;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="o">...</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="nd">@property</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">optional_field</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Optional field.&quot;&quot;&quot;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<h3 id="step-4-create-entry-builder-if-needed">Step 4: Create Entry Builder (if needed)<a class="headerlink" href="#step-4-create-entry-builder-if-needed" title="Permanent link">&para;</a></h3>
+<p>Implement entry-level builders in <code>ccdakit/builders/entries/</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ccdakit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">CDAElement</span><span class="p">,</span> <span class="n">CDAVersion</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">YourEntry</span><span class="p">(</span><span class="n">CDAElement</span><span class="p">):</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for your entry observation/activity.&quot;&quot;&quot;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="n">data</span><span class="p">:</span> <span class="n">YourDataProtocol</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">version</span><span class="p">:</span> <span class="n">CDAVersion</span> <span class="o">=</span> <span class="n">CDAVersion</span><span class="o">.</span><span class="n">R2_1</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="p">):</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="c1"># Implementation</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="k">pass</span>
+</span></code></pre></div>
+<h3 id="step-5-create-section-builder">Step 5: Create Section Builder<a class="headerlink" href="#step-5-create-section-builder" title="Permanent link">&para;</a></h3>
+<p>Implement section builder in <code>ccdakit/builders/sections/</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">ccdakit.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">CDAElement</span><span class="p">,</span> <span class="n">CDAVersion</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">YourSection</span><span class="p">(</span><span class="n">CDAElement</span><span class="p">):</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Builder for Your Section.&quot;&quot;&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">YourDataProtocol</span><span class="p">],</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">version</span><span class="p">:</span> <span class="n">CDAVersion</span> <span class="o">=</span> <span class="n">CDAVersion</span><span class="o">.</span><span class="n">R2_1</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="p">):</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="c1"># Implementation with narrative generation</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="k">pass</span>
+</span></code></pre></div>
+<h3 id="step-6-write-comprehensive-tests">Step 6: Write Comprehensive Tests<a class="headerlink" href="#step-6-write-comprehensive-tests" title="Permanent link">&para;</a></h3>
+<p>Create tests in <code>tests/test_builders/</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_your_section_structure</span><span class="p">():</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test basic section structure.&quot;&quot;&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">pass</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_your_section_with_data</span><span class="p">():</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test section with actual data.&quot;&quot;&quot;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="k">pass</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_your_section_empty</span><span class="p">():</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test section with no data.&quot;&quot;&quot;</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">pass</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="k">def</span><span class="w"> </span><span class="nf">test_your_section_narrative</span><span class="p">():</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test narrative HTML generation.&quot;&quot;&quot;</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="k">pass</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1"># Target: 90%+ coverage</span>
+</span></code></pre></div>
+<h3 id="step-7-validate">Step 7: Validate<a class="headerlink" href="#step-7-validate" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Run tests</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_builders/test_your_section.py<span class="w"> </span>-v
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Check coverage</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>ccdakit.builders.sections.your_section
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Validate generated XML</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>examples/validate_ccda.py
+</span></code></pre></div>
+<hr />
+<h2 id="implementation-priorities">🎯 Implementation Priorities<a class="headerlink" href="#implementation-priorities" title="Permanent link">&para;</a></h2>
+<h3 id="phase-12-core-clinical-sections-next">Phase 12: Core Clinical Sections (Next)<a class="headerlink" href="#phase-12-core-clinical-sections-next" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Procedures Section</strong> - Essential for clinical workflows</li>
+<li><strong>Results/Labs Section</strong> - Critical for diagnostic information</li>
+<li><strong>Social History Section</strong> - Required for many document types</li>
+<li><strong>Encounters Section</strong> - Tracks healthcare visits</li>
+</ol>
+<h3 id="phase-13-extended-clinical-sections">Phase 13: Extended Clinical Sections<a class="headerlink" href="#phase-13-extended-clinical-sections" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Family History Section</li>
+<li>Functional Status Section</li>
+<li>Mental Status Section</li>
+<li>Goals Section</li>
+<li>Health Concerns Section</li>
+</ul>
+<h3 id="phase-14-specialized-sections">Phase 14: Specialized Sections<a class="headerlink" href="#phase-14-specialized-sections" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Advance Directives Section</li>
+<li>Medical Equipment Section</li>
+<li>Plan of Treatment Section</li>
+<li>Assessment and Plan Section</li>
+</ul>
+<h3 id="phase-15-document-specific-sections">Phase 15: Document-Specific Sections<a class="headerlink" href="#phase-15-document-specific-sections" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Discharge-related sections</li>
+<li>Operative/Procedure-specific sections</li>
+<li>DICOM imaging sections</li>
+<li>Administrative sections</li>
+</ul>
+<hr />
+<h2 id="section-usage-statistics">📊 Section Usage Statistics<a class="headerlink" href="#section-usage-statistics" title="Permanent link">&para;</a></h2>
+<h3 id="most-common-sections-onc-requirements">Most Common Sections (ONC Requirements)<a class="headerlink" href="#most-common-sections-onc-requirements" title="Permanent link">&para;</a></h3>
+<p>According to ONC C-CDA certification requirements, the most commonly required sections are:</p>
+<ol>
+<li>✅ <strong>Problems</strong> - Required in CCD, Progress Note, Discharge Summary</li>
+<li>✅ <strong>Medications</strong> - Required in CCD, Progress Note, Discharge Summary</li>
+<li>✅ <strong>Allergies</strong> - Required in CCD, Progress Note, Discharge Summary</li>
+<li>✅ <strong>Vital Signs</strong> - Required in many document types</li>
+<li>✅ <strong>Results</strong> - Required in CCD, Progress Note</li>
+<li>✅ <strong>Procedures</strong> - Required in CCD, Operative Note</li>
+<li>✅ <strong>Encounters</strong> - Required in CCD</li>
+<li>✅ <strong>Social History</strong> - Required in CCD</li>
+</ol>
+<p><strong>Current Coverage</strong>: 8/8 most common sections (100% COMPLETE!)</p>
+<hr />
+<h2 id="template-id-patterns">🔍 Template ID Patterns<a class="headerlink" href="#template-id-patterns" title="Permanent link">&para;</a></h2>
+<p>C-CDA template IDs follow these patterns:</p>
+<h3 id="document-templates">Document Templates<a class="headerlink" href="#document-templates" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>2.16.840.1.113883.10.20.22.1.X</code> - Document-level templates</li>
+</ul>
+<h3 id="section-templates">Section Templates<a class="headerlink" href="#section-templates" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>2.16.840.1.113883.10.20.22.2.X</code> - Section-level templates</li>
+<li><code>1.3.6.1.4.1.19376.1.5.3.1.X.X</code> - IHE-derived sections</li>
+</ul>
+<h3 id="entry-templates">Entry Templates<a class="headerlink" href="#entry-templates" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>2.16.840.1.113883.10.20.22.4.X</code> - Entry-level templates</li>
+</ul>
+<h3 id="version-extensions">Version Extensions<a class="headerlink" href="#version-extensions" title="Permanent link">&para;</a></h3>
+<ul>
+<li>R2.1: <code>2015-08-01</code> (most common)</li>
+<li>R2.0: <code>2014-06-09</code></li>
+</ul>
+<hr />
+<h2 id="resources">📞 Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
+<h3 id="official-c-cda-references">Official C-CDA References<a class="headerlink" href="#official-c-cda-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>C-CDA Online</strong>: http://www.hl7.org/ccdasearch/</li>
+<li><strong>Local Reference</strong>: <code>references/C-CDA_2.1/</code> (sourced from https://github.com/jddamore/ccda-search)</li>
+<li><strong>C-CDA Search Repository</strong>: https://github.com/jddamore/ccda-search</li>
+<li><strong>HL7 Blog Post</strong>: https://blog.hl7.org/new-hl7-c-cda-navigation-tool-released</li>
+</ul>
+<h3 id="standards-validation">Standards &amp; Validation<a class="headerlink" href="#standards-validation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>HL7 CDA Standard</strong>: https://www.hl7.org/implement/standards/product_brief.cfm?product_id=7</li>
+<li><strong>C-CDA R2.1 Product Brief</strong>: https://www.hl7.org/implement/standards/product_brief.cfm?product_id=492</li>
+<li><strong>ONC C-CDA Validator</strong>: https://site.healthit.gov/sandbox-ccda/ccda-validator</li>
+</ul>
+<hr />
+<h2 id="progress-tracking">🎉 Progress Tracking<a class="headerlink" href="#progress-tracking" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Current Stats</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Implemented:<span class="w"> </span><span class="m">39</span>/82<span class="w"> </span><span class="o">(</span><span class="m">47</span>.6%<span class="o">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>High<span class="w"> </span>Priority<span class="w"> </span>Remaining:<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>ALL<span class="w"> </span>DONE!<span class="o">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Total<span class="w"> </span>Remaining:<span class="w"> </span><span class="m">43</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Milestones Achieved:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>✅<span class="w"> </span>Phase<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>Core<span class="w"> </span>Clinical<span class="w"> </span>Sections<span class="w"> </span><span class="o">(</span><span class="m">9</span>/9<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>%<span class="o">)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>✅<span class="w"> </span>Phase<span class="w"> </span><span class="m">2</span>:<span class="w"> </span>Extended<span class="w"> </span>Clinical<span class="w"> </span>Sections<span class="w"> </span><span class="o">(</span><span class="m">9</span>/9<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>%<span class="o">)</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>✅<span class="w"> </span>Phase<span class="w"> </span><span class="m">3</span>:<span class="w"> </span>Specialized<span class="w"> </span>Sections<span class="w"> </span><span class="o">(</span><span class="m">11</span>/11<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>%<span class="o">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>✅<span class="w"> </span>Phase<span class="w"> </span><span class="m">4</span>:<span class="w"> </span>Hospital<span class="w"> </span>and<span class="w"> </span>Surgical<span class="w"> </span>Sections<span class="w"> </span><span class="o">(</span><span class="m">10</span>/10<span class="w"> </span>-<span class="w"> </span><span class="m">100</span>%<span class="o">)</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="c1"># Next Milestone: 50 sections (61.0%)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Target:<span class="w"> </span>End<span class="w"> </span>of<span class="w"> </span>Phase<span class="w"> </span><span class="m">5</span>
+</span></code></pre></div>
+<h2 id="recent-implementation-waves">📈 Recent Implementation Waves<a class="headerlink" href="#recent-implementation-waves" title="Permanent link">&para;</a></h2>
+<p><strong>Wave 2 - Hospital &amp; Surgical Sections</strong>
+- <strong>Date</strong>: 2025-10-22
+- <strong>Sections Added</strong>: 10 hospital and surgical sections
+- <strong>Total Tests Added</strong>: 319 tests
+- <strong>Average Coverage</strong>: 100%
+- <strong>Focus</strong>: Discharge summaries, operative notes, anesthesia records</p>
+<p><strong>Wave 1 - Core Clinical Foundation</strong>
+- <strong>Date</strong>: 2025-10-18
+- <strong>Sections Added</strong>: 29 sections implemented
+- <strong>Total Tests Added</strong>: 1,109 tests
+- <strong>Average Coverage</strong>: 98.6%
+- <strong>All ONC Requirements</strong>: ✅ COMPLETE</p>
+<hr />
+<p><strong>Last updated by</strong>: Claude Code
+<strong>Version</strong>: ccdakit v0.1.0-alpha
+<strong>Date</strong>: 2025-10-22</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Filipe Amaral<br>
+<small>Not affiliated with HL7 International. Developed with AI assistance. See <a href="/about/disclaimer/">Disclaimer</a>.</small>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Itisfilipe/ccdakit" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
